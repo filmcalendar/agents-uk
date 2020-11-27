@@ -1,0 +1,2422 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Buy cinema tickets for Akira | BFI Southbank</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="google-site-verification" content="kxRO_dkLLlBil8CxoFb-GLMR7Y7koHcbPDddiaXKT-0" />
+<meta property="og:title" content="Buy cinema tickets for Akira | BFI Southbank" />
+<meta property="og:url" content="https://whatson.bfi.org.uk/Online//default.asp?doWork::WScontent::loadArticle=Load&amp;BOparam::WScontent::loadArticle::permalink=akira2020&amp;BOparam::WScontent::loadArticle::context_id=" />
+<meta property="og:description" content="" />
+<meta property="og:site_name" content="BFI site" />
+
+<meta http-equiv="Imagetoolbar" content="no">
+
+
+<!-- inclusion of bootstrap specific CSS -->
+<!-- http://twitter.github.com for documentation on bootstrap -->
+<link rel="Stylesheet" href="/lib/bootstrap/css/bootstrap.min.css?_7.39.2" />
+<!-- end of bootstrap specific CSS -->
+
+<!-- include the font awesome css for font icons-->
+<link rel="Stylesheet" href="/lib/fontawesome-free/css/all.min.css" />
+
+<link rel="stylesheet" href="../../content/images/branding/global.css?_=7.39.2" type="text/css"/>
+
+<!--[if lt IE 9]>
+    <link rel="stylesheet" href="../../content/images/branding/global_IE.css?_7.39.2" type="text/css">
+<![endif]-->
+
+<script src="/lib/jquery/jquery.min.js?_=7.39.2" type="text/javascript"></script>
+
+
+<script language="Javascript">
+
+</script>
+
+
+
+	<link rel="stylesheet" href="/content/Files/CSS/bfi-styling-202009.css?_=7.39.2" type="text/css" />
+
+
+<script  type="text/javascript" >
+
+</script>
+<script type="text/javascript">
+  // Check whether cookies are enabled.
+	document.cookie = "TestCookie=1";
+	var testCookie = document.cookie;
+
+	// Try to retrieve the value we just set.
+	if (testCookie.indexOf("TestCookie=1") == -1)
+	{
+
+		    document.location = "error.asp?nocookie=";
+
+    }
+	else
+		document.cookie = "TestCookie=;expires=Thu, 01-Jan-1970 00:00:00 GMT";
+</script>
+
+<script type="text/javascript">
+
+function setRSVPButtons(response, eventCode)
+{
+                var url = '/' + eventCode + '/invited?user=' + response.authResponse.userID + '&access_token=' + response.authResponse.accessToken;
+                 FB.api(url, 'get',
+                 function (response) {
+                    if (!response || response.error) {
+                      new showAlertPopup("Error occurred:" + response.error.message, "", "", "", "", "");
+                    }
+                    else
+                    {
+                        if (response.data[0].rsvp_status == "attending")
+                        {
+                            var buttons = document.getElementsByName("attendingButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).disabled = true;
+                                buttons.item(x).style.display = "inline";
+                            }
+                            buttons = document.getElementsByName("maybeButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).style.display = "inline";
+                            }
+                        }
+                        else if (response.data[0].rsvp_status == "unsure")
+                        {
+                            var buttons = document.getElementsByName("attendingButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).style.display = "inline";
+                            }
+                            buttons = document.getElementsByName("maybeButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).disabled = true;
+                                buttons.item(x).style.display = "inline";
+                            }
+                        }
+                        else
+                        {
+                            var buttons = document.getElementsByName("attendingButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).style.display = "inline";
+                            }
+                            buttons = document.getElementsByName("maybeButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).style.display = "inline";
+                            }
+                        }
+                    }
+                });
+}
+function setRSVPButtonsLogin(eventCode)
+{
+        FB.getLoginStatus(function (response) {
+            if (response.status == 'connected') {
+                setRSVPButtons(response, eventCode);
+            }
+            else {
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        setRSVPButtons(response, eventCode);
+                    } else {
+                    }
+                }, { scope: 'rsvp_event,email,user_groups,publish_stream' });
+            }
+        });
+        return true;
+}
+
+function rsvpToFBEvent(status, response, eventCode)
+{
+
+                var url = '/' + eventCode + '/' + status + '?access_token=' + response.authResponse.accessToken;
+
+                 FB.api(url, 'post',
+                 function (response) {
+                    if (!response || response.error) {
+                      new showAlertPopup("Error occurred:" + response.error.message, "", "", "", "", "");
+                    }
+                    else
+                    {
+                      gaTrackEvent('Facebook', 'RSVP to Event Success');
+
+                        if (status == "attending")
+                        {
+                            var buttons = document.getElementsByName("attendingButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).disabled = true;
+                            }
+                            buttons = document.getElementsByName("maybeButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).disabled = false;
+                            }
+                        }
+                        else if (status == "maybe")
+                        {
+                            var buttons = document.getElementsByName("maybeButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).disabled = true;
+                            }
+                            buttons = document.getElementsByName("attendingButton" + eventCode);
+                            for (var x = 0; x < buttons.length; x++)
+                            {
+                                buttons.item(x).disabled = false;
+                            }
+                        }
+                    }
+                 });
+}
+
+function rsvpToFBEventLogin(status, eventCode) {
+
+        FB.getLoginStatus(function (response) {
+            if (response.status == 'connected') {
+                rsvpToFBEvent(status, response, eventCode);
+            }
+            else {
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        rsvpToFBEvent(status, response, eventCode);
+                    } else {
+                    }
+                }, { scope: 'rsvp_event,email,user_groups,publish_stream' });
+            }
+        });
+        return true;
+}
+</script>
+<script type="text/javascript" src="../Common/browser_detect.js?_=7.39.2"></script>
+<script type="text/javascript">
+  var genericConfirmationMessage = "Are you sure?";
+  var offerExpired = "We\'re sorry, your order has expired.";
+  var admissionsExpired = "An offer on one of your tickets has expired.";
+  var alertHeaderText = "Attention";
+  var termsHeaderText = "Terms and Conditions";
+  var helpHeaderText = "Help";
+  var sectionHeaderText = "More info";
+
+  var okayButtonText = "OK";
+  var cancelButtonText = "Cancel";
+  var acceptButtonText = "Accept";
+  var declineButtonText = "Decline";
+  var closeButtonText = "Close";
+
+  var sTokenName = 'sToken';
+  var sToken = '1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=';
+</script>
+<script type="text/javascript" src="../Common/online-jscript.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/online-navigation-jscript.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/widgetParent.js?_=7.39.2"></script>
+<script type="text/javascript">
+/*
+
+*/
+function displayMessage(onClickEvent)
+{
+
+}
+
+function tsOrderChanged( url )
+{
+  new showConfirmPopup( '', 'The current order has unsaved changes that may be lost. Continue anyway?', function () { document.location = url }, '' );
+}
+
+// Used for drop-down menu in IE 6
+<!--//--><![CDATA[//><!--
+function startList() {
+	if (document.all&&document.getElementById) {
+		navRoot = document.getElementById("menuTop");
+		for (i=0; i<navRoot.childNodes.length; i++) {
+			node = navRoot.childNodes[i];
+			if (node.id=="menuTopItem") {
+				node.onmouseover=function() {
+					this.className+=" over";
+				}
+
+                node.onfocus=function(){
+                    this.className+=" over";
+                }
+
+				node.onmouseout=function() {
+					this.className=this.className.replace(" over", "");
+				}
+
+                node.onblur=function() {
+					this.className=this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+//--><!]]>
+
+var plusApi_loaded = false;
+var twitterApi_loaded = false;
+var fbApi_loaded = false;
+
+    fbApi_loaded = true;
+
+</script>
+<noscript>
+  <meta http-equiv="refresh" content="0; URL=error.asp">
+</noscript>
+
+<script  type="text/javascript" >
+var longMonthsOfYear = new Array();
+longMonthsOfYear[ 0 ] = "January";
+longMonthsOfYear[ 1 ] = "February";
+longMonthsOfYear[ 2 ] = "March";
+longMonthsOfYear[ 3 ] = "April";
+longMonthsOfYear[ 4 ] = "May";
+longMonthsOfYear[ 5 ] = "June";
+longMonthsOfYear[ 6 ] = "July";
+longMonthsOfYear[ 7 ] = "August";
+longMonthsOfYear[ 8 ] = "September";
+longMonthsOfYear[ 9 ] = "October";
+longMonthsOfYear[ 10 ] = "November";
+longMonthsOfYear[ 11 ] = "December";
+
+</script>
+<script type="text/javascript" src="../Common/Widgets/articleWidgets.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/TabularSearchResultsWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/SearchFilterWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/LoginWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/VideoWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/Tk3DDVWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/CalendarWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/twitterWidgets.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/googlePlusOneWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/googleMapsWidget.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/facebookSocialWidgets.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/facebookEvent.js?_=7.39.2"></script>
+<script type="text/javascript" src="../Common/Widgets/instagramFeedWebWidget.js?_=7.39.2"></script>
+<script type="text/javascript">
+function loadLocalPage()
+{
+
+}
+
+var articleContext = {
+  searchHeaders : [ "Id", "Object Type", "Type", "Category", "Name", "Description", "Short Description", "-", "End Date", "On Sale Date", "Sales Status", "Availability", "Available Number", "Keywords", "Additional Info", "Group", "Image 1", "Image 2", "thumbnail", "Data 1", "Data 2", "Data 3", "Data 4", "Data 5", "Data 6", "Data 7", "Data 8", "Data 9", "Data 10", "Data 11", "Data 12", "Data 13", "Data 14", "Data 15", "Data 16", "filter1", "filter2", "filter3", "filter4", "filter_parent1", "filter_child2", "filter_parent2", "filter_child1", "multifilter1", "multifilter2", "Organization Short Description", "Sales Type", "Options", "Street", "City", "Province / State", "Postal Code", "Country", "Longitude", "Latitude", "Venue ID", "Venue Name", "Venue Description", "Venue Short Description", "Venue Group", "Venue Data 1", "Venue Data 2", "Venue Data 3", "Venue Data 4", "Venue Data 5", "Venue Data 6", "Venue Data 7", "Venue Data 8", "Venue Data 9", "Venue Data 10", "Venue Data 11", "Venue Data 12", "Venue Type", "Series Name", "Minimum Price", "Maximum Price", "Upsell Article", "Add-on Article", "email", "e_address1", "e_address2", "e_address3", "customer_id", "tracking_code", "twitter_search_term", "external_reference_code", "access", "Venue Organization Id", "Meta Description", "" ],
+  searchNames : [ "id", "object_type", "type", "category", "name", "description", "short_description", "start_date", "end_date", "on_sale_date", "sales_status", "availability_status", "availability_num", "keywords", "additional_info", "group", "image1", "image2", "thumbnail", "data1", "data2", "data3", "data4", "data5", "data6", "data7", "data8", "data9", "data10", "data11", "data12", "data13", "data14", "data15", "data16", "filter1", "filter2", "filter3", "filter4", "filter_parent1", "filter_child2", "filter_parent2", "filter_child1", "multifilter1", "multifilter2", "organization_short_description", "sales_type", "options", "street", "city", "state", "zip", "country", "longitude", "latitude", "venue_id", "venue_name", "venue_description", "venue_short_description", "venue_group", "venue_data1", "venue_data2", "venue_data3", "venue_data4", "venue_data5", "venue_data6", "venue_data7", "venue_data8", "venue_data9", "venue_data10", "venue_data11", "venue_data12", "venue_type", "series_name", "min_price", "max_price", "upsell_article_id", "addon_article_id", "email", "e_address1", "e_address2", "e_address3", "customer_id", "tracking_code", "twitter_search_term", "external_reference_code", "access", "organization_id", "meta_description", "" ],
+  searchResults : [
+    [ "B7F26229-1292-4042-B748-30C41E42D16A", "P", "Evening 2", "Southbank Public Programme", "akir_03Dec20", "Akira", "Akira", "Thursday 03 December 2020 20:35", "", "Thursday 26 November 2020 11:30", "C", "G", "141", "Cinematic Escapes,Subtitles", "default.asp?doWork::WScontent::loadArticle=Load&BOparam::WScontent::loadArticle::article_id=A75F9B94-4D72-4551-9525-080853567746&BOparam::WScontent::loadArticle::context_id=B7F26229-1292-4042-B748-30C41E42D16A", "", "", "", "", "", "", "C-200058", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", [], ["1","2"], "", "", "", "", "United Kingdom", "", "", "6A564EB8-8C4A-4F72-8206-0526C678372A", "SB - NFT1", "NFT1", "NFT1", "Southbank Public Programme", "", "", "", "", "", "", "", "", "", "", "", "", "reserved", "", "£10.20", "£25.00", "", "", "", "", "", "", "", "", "", "", "Public", "", "", "" ],
+    [ "A0B3444F-FB87-4F23-BB9B-0744F6ECFF04", "P", "Evening 1", "Southbank Public Programme", "akir_12Dec20", "Akira", "Akira", "Saturday 12 December 2020 17:10", "", "Thursday 26 November 2020 11:30", "C", "G", "137", "Cinematic Escapes,Subtitles", "default.asp?doWork::WScontent::loadArticle=Load&BOparam::WScontent::loadArticle::article_id=A75F9B94-4D72-4551-9525-080853567746&BOparam::WScontent::loadArticle::context_id=A0B3444F-FB87-4F23-BB9B-0744F6ECFF04", "", "", "", "", "", "", "C-200058", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", [], ["1","2"], "", "", "", "", "United Kingdom", "", "", "6A564EB8-8C4A-4F72-8206-0526C678372A", "SB - NFT1", "NFT1", "NFT1", "Southbank Public Programme", "", "", "", "", "", "", "", "", "", "", "", "", "reserved", "", "£10.20", "£25.00", "", "", "", "", "", "", "", "", "", "", "Public", "", "", "" ],
+    [ "127802EF-E87A-455C-8EC8-9E20E58E59C0", "P", "Evening 1", "Southbank Public Programme", "akir_27Dec20", "Akira", "Akira", "Sunday 27 December 2020 18:10", "", "Thursday 26 November 2020 11:30", "C", "G", "141", "Cinematic Escapes,Subtitles", "default.asp?doWork::WScontent::loadArticle=Load&BOparam::WScontent::loadArticle::article_id=A75F9B94-4D72-4551-9525-080853567746&BOparam::WScontent::loadArticle::context_id=127802EF-E87A-455C-8EC8-9E20E58E59C0", "", "", "", "", "", "", "C-200058", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", [], ["1","2"], "", "", "", "", "United Kingdom", "", "", "6A564EB8-8C4A-4F72-8206-0526C678372A", "SB - NFT1", "NFT1", "NFT1", "Southbank Public Programme", "", "", "", "", "", "", "", "", "", "", "", "", "reserved", "", "£10.20", "£25.00", "", "", "", "", "", "", "", "", "", "", "Public", "", "", "" ],
+    [ "8C61C51D-DB1A-4FBE-AD9A-F141483F924B", "P", "Evening 2", "Southbank Public Programme", "akir_30Dec20", "Akira", "Akira", "Wednesday 30 December 2020 20:35", "", "Thursday 26 November 2020 11:30", "C", "G", "141", "Cinematic Escapes,Subtitles", "default.asp?doWork::WScontent::loadArticle=Load&BOparam::WScontent::loadArticle::article_id=A75F9B94-4D72-4551-9525-080853567746&BOparam::WScontent::loadArticle::context_id=8C61C51D-DB1A-4FBE-AD9A-F141483F924B", "", "", "", "", "", "", "C-200058", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", [], ["1","2"], "", "", "", "", "United Kingdom", "", "", "6A564EB8-8C4A-4F72-8206-0526C678372A", "SB - NFT1", "NFT1", "NFT1", "Southbank Public Programme", "", "", "", "", "", "", "", "", "", "", "", "", "reserved", "", "£10.20", "£25.00", "", "", "", "", "", "", "", "", "", "", "Public", "", "", "" ]
+  ],
+  searchFilters : [
+    { name : "object_type_filter", label : "Type Filter", className : "objectTypeFilterList", clearFilterLabel : "Clear Type Filter", selectedValue : "", values : [  ]  },
+    { name : "month_filter", label : "Month Filter", className : "monthFilterList", clearFilterLabel : "Clear Month Filter", selectedValue : "", values : [  ]  },
+    { name : "city_filter", label : "City Filter", className : "cityFilterList", clearFilterLabel : "Clear City Filter", selectedValue : "", values : [  ]  },
+    { name : "venue_filter", label : "Venue Filter", className : "venueFilterList", clearFilterLabel : "Clear Venue Filter", selectedValue : "", values : [  ]  },
+    { name : "category_filter", label : "Category Filter", className : "categoryFilterList", clearFilterLabel : "Clear Category Filter", selectedValue : "", values : [  ]  },
+    { name : "organization_short_description_filter", label : "Organization Filter", className : "organizationShortDescriptionFilterList", clearFilterLabel : "Clear Organization Filter", selectedValue : "", values : [  ]  },
+    { name : "filter1", label : "Filter 1", className : "customFilterList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "filter2", label : "Filter 2", className : "customFilterList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "filter3", label : "Filter 3", className : "customFilterList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "filter4", label : "Filter 4", className : "customFilterList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "filter_parent1", label : "Filter Parent 1", className : "customFilterParentList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "filter_parent2", label : "Filter Parent 2", className : "customFilterParentList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "multifilter1", label : "Multi Filter 1", className : "customFilterList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  },
+    { name : "multifilter2", label : "Multi Filter 2", className : "customFilterList", clearFilterLabel : "Clear Filter", selectedValue : "", values : [  ]  }
+  ],
+  searchLabels: { performances: "Events", date: "Date", unavailable_message: "No Tickets Required", sold_out_message: "Sold out!", on_sale_message: "On sale", to_be_determined_message: "", next: "»", previous: "«", avail_excellent: "Excellent", avail_good: "Good", avail_limited: "Limited", avail_sold_out: "Sold Out", promo_item: "This item is available with an promotional Access Code", buy_seats_message: "Buy", buy_bundle_message: "Buy", buy_item_message: "Buy", buy_gift_message: "Proceed", buy_storedvalueitem_message: "Buy", upsell_seats_message: "Upgrade", upsell_bundle_message: "Upgrade", upsell_item_message: "Upgrade", upsell_gift_message: "Upgrade", upsell_storedvalueitem_message: "Upgrade", upsell_popup_title: "Interested in Upgrading?", addon_seats_message: "Select", addon_bundle_message: "Select", addon_item_message: "Select", addon_gift_message: "Select", addon_storedvalueitem_message: "Select", exchange_seats_message: "Select", exchange_bundle_message: "Select", exchange_item_message: "Select", exchange_gift_message: "Select", exchange_storedvalueitem_message: "Select", view_article_message: "View", price_title: "Price", availability_title: "AVAILABILITY", active_promo_codes: "Active promotions:", promo_code_item_title: "This item is available with an promotional Access Code", has_promo_code: "false", brand_path: "../../content/images/branding/" },
+  searchSUMO: { availability_access: "false", mapSelect_access: "true" },
+  pagination: { current_page: "1", page_size: "5", total_pages: "1" },
+  loginLabels: { pageTarget: "maintainAccount.asp", loginBoxClass: "login-required", forgotPassword: "true", formLoginName: "", accountLogin: "true" },
+  contextId: "",
+  articleId: "A75F9B94-4D72-4551-9525-080853567746",
+  articleSearchId: "",
+  salesType: "P",
+  sToken: "1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI="
+ };
+
+createSearchMapping(articleContext);
+
+tsAddReadyEvent(function() {
+    setCalendarWidgetDisplayMonth();
+    drawWidgets(articleContext);
+    insertToken(articleContext);
+});
+
+function setCalendarWidgetDisplayMonth()
+{
+    // If a date has been selected from the calendar widget, we will receive a 'search_from' parameter.
+    // Pass this back to the widget so that it redisplays the month that was previously visible
+
+}
+
+</script>
+
+<script type="text/javascript">
+    function doGAClicks(selectedItem) {
+        //do nothing
+    };
+
+    function gaTrackEvent(category, action) {
+        //do nothing
+    };
+</script>
+
+</head>
+
+<body lang="en" onLoad="startList();loadLocalPage(); displayMessage(&quot;&quot;); displayOnOfferTimeout();" onUnload="closeChildren()">
+<div id="spinner" class="spinner"></div>
+<script>
+    var spinnerDelayTimeout;
+
+    var showSpinner = function(){};
+    var spinnerElement = document.querySelector('body')
+
+
+
+    var spinnerDelay = 3;
+
+
+    function stopSpinner() {
+        spinnerElement.classList.remove('show-spinner');
+        cancelSpinnerTimeouts();
+        expandSpinner();
+    }
+
+    function startSpinner() {
+        expandSpinner();
+        spinnerElement.classList.add('show-spinner');
+    }
+
+
+    function cancelSpinnerTimeouts() {
+        clearTimeout(spinnerDelayTimeout);
+    }
+
+    function expandSpinner() {
+        spinnerElement.classList.remove('minimize-spinner');
+    }
+
+    function minimizeSpinner() {
+        spinnerElement.classList.add('minimize-spinner');
+    }
+
+    // stop spinner if a JS error occurred
+    window.addEventListener('error', stopSpinner);
+
+    // Mimimize spinner if clicked
+    spinnerElement.addEventListener('click', minimizeSpinner);
+
+    // Shows the spinner if page takes long to load
+    // pass true to allow spinner to show even with a popup open
+    (showSpinner = function() {
+        var overridePopupCheck = arguments[0] ? arguments[0] : false;
+        if (overridePopupCheck || !document.querySelector("#popupDiv")) {
+            spinnerDelayTimeout = setTimeout(startSpinner, spinnerDelay*1000);
+        }
+        return true;
+    })();
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+function testValue(value, pattern)
+{
+  if(!value || !pattern)
+    return false;
+
+  if(pattern.constructor === RegExp)
+    return pattern.test(value.toString());
+
+  return value.toString() == pattern.toString();
+}
+
+function isGTM()
+{
+	return true;
+}
+
+function getSessionObject()
+{
+	return {av: {session: {language: "EN",
+role: "Internet",
+referrer: null,
+user_id: undefined,
+promo_codes: []}}};
+}
+
+function getErrorObject()
+{
+
+	return null;
+
+}
+
+function getPageObject()
+{
+	return {av: {page: { page_script: "/Online/default.asp",
+ search: { total_records: null,
+ total_pages: null,
+ page_size: null,
+ current_page: null,
+ criteria: { search_from :null,
+ search_to :null,
+ search_criteria :null,
+ category_filter :null,
+ city_filter :null,
+ venue_filter :null,
+ month_filter :null,
+ object_type_filter :null}},
+ articles: [{article_name: "202012 Film: Akira", article_title: "Buy cinema tickets for Akira | BFI Southbank", article_type: "2", article_id: "A75F9B94-4D72-4551-9525-080853567746"},
+{article_name: "", article_title: "Component: Breadcrumb", article_type: "1", article_id: "51A8C03E-4CBF-411B-9095-A99C198C4494"},
+{article_name: "", article_title: "Component: BFI Southbank Calendar", article_type: "1", article_id: "53F9E45D-B138-4945-A06F-1235DE741344"},
+{article_name: "", article_title: "Component: Side MPU Ad", article_type: "1", article_id: "3C4A4681-0B77-42E5-9782-68FB2D39E014"},
+{article_name: "", article_title: "Component: BFI Membership", article_type: "1", article_id: "4157B0D2-EF6A-4C56-B834-7AFED84071E6"},
+{article_name: "", article_title: "Component: 25 & under", article_type: "1", article_id: "0979287D-2BA3-4EB2-BB25-153C42B9459B"},
+{article_name: "", article_title: "Digital BFI Southbank Guide", article_type: "1", article_id: "A8D7E593-0418-4239-B024-D8EE46167F4F"},
+{article_name: "", article_title: "default header", article_type: "1", article_id: "F8103D8C-7EA0-4B4B-A37E-9DE398B9313D"},
+{article_name: "", article_title: "default footer", article_type: "1", article_id: "5D09622E-A899-411D-B525-B2F262B34B63"}],
+
+          articleExists: function (article_type, article_title)
+          {
+            if (article_type == null && article_title == null)
+            {
+              if(this.articles.length)
+                return true;
+            }
+            else if (article_type == null)
+            {
+              for(var i = 0; i < this.articles.length; i++) {
+                  if(testValue(this.articles[i].article_title, article_title))
+                    return true;
+              }
+            }
+            else if (article_title == null)
+            {
+              for(var i = 0; i < this.articles.length; i++) {
+                if (testValue(this.articles[i].article_type, article_type))
+                  return true;
+              }
+            }
+            else
+            {
+              for(var i = 0; i < this.articles.length; i++) {
+                if (testValue(this.articles[i].article_title, article_title) && testValue(this.articles[i].article_type, article_type))
+                  return true;
+              }
+            }
+
+            return false;
+          }
+	}}};
+}
+
+
+function getOrderEventObject()
+{
+	return {event: {av : {event: {order: { action: ""}}}, toString: function() {return "av.event.order-" + this.av.event.order.action}}};
+}
+
+function getCartEventObject()
+{
+	return {event: {av : {event: {cart: { action: ""}}}, toString: function() {return "av.event.cart-" + this.av.event.cart.action}}};
+}
+
+function admissionExists(object, product_name)
+{
+	var ids = new Array();
+	for (var i = 0; i < object.performances.length; i++)
+	{
+		if (testValue(object.performances[i].name, product_name) ||
+			testValue(object.performances[i].description, product_name) ||
+			testValue(object.performances[i].short_description, product_name))
+		{
+			ids.push(object.performances[i].performance_id);
+		}
+	}
+	if (ids.length > 0)
+	{
+		for (var i = 0; i < object.order_admissions.length; i++)
+		{
+			if (ids.indexOf(object.order_admissions[i].performance_id) != -1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function bundleExists(object, product_name)
+{
+	var ids = new Array();
+	for (var i = 0; i < object.bundles.length; i++)
+	{
+		if (testValue(object.bundles[i].name, product_name) ||
+			testValue(object.bundles[i].description, product_name) ||
+			testValue(object.bundles[i].short_description, product_name))
+		{
+			ids.push(object.bundles[i].bundle_id);
+		}
+	}
+	if (ids.length > 0)
+	{
+		for (var i = 0; i < object.order_bundle.length; i++)
+		{
+			if (ids.indexOf(object.order_bundle[i].bundle_id) != -1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function miscItemExists(object, product_name)
+{
+	var ids = new Array();
+	for (var i = 0; i < object.misc_items.length; i++)
+	{
+		if (testValue(object.misc_items[i].name, product_name) ||
+			testValue(object.misc_items[i].description, product_name) ||
+			testValue(object.misc_items[i].short_description, product_name))
+		{
+			ids.push(object.misc_items[i].miscellaneous_item_id);
+		}
+	}
+	if (ids.length > 0)
+	{
+		for (var i = 0; i < object.order_misc_items.length; i++)
+		{
+			if (ids.indexOf(object.order_misc_items[i].item_id) != -1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function giftExists(object, product_name)
+{
+	var ids = new Array();
+	for (var i = 0; i < object.gifts.length; i++)
+	{
+		if (testValue(object.gifts[i].name, product_name) ||
+			testValue(object.gifts[i].description, product_name) ||
+			testValue(object.gifts[i].short_description, product_name))
+		{
+			ids.push(object.gifts[i].gift_id);
+		}
+	}
+	if (ids.length > 0)
+	{
+		for (var i = 0; i < object.order_gifts.length; i++)
+		{
+			if (ids.indexOf(object.order_gifts[i].gift_id) != -1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function storeValueExists(object, product_name)
+{
+	var ids = new Array();
+	for (var i = 0; i < object.stored_values.length; i++)
+	{
+		if (testValue(object.stored_values[i].name, product_name) ||
+			testValue(object.stored_values[i].description, product_name) ||
+			testValue(object.stored_values[i].short_description, product_name))
+		{
+			ids.push(object.stored_values[i].stored_value_id);
+		}
+	}
+	if (ids.length > 0)
+	{
+		for (var i = 0; i < object.order_stored_values.length; i++)
+		{
+			if (ids.indexOf(object.order_stored_values[i].stored_value_id) != -1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function productExists(object, product_type, product_name)
+{
+	var result = false;
+	if (product_name == null && product_type == null)
+	{
+		if (object.order_admissions.length || object.order_bundle.length || object.order_misc_items.length ||
+		object.order_gifts.length || object.order_stored_values.length)
+			result = true;
+	}
+	else if (product_name == null)
+	{
+		if (testValue(product_type, "admission") && object.order_admissions.length)
+			result = true;
+		if (testValue(product_type, "bundle") && object.order_bundle.length)
+			result = true;
+		if (testValue(product_type, "miscellaneous_item") && object.order_misc_items.length)
+			result = true;
+		if (testValue(product_type, "gift") && object.order_gifts.length)
+			result = true;
+		if (testValue(product_type, "stored_value") && object.order_stored_values.length)
+			result = true;
+	}
+	else if (product_type == null)
+	{
+		if (object.order_admissions.length)
+		{
+			result = admissionExists(object, product_name);
+		}
+		if (object.order_bundle.length)
+		{
+			result = bundleExists(object, product_name);
+		}
+		if (object.order_misc_items.length)
+		{
+			result = miscItemExists(object, product_name);
+		}
+		if (object.order_gifts.length)
+		{
+			result = giftExists(object, product_name);
+		}
+		if (object.order_stored_values.length)
+		{
+			result = storeValueExists(object, product_name);
+		}
+	}
+	else
+	{
+		if (testValue(product_type, "admission") && object.order_admissions.length)
+		{
+			result = admissionExists(object, product_name);
+		}
+		if (testValue(product_type, "bundle") && object.bundles.length)
+		{
+			result = bundleExists(object, product_name);
+		}
+		if (testValue(product_type, "miscellaneous_item") && object.misc_items.length)
+		{
+			result = miscItemExists(object, product_name);
+		}
+		if (testValue(product_type, "gift") && object.gifts.length)
+		{
+			result = giftExists(object, product_name);
+		}
+		if (testValue(product_type, "stored_value") && object.stored_values.length)
+		{
+			result = storeValueExists(object, product_name);
+		}
+	}
+	return result;
+}
+
+function admissionValue(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.performances.length; i++)
+	{
+		if (testValue(object.performances[i].name, product_name) ||
+			testValue(object.performances[i].description, product_name) ||
+			testValue(object.performances[i].short_description, product_name))
+		{
+			id.push(object.performances[i].performance_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_admissions.length; i++)
+		{
+			if (id.indexOf(object.order_admissions[i].performance_id) != -1)
+			{
+				result += object.order_admissions[i].amount.amount;
+			}
+		}
+	}
+	return result;
+}
+
+function bundleValue(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.bundles.length; i++)
+	{
+		if (testValue(object.bundles[i].name, product_name) ||
+			testValue(object.bundles[i].description, product_name) ||
+			testValue(object.bundles[i].short_description, product_name))
+		{
+			id.push(object.bundles[i].bundle_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_bundle_admissions.length; i++)
+		{
+			if (id.indexOf(object.order_bundle_admissions[i].bundle_id) != -1)
+			{
+				result += object.order_bundle_admissions[i].amount.amount;
+			}
+		}
+	}
+	return result;
+}
+
+function miscItemValue(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.misc_items.length; i++)
+	{
+		if (testValue(object.misc_items[i].name, product_name) ||
+			testValue(object.misc_items[i].description, product_name) ||
+			testValue(object.misc_items[i].short_description, product_name))
+		{
+			id.push(object.misc_items[i].miscellaneous_item_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_misc_items.length; i++)
+		{
+			if (id.indexOf(object.order_misc_items[i].item_id) != -1)
+			{
+				result += object.order_misc_items[i].amount.amount;
+			}
+		}
+	}
+	return result;
+}
+
+function giftValue(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.gifts.length; i++)
+	{
+		if (testValue(object.gifts[i].name, product_name) ||
+			testValue(object.gifts[i].description, product_name) ||
+			testValue(object.gifts[i].short_description, product_name))
+		{
+			id.push(object.gifts[i].gift_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_gifts.length; i++)
+		{
+			if (id.indexOf(object.order_gifts[i].gift_id) != -1)
+			{
+				result += object.order_gifts[i].pledge_amount.amount;
+			}
+		}
+	}
+	return result;
+}
+
+function storedValueValue(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.stored_values.length; i++)
+	{
+		if (testValue(object.stored_values[i].name, product_name) ||
+			testValue(object.stored_values[i].description, product_name) ||
+			testValue(object.stored_values[i].short_description, product_name))
+		{
+			id.push(object.stored_values[i].stored_value_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_stored_values.length; i++)
+		{
+			if (id.indexOf(object.order_stored_values[i].stored_value_id) != -1)
+			{
+				result += object.order_stored_values[i].amount.amount;
+			}
+		}
+	}
+	return result;
+}
+
+function productValue(object, product_type, product_name)
+{
+	var result = 0;
+	if (product_name == null && product_type == null)
+	{
+		if (object.order_admissions.length)
+		{
+			for (var i = 0; i < object.order_admissions.length; i++)
+			{
+				result += object.order_admissions[i].amount.amount;
+			}
+		}
+		if (object.order_bundle_admissions.length)
+		{
+			for (var i = 0; i < object.order_bundle_admissions.length; i++)
+			{
+				result += object.order_bundle_admissions[i].amount.amount;
+			}
+		}
+		if (object.order_misc_items.length)
+		{
+			for (var i = 0; i < object.order_misc_items.length; i++)
+			{
+				result += object.order_misc_items[i].amount.amount;
+			}
+		}
+		if (object.order_gifts.length)
+		{
+			for (var i = 0; i < object.order_gifts.length; i++)
+			{
+				result += object.order_gifts[i].pledge_amount.amount;
+			}
+		}
+		if (object.order_stored_values.length)
+		{
+			for (var i = 0; i < object.order_stored_values.length; i++)
+			{
+				result += object.order_stored_values[i].amount.amount;
+			}
+		}
+	}
+	else if (product_name == null)
+	{
+		if (testValue(product_type, "admission") && object.order_admissions.length)
+		{
+			for (var i = 0; i < object.order_admissions.length; i++)
+			{
+				result += object.order_admissions[i].amount.amount;
+			}
+		}
+		if (testValue(product_type, "bundle") && object.order_bundle_admissions.length)
+		{
+			for (var i = 0; i < object.order_bundle_admissions.length; i++)
+			{
+				result += object.order_bundle_admissions[i].amount.amount;
+			}
+		}
+		if (testValue(product_type, "miscellaneous_item") && object.order_misc_items.length)
+		{
+			for (var i = 0; i < object.order_misc_items.length; i++)
+			{
+				result += object.order_misc_items[i].amount.amount;
+			}
+		}
+		if (testValue(product_type, "gift") && object.order_gifts.length)
+		{
+			for (var i = 0; i < object.order_gifts.length; i++)
+			{
+				result += object.order_gifts[i].pledge_amount.amount;
+			}
+		}
+		if (testValue(product_type, "stored_value") && object.order_stored_values.length)
+		{
+			for (var i = 0; i < object.order_stored_values.length; i++)
+			{
+				result += object.order_stored_values[i].amount.amount;
+			}
+		}
+	}
+	else if (product_type == null)
+	{
+		if (object.order_admissions.length)
+		{
+			result += admissionValue(object, product_name);
+		}
+		if (object.order_bundle_admissions.length)
+		{
+			result += bundleValue(object, product_name);
+		}
+		if (object.order_misc_items.length)
+		{
+			result += miscItemValue(object, product_name);
+		}
+		if (object.order_gifts.length)
+		{
+			result += giftValue(object, product_name);
+		}
+		if (object.order_stored_values.length)
+		{
+			result += storedValueValue(object, product_name);
+		}
+	}
+	else
+	{
+		if (testValue(product_type, "admission") && object.order_admissions.length)
+		{
+			result += admissionValue(object, product_name);
+		}
+		else if (testValue(product_type, "bundle") && object.bundles.length)
+		{
+			result += bundleValue(object, product_name);
+		}
+		else if (testValue(product_type, "miscellaneous_item") && object.misc_items.length)
+		{
+			result += miscItemValue(object, product_name);
+		}
+		else if (testValue(product_type, "gift") && object.gifts.length)
+		{
+			result += giftValue(object, product_name);
+		}
+		else if (testValue(product_type, "stored_value") && object.stored_values.length)
+		{
+			result += storedValueValue(object, product_name);
+		}
+	}
+	return result;
+}
+
+function admissionCount(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.performances.length; i++)
+	{
+		if (testValue(object.performances[i].name, product_name) ||
+			testValue(object.performances[i].description, product_name) ||
+			testValue(object.performances[i].short_description, product_name))
+		{
+			id.push(object.performances[i].performance_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_admissions.length; i++)
+		{
+			if (id.indexOf(object.order_admissions[i].performance_id) != -1)
+			{
+				result ++;
+			}
+		}
+	}
+	return result;
+}
+
+function bundleCount(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.bundles.length; i++)
+	{
+		if (testValue(object.bundles[i].name, product_name) ||
+			testValue(object.bundles[i].description, product_name) ||
+			testValue(object.bundles[i].short_description, product_name))
+		{
+			id.push(object.bundles[i].bundle_id);
+		}
+	}
+	if (id.length > 0 && object.order_bundle_admissions.length)
+	{
+		for (var i = 0; i < object.order_bundle_admissions.length; i++)
+		{
+			if (id.indexOf(object.order_bundle_admissions[i].bundle_id) != -1)
+			{
+				result ++;
+			}
+		}
+	}
+	return result;
+}
+
+function miscItemCount(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.misc_items.length; i++)
+	{
+		if (testValue(object.misc_items[i].name, product_name) ||
+			testValue(object.misc_items[i].description, product_name) ||
+			testValue(object.misc_items[i].short_description, product_name))
+		{
+			id.push(object.misc_items[i].miscellaneous_item_id);
+		}
+	}
+	if (id.length > 0 && object.order_misc_items.length)
+	{
+		for (var i = 0; i < object.order_misc_items.length; i++)
+		{
+			if (id.indexOf(object.order_misc_items[i].item_id) != -1)
+			{
+				result += parseFloat(object.order_misc_items[i].quantity);
+			}
+		}
+	}
+	return result;
+}
+
+function giftCount(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.gifts.length; i++)
+	{
+		if (testValue(object.gifts[i].name, product_name) ||
+			testValue(object.gifts[i].description, product_name) ||
+			testValue(object.gifts[i].short_description, product_name))
+		{
+			id.push(object.gifts[i].gift_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_gifts.length; i++)
+		{
+			if (id.indexOf(object.order_gifts[i].gift_id) != -1)
+			{
+				result ++;
+			}
+		}
+	}
+	return result;
+}
+
+function storedValueCount(object, product_name)
+{
+	var id = new Array();
+	var result = 0;
+	for (var i = 0; i < object.stored_values.length; i++)
+	{
+		if (testValue(object.stored_values[i].name, product_name) ||
+			testValue(object.stored_values[i].description, product_name) ||
+			testValue(object.stored_values[i].short_description, product_name))
+		{
+			id.push(object.stored_values[i].stored_value_id);
+		}
+	}
+	if (id.length > 0)
+	{
+		for (var i = 0; i < object.order_stored_values.length; i++)
+		{
+			if (id.indexOf(object.order_stored_values[i].stored_value_id) != -1)
+			{
+				result ++;
+			}
+		}
+	}
+	return result;
+}
+
+function productCount(object, product_type, product_name)
+{
+	var result = 0;
+	if (product_name == null && product_type == null)
+	{
+		if (object.order_admissions.length)
+		{
+			result += object.order_admissions.length;
+		}
+		if (object.order_bundle_admissions.length)
+		{
+			result += object.order_bundle_admissions.length;
+		}
+		if (object.order_misc_items.length)
+		{
+			for (var i = 0; i < object.order_misc_items.length; i++)
+				result += parseFloat(object.order_misc_items[i].quantity);
+		}
+		if (object.order_gifts.length)
+		{
+			result += object.order_gifts.length;
+		}
+		if (object.order_stored_values.length)
+		{
+			result += object.order_stored_values.length;
+		}
+	}
+	else if (product_name == null)
+	{
+		if (testValue(product_type, "admission") && object.order_admissions.length)
+		{
+			result += object.order_admissions.length;
+		}
+		if (testValue(product_type, "bundle") && object.order_bundle_admissions.length)
+		{
+			result += object.order_bundle_admissions.length;
+		}
+		if (testValue(product_type, "miscellaneous_item") && object.order_misc_items.length)
+		{
+			for (var i = 0; i < object.order_misc_items.length; i++)
+				result += parseFloat(object.order_misc_items[i].quantity);
+		}
+		if (testValue(product_type, "gift") && object.order_gifts.length)
+		{
+			result += object.order_gifts.length;
+		}
+		if (testValue(product_type, "stored_value") && object.order_stored_values.length)
+		{
+			result += object.order_stored_values.length;
+		}
+	}
+	else if (product_type == null)
+	{
+		if (object.order_admissions.length)
+		{
+			result += admissionCount(object, product_name);
+		}
+		if (object.order_bundle_admissions.length)
+		{
+			result += bundleCount(object, product_name);
+		}
+		if (object.order_misc_items.length)
+		{
+			result += miscItemCount(object, product_name);
+		}
+		if (object.order_gifts.length)
+		{
+			result += giftCount(object, product_name);
+		}
+		if (object.stored_values.length)
+		{
+			result += storedValueCount(object, product_name);
+		}
+	}
+	else
+	{
+		if (testValue(product_type, "admission") && object.order_admissions.length)
+		{
+			result += admissionCount(object, product_name);
+		}
+		if (testValue(product_type, "bundle") && object.order_bundle_admissions.length)
+		{
+			result += bundleCount(object, product_name);
+		}
+		if (testValue(product_type, "miscellaneous_item") && object.order_misc_items.length)
+		{
+			result += miscItemCount(object, product_name);
+		}
+		if (testValue(product_type, "gift") && object.order_gifts.length)
+		{
+			result += giftCount(object, product_name);
+		}
+		if (testValue(product_type, "stored_value") && object.order_stored_values.length)
+		{
+			result += storedValueCount(object, product_name);
+		}
+	}
+	return result;
+}
+
+function getPerformance(object, performance_id)
+{
+	var result = null;
+
+	if (performance_id != null && object.performances.length)
+	{
+		for (var i = 0; i < object.performances.length; i++)
+		{
+			if (testValue(object.performances[i].performance_id, performance_id))
+			{
+				result = object.performances[i];
+				break;
+			}
+		}
+	}
+
+	return result;
+}
+
+function getBundle(object, bundle_id)
+{
+	var result = null;
+
+	if (bundle_id != null && object.bundles.length)
+	{
+		for (var i = 0; i < object.bundles.length; i++)
+		{
+			if (testValue(object.bundles[i].bundle_id, bundle_id))
+			{
+				result = object.bundles[i];
+				break;
+			}
+		}
+	}
+
+	return result;
+}
+
+function getMiscItem(object, miscitem_id)
+{
+	var result = null;
+
+	if (miscitem_id != null && object.misc_items.length)
+	{
+		for (var i = 0; i < object.misc_items.length; i++)
+		{
+			if (testValue(object.misc_items[i].miscellaneous_item_id, miscitem_id))
+			{
+				result = object.misc_items[i];
+				break;
+			}
+		}
+	}
+
+	return result;
+}
+
+function getGift(object, gift_id)
+{
+	var result = null;
+
+	if (gift_id != null && object.gifts.length)
+	{
+		for (var i = 0; i < object.gifts.length; i++)
+		{
+			if (testValue(object.gifts[i].gift_id, gift_id))
+			{
+				result = object.gifts[i];
+				break;
+			}
+		}
+	}
+
+	return result;
+}
+
+function getStoredValue(object, storedvalue_id)
+{
+	var result = null;
+
+	if (storedvalue_id != null && object.stored_values.length)
+	{
+		for (var i = 0; i < object.stored_values.length; i++)
+		{
+			if (testValue(object.stored_values[i].stored_value_id, storedvalue_id))
+			{
+				result = object.stored_values[i];
+				break;
+			}
+		}
+	}
+
+	return result;
+}
+
+function createGAAdmissions(object, transactionProducts)
+{
+	if( object.order_admissions.length > 0 )
+	{
+		var admissionList = new Array();
+        var admissionPTList = new Array();
+		for (var i = 0; i < object.order_admissions.length; i++)
+		{
+            var perfID = object.order_admissions[i].performance_id;
+			if( admissionList[ perfID ] == undefined )
+            {
+              admissionList[ perfID ] = new Array();
+            }
+            admissionList[ perfID ].push( object.order_admissions[i] );
+
+            if( admissionPTList[ perfID ] == undefined )
+            {
+              admissionPTList[ perfID ] = new Array();
+            }
+            var curPTList = admissionPTList[ perfID ];
+            var admPTID = object.order_admissions[i].price_type;
+            if (curPTList[ admPTID ] == undefined )
+            {
+              curPTList[ admPTID ] = new Array();
+            }
+            curPTList[ admPTID ].push( object.order_admissions[i] );
+		}
+		for( var guid in admissionList )
+		{
+			var admNode = admissionList[ guid ][ 0 ];
+            var perfID = admNode.performance_id;
+			var perfNode;
+			for (var i = 0; i < object.performances.length; i++)
+			{
+				if (perfID == object.performances[i].performance_id)
+				{
+					perfNode = object.performances[i];
+					break;
+				}
+			}
+            var perfName = perfNode.name;
+            var perfDesc = perfNode.short_description;
+            if (perfDesc == "" || perfDesc == null) {
+               perfDesc = perfName;
+            }
+            var seriesName = perfNode.series_name;
+
+            var curPTList = admissionPTList[ perfID ];
+			for ( var guid in curPTList )
+			{
+				seatNode = curPTList[ guid ][ 0 ];
+                var admAmount = seatNode.amount.amount;
+                var priceTypeLabel = seatNode.price_type;
+                var priceZoneLabel = seatNode.price_zone;
+
+				var admissions = { "sku": perfName + " Admission " + priceTypeLabel + "-" + priceZoneLabel,
+				"name": perfDesc + " Admission",
+				"category": seriesName + " Admission",
+				"price": admAmount,
+				"quantity": curPTList[ guid ].length
+				};
+
+				transactionProducts.push(admissions);
+			}
+		}
+	}
+}
+
+function createGABundles(object, transactionProducts)
+{
+	// roll up bundles by id and price
+	// object.order_bundle - data about the bundle on the order: amount, total
+	// object.bundles - data about the bundle item: name & description
+
+	if( object.bundles.length > 0 )
+	{
+		var bundleList = {};
+		for (var i = 0; i < object.order_bundle.length; i++)
+		{
+			var bundleID = object.order_bundle[i].bundle_id;
+			var bundleAmount = object.order_bundle[i].amount.amount;
+
+			if( bundleList[ bundleID ] == undefined )
+			{
+				bundleList[ bundleID ] = {};
+			}
+			if( bundleList[ bundleID ][ bundleAmount ] == undefined )
+			{
+				bundleList[ bundleID ][ bundleAmount ] = 0;
+			}
+			bundleList[ bundleID ][ bundleAmount ]++;
+		}
+
+		for (var i = 0; i < object.bundles.length; i++)
+		{
+			var bundleID = object.bundles[i].bundle_id;
+			var sku = object.bundles[i].name;
+			var name = object.bundles[i].description;
+
+			for(var amount in bundleList[bundleID])
+			{
+				transactionProducts.push(
+				{
+					"sku": sku,
+					"name": name,
+					"price": amount,
+					"quantity": bundleList[bundleID][amount]
+				});
+			}
+		}
+	}
+}
+
+function createGAMiscItems(object, transactionProducts)
+{
+	if( object.misc_items.length > 0 && object.order_misc_items.length > 0)
+	{
+		var itemList = new Array();
+		var itemAmountList = new Array();
+		for (var i = 0; i < object.order_misc_items.length; i++)
+		{
+			var itemID = object.order_misc_items[i].item_id;
+			if( itemList[ itemID ] == undefined )
+            {
+              itemList[ itemID ] = new Array();
+            }
+            itemList[ itemID ].push( object.order_misc_items[i] );
+			if( itemAmountList[ itemID ] == undefined )
+              itemAmountList[ itemID ] = parseFloat(object.order_misc_items[i].amount.amount);
+		}
+		for (var i = 0; i < object.misc_items.length; i++)
+		{
+			var miscItems = { "sku": object.misc_items[i].name,
+			"name": object.misc_items[i].description,
+			"category": object.misc_items[i].category,
+			"price": itemAmountList[object.misc_items[i].miscellaneous_item_id],
+			"quantity": itemList[object.misc_items[i].miscellaneous_item_id].length
+			};
+
+			transactionProducts.push(miscItems);
+		}
+	}
+}
+
+function createGAGifts(object, transactionProducts)
+{
+	if( object.gifts.length > 0 && object.order_gifts.length > 0)
+	{
+		var giftList = new Array();
+		for (var i = 0; i < object.gifts.length; i++)
+		{
+			var giftID = object.gifts[i].gift_id;
+			if( giftList[ giftID ] == undefined )
+            {
+              giftList[ giftID ] = new Array();
+            }
+            giftList[ giftID ] = object.gifts[i].name;
+		}
+		for (var i = 0; i < object.order_gifts.length; i++)
+		{
+			var gifts = { "sku": giftList[object.order_gifts[i].gift_id],
+			"name": object.order_gifts[i].appeal_id,
+			"category": object.order_gifts[i].fund,
+			"price": object.order_gifts[i].pledge_paid_amount.amount,
+			"quantity": 1
+			};
+
+			transactionProducts.push(gifts);
+		}
+	}
+}
+
+function createGAStoredValueItems(object, transactionProducts)
+{
+	if( object.stored_values.length > 0 )
+	{
+		var storedValueNameList = new Array();
+        var storedValueTypeList = new Array();
+        var storedValueDescList = new Array();
+		for (var i = 0; i < object.stored_values.length; i++)
+		{
+			var certID = object.stored_values[i].stored_value_id;
+			if( storedValueNameList[ certID ] == undefined )
+            {
+              storedValueNameList[ certID ] = new Array();
+              storedValueTypeList[ certID ] = new Array();
+              storedValueDescList[ certID ] = new Array();
+            }
+            storedValueNameList[ certID ] = object.stored_values[i].name;
+            storedValueDescList[ certID ] = object.stored_values[i].description;
+            storedValueTypeList[ certID ] = object.stored_values[i].type;
+		}
+		for (var i = 0; i < object.order_stored_values.length; i++)
+		{
+			var storedValueItems = { "sku": storedValueNameList[object.order_stored_values[i].stored_value_id],
+			"name": storedValueDescList[object.order_stored_values[i].stored_value_id],
+			"category": storedValueTypeList[object.order_stored_values[i].stored_value_id],
+			"price": parseFloat(object.order_stored_values[i].amount.amount),
+			"quantity": 1
+			};
+
+			transactionProducts.push(storedValueItems);
+		}
+	}
+}
+
+function createGATransaction(object)
+{
+	var output;
+	var transactionProducts = new Array;
+
+	createGAAdmissions(object, transactionProducts);
+	createGABundles(object, transactionProducts);
+	createGAMiscItems(object, transactionProducts);
+	createGAGifts(object, transactionProducts);
+	createGAStoredValueItems(object, transactionProducts);
+
+	output = { "transactionId": object.order_number.toString(),
+				"transactionAffiliation": object.affiliation == null ? "" : object.affiliation.toString(),
+				"transactionTotal": object.grand_total.amount,
+				"transactionTax": object.total_tax.amount,
+				"transactionShipping": object.delivery_charges.amount,
+				"transactionCity": object.customer_city == null ? "" : object.customer_city.toString(),
+				"transactionState": object.customer_state == null ? "" : object.customer_state.toString(),
+				"transactionCountry": object.customer_country == null ? "" : object.customer_country.toString(),
+				"transactionProducts": transactionProducts
+			};
+
+	return output;
+}
+
+
+</script>
+
+	<script type="text/javascript">
+		var dataLayer = new Array();
+		dataLayer.push(getSessionObject());
+		dataLayer.push(getPageObject());
+		var av_error = getErrorObject();
+		if (av_error != null)
+			dataLayer.push(av_error);
+
+	</script>
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KHDW8Q"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-KHDW8Q');</script>
+	<!-- End Google Tag Manager -->
+
+<div id="fb-root"></div>
+<script>
+    var FBAppID = 'undefined'
+    var FBVersion = 'v2.8';
+
+    window.fbAsyncInit = function () {
+
+
+        FB.init({
+            appId: FBAppID,
+            status: true,
+            cookie: true,
+            frictionlessRequests: true,
+            xfbml: true,
+            oauth: true,
+            version: FBVersion
+        });
+        FB.Canvas.setAutoGrow();
+        FB.Canvas.getPageInfo(function (info) {
+	        FB.Canvas.scrollTo(0, 0);
+	    });
+        fbinit();
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        js.defer = true;
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));
+
+    function fblogin(thisForm, callback) {
+        // check if callback is defined and a function
+        var callback = callback && typeof callback === 'function' ? callback : function() {};
+
+        FB.getLoginStatus(function (response) {
+            if (response.status == 'connected') {
+                callback(thisForm, response);
+                thisForm.submit();
+            }
+            else {
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        callback(thisForm);
+                        thisForm.submit();
+                    }
+                }, { scope: 'rsvp_event,user_friends' });
+            }
+        });
+
+        return false;
+    }
+</script>
+
+<script>
+    var events = new Array();
+    var eventCounter = 0;
+
+    function fbinit() {
+        for (evnt in events) {
+            setRSVPButtonsLogin(events[evnt]);
+        }
+    };
+
+</script>
+
+<div id="header">
+
+        <div class="header-content container">
+        <div id="header-wrapper" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<a href="http://www.bfi.org.uk" shape="rect"><img alt="British Film Institute logo" src="/ArticleMedia/Images/branding/bfi-white-107x107.png" style="width: 107px; height: 107px;"/>
+</a>
+</div>
+
+        </div>
+
+    <button type="button" class="menu-toggle menu-button btn btn-secondary">
+        <span class="fas fa-align-justify"></span>
+    </button>
+    <button type="button" class="menu-toggle sidebar-button btn btn-secondary">
+        <span class="fas fa-shopping-cart"></span>
+
+
+
+    </button>
+</div>
+
+<div class="content-wrapper">
+
+<div id="menu">
+	<div class="menuContainer main-nav">
+		<ul id="menuTop" class="nav clearfix">
+
+			<li class="menuTopItem  has-sub-menu clearfix dropdown" id="menuTopItem0">
+
+				<a tabindex="1" href="javascript:void(0);" class="menu_item empty-link-dropdown-toggle" title="Films &amp; TV" data-toggle="dropdown"  >
+					<span class="menu-label">Films &amp; TV</span>
+					<span class="fas fa-chevron-down"></span>
+                    <span class="fas fa-chevron-up"></span>
+				</a>
+
+				<div class="menuSub dropdown-menu">
+
+					<a class="menuSubItem dropdown-item btn" tabindex="2" href="javascript:void(0);" title="Film releases" onclick="submitNewForm(&quot;article/releases?menu_id=ACF37CA9-756D-4B69-AD07-C8BBBD49BBEF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Film releases
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="3" href="javascript:void(0);" title="In person &amp; previews" onclick="submitNewForm(&quot;article/previews?menu_id=ACF37CA9-756D-4B69-AD07-C8BBBD49BBEF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						In person &amp; previews
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="4" href="javascript:void(0);" title="Big screen classics" onclick="submitNewForm(&quot;article/big-screen-classics?menu_id=ACF37CA9-756D-4B69-AD07-C8BBBD49BBEF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Big screen classics
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="5" href="javascript:void(0);" title="Film &amp; TV seasons" onclick="submitNewForm(&quot;article/seasons?menu_id=ACF37CA9-756D-4B69-AD07-C8BBBD49BBEF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Film &amp; TV seasons
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="6" href="javascript:void(0);" title="Regular programme" onclick="submitNewForm(&quot;article/regular-strands?menu_id=ACF37CA9-756D-4B69-AD07-C8BBBD49BBEF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Regular programme
+					</a>
+
+				</div>
+
+			</li>
+
+			<li class="menuTopItem  has-sub-menu clearfix dropdown" id="menuTopItem1">
+
+				<a tabindex="7" href="javascript:void(0);" class="menu_item empty-link-dropdown-toggle" title="Events &amp; festivals" data-toggle="dropdown"  >
+					<span class="menu-label">Events &amp; festivals</span>
+					<span class="fas fa-chevron-down"></span>
+                    <span class="fas fa-chevron-up"></span>
+				</a>
+
+				<div class="menuSub dropdown-menu">
+
+					<a class="menuSubItem dropdown-item btn" tabindex="8" href="https://www.bfi.org.uk/lff" title="BFI London Film Festival" target="_blank">
+						BFI London Film Festival
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="9" href="https://www.bfi.org.uk/flare" title="BFI Flare: London LGBTIQ+ Film Festival" target="_blank">
+						BFI Flare: London LGBTIQ+ Film Festival
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="10" href="https://www.bfi.org.uk/futurefilmfestival" title="Future Film Festival" target="_blank">
+						Future Film Festival
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="11" href="javascript:void(0);" title="BFI &amp; Radio Times Television Festival" onclick="submitNewForm(&quot;article/tvfest20?menu_id=2C31E6FA-6166-46F4-A993-1C533051038A&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						BFI &amp; Radio Times Television Festival
+					</a>
+
+				</div>
+
+			</li>
+
+			<li class="menuTopItem  has-sub-menu clearfix dropdown" id="menuTopItem2">
+
+				<a tabindex="12" href="javascript:void(0);" class="menu_item empty-link-dropdown-toggle" title="Families" data-toggle="dropdown"  >
+					<span class="menu-label">Families</span>
+					<span class="fas fa-chevron-down"></span>
+                    <span class="fas fa-chevron-up"></span>
+				</a>
+
+				<div class="menuSub dropdown-menu">
+
+					<a class="menuSubItem dropdown-item btn" tabindex="13" href="javascript:void(0);" title="Saturday Film Clubs for Children" onclick="submitNewForm(&quot;article/families?menu_id=FB769377-8118-4895-B500-9B47D599C1B4&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Saturday Film Clubs for Children
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="14" href="javascript:void(0);" title="Half-term and holiday activities" onclick="submitNewForm(&quot;article/half-term?menu_id=FB769377-8118-4895-B500-9B47D599C1B4&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Half-term and holiday activities
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="15" href="javascript:void(0);" title="BFI Film Academy" onclick="submitNewForm(&quot;article/future-film?menu_id=FB769377-8118-4895-B500-9B47D599C1B4&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						BFI Film Academy
+					</a>
+
+				</div>
+
+			</li>
+
+			<li class="menuTopItem  has-sub-menu clearfix dropdown" id="menuTopItem3">
+
+				<a tabindex="16" href="javascript:void(0);" class="menu_item empty-link-dropdown-toggle" title="Courses &amp; education" data-toggle="dropdown"  >
+					<span class="menu-label">Courses &amp; education</span>
+					<span class="fas fa-chevron-down"></span>
+                    <span class="fas fa-chevron-up"></span>
+				</a>
+
+				<div class="menuSub dropdown-menu">
+
+					<a class="menuSubItem dropdown-item btn" tabindex="17" href="javascript:void(0);" title="Adult courses" onclick="submitNewForm(&quot;article/coursesadults?menu_id=A02AFFFD-6500-4CA5-87AC-410AB643B6EF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Adult courses
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="18" href="javascript:void(0);" title="Education events" onclick="submitNewForm(&quot;article/education-events?menu_id=A02AFFFD-6500-4CA5-87AC-410AB643B6EF&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Education events
+					</a>
+
+				</div>
+
+			</li>
+
+			<li class="menuTopItem  has-sub-menu clearfix dropdown" id="menuTopItem4">
+
+				<a tabindex="19" href="javascript:void(0);" class="menu_item empty-link-dropdown-toggle" title="Your visit" data-toggle="dropdown"  >
+					<span class="menu-label">Your visit</span>
+					<span class="fas fa-chevron-down"></span>
+                    <span class="fas fa-chevron-up"></span>
+				</a>
+
+				<div class="menuSub dropdown-menu">
+
+					<a class="menuSubItem dropdown-item btn" tabindex="20" href="javascript:void(0);" title="Reopening information" onclick="submitNewForm(&quot;article/reopeninginformation?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Reopening information
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="21" href="javascript:void(0);" title="Getting here" onclick="submitNewForm(&quot;article/gettinghere?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Getting here
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="22" href="javascript:void(0);" title="Accessibility" onclick="submitNewForm(&quot;article/accessibility?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Accessibility
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="23" href="javascript:void(0);" title="Tickets" onclick="submitNewForm(&quot;article/ticketsbooking?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Tickets
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="24" href="javascript:void(0);" title="Food and drink" onclick="submitNewForm(&quot;article/food-drink?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Food and drink
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="25" href="javascript:void(0);" title="Visiting BFI Southbank" onclick="submitNewForm(&quot;article/watchingafilmwithus?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Visiting BFI Southbank
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="26" href="javascript:void(0);" title="BFI Reuben Library" onclick="submitNewForm(&quot;article/bfi-reuben-library?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						BFI Reuben Library
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="27" href="javascript:void(0);" title="Mediatheque" onclick="submitNewForm(&quot;article/bfi-mediatheque?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Mediatheque
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="28" href="javascript:void(0);" title="Exhibitions" onclick="submitNewForm(&quot;article/bfi-exhibitions?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Exhibitions
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="29" href="javascript:void(0);" title="BFI Shop" onclick="submitNewForm(&quot;article/bfi-shop?menu_id=0A1DF511-C097-4683-A73D-9D369447A957&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						BFI Shop
+					</a>
+
+				</div>
+
+			</li>
+
+			<li class="menuTopItem  has-sub-menu clearfix dropdown" id="menuTopItem5">
+
+				<a tabindex="30" href="javascript:void(0);" class="menu_item empty-link-dropdown-toggle" title="Support us &amp; join" data-toggle="dropdown"  >
+					<span class="menu-label">Support us &amp; join</span>
+					<span class="fas fa-chevron-down"></span>
+                    <span class="fas fa-chevron-up"></span>
+				</a>
+
+				<div class="menuSub dropdown-menu">
+
+					<a class="menuSubItem dropdown-item btn" tabindex="31" href="javascript:void(0);" title="Donate" onclick="submitNewForm(&quot;default.asp?BOparam::WScontent::loadArticle::permalink=donate&amp;menu_id=27B05BF5-8965-4BE6-90B9-2BEBB6F38DD6&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Donate
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="32" href="http://www.bfi.org.uk/join" title="Membership" target="_blank">
+						Membership
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="33" href="http://www.bfi.org.uk/about-bfi/support-us-join/bfi-patrons" title="Patrons" target="_blank">
+						Patrons
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="34" href="javascript:void(0);" title="Corporate support" onclick="submitNewForm(&quot;default.asp?BOparam::WScontent::loadArticle::permalink=corporate-support&amp;menu_id=27B05BF5-8965-4BE6-90B9-2BEBB6F38DD6&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Corporate support
+					</a>
+
+					<a class="menuSubItem dropdown-item btn" tabindex="35" href="javascript:void(0);" title="Sign up for emails" onclick="submitNewForm(&quot;login.asp?menu_id=27B05BF5-8965-4BE6-90B9-2BEBB6F38DD6&amp;sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)">
+						Sign up for emails
+					</a>
+
+				</div>
+
+			</li>
+
+			<li class="menuTopItem " id="menuTopItem6">
+
+				<a tabindex="36" href="maintainAccount.asp?menu_id=34DCCA97-0BAB-4B16-9ED4-204CFADFF0ED" class="menu_item menu-link" title="Login/My account" >
+					<span class="menu-label">Login/My account</span>
+				</a>
+
+			</li>
+
+			<li class="menuTopItem" id="menuTopItem-help">
+
+
+				<a tabindex="37" href="javascript:var jsPop=new showInformationPopup( 'Help', 'loadArticle.asp?BOparam::WScontent::loadArticle::article_id=F8103D8C-7EA0-4B4B-A37E-9DE398B93107' )" title="Help" class="menu_item menu-link">Help</a>
+			</li>
+
+		</ul>
+
+	</div>
+</div>
+<!-- customer/order information -->
+
+<div class="customer-options" id="customer-utilities">
+<!--ORDER DETAILS BOX-->
+
+    <div id="orderInfo">
+
+        <!-- This is the same information that displays in the grey navigation bar at the top, showing and formatted for the mobile view, when that bar is hidden. -->
+        <!-- The order of the html elements is different between the two display cases, so we have some duplication of some of the elements.  -->
+        <div id="customer-order-info">
+              <div class="hide-when-window-large">
+                <div class="form-group">
+
+
+                  <span class="greeting-message">Order for</span>
+                  <span class="greeting-name">Customer</span>
+
+               </div>
+            </div>
+            <div class="customer-greeting">
+
+            </div>
+
+            <div class="customer-order shopping-cart-details order-message ">
+
+                    <span id="orderInfoEmptyMessage">Your shopping basket is empty.</span>
+
+            </div>
+
+            <div class="customer-buttons">
+
+
+                <div class="cart-callout">
+
+
+                    <button title="Shopping basket" onclick="submitNewForm(&quot;shoppingCart.asp?sToken=1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;)" id="orderInfoCartLink" tabindex="38" class="shopping-cart-link btn btn-secondary">
+                    Shopping basket
+                    </button>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- This is the grey navigation bar at the top. Does not show when in mobile view. -->
+    <div id="orderInfoSecondBar" class="hide-when-window-small">
+        <div class="form-group">
+          <span class="greeting-message">Order for</span>
+          <span class="greeting-name">Customer</span>
+
+       </div>
+    </div>
+
+
+   <div class="menuContainer utility-nav">
+        <ul id="utility-menu" class="nav">
+
+        </ul>
+    </div>
+</div>
+
+<!-- CONTENT START -->
+<div id="content">
+    <div class="container">
+
+
+
+<div class="bodyDetails" id="default" >
+
+
+        <div id="searchBox" class="search-box">
+		    <form id="searchItems" action="default.asp" method="post" class="form-inline">
+		        <input type="hidden" name="sToken" value="1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=" class="form-inline">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::venue_filter" value="">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::city_filter" value="">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::month_filter" value="">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::object_type_filter" value="">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::category_filter" value="">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::search_from" value="">
+		        <input type="hidden" name="BOset::WScontent::SearchCriteria::search_to" value="">
+		        <input type="hidden" name="doWork::WScontent::search" value="1">
+
+		        <input type="hidden" name="BOparam::WScontent::search::article_search_id" value="25E7EA2E-291F-44F9-8EBC-E560154FDAEB">
+
+                <ul class="list-unstyled">
+                    <li class="item-search-keyword">
+                        <label>
+		                <span class="searchBoxLabel field-label">Search films and events</span>
+		                <input type="text" name="BOset::WScontent::SearchCriteria::search_criteria" class=" form-control" value="" title="Search Criteria" id="BOset::WScontent::SearchCriteria::search_criteria" tabindex="39" title="Search films and events"  class="form-control" >
+                        </label>
+                    </li>
+	                <li class="item-search-start-date">
+                        <label>
+                             <span class="searchBoxLabel field-label">Search dates</span>
+		        <div class="input-group"><input type="text" name="BOset::WScontent::SearchCriteria::search_from" class=" form-control" value="" title="Search From" id="BOset::WScontent::SearchCriteria::search_from::0" tabindex="40" title="Search dates" class="form-control" ><div class="input-group-append"><button type="button" class="btn-unstyled calIcon" title="Show date picker"  onClick="tsOpenCalendar( event, &quot;BOset::WScontent::SearchCriteria::search_from::0&quot;, &quot;0&quot;, &quot;true&quot;, &quot;sToken&quot;, &quot;1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;);" id="cal::BOset::WScontent::SearchCriteria::search_from::0"></button>
+</div></div>
+                        </label>
+                    </li>
+                    <li class="item-search-end-date">
+                        <label>
+                            <span class="searchBoxLabel field-label">to</span>
+		        <div class="input-group"><input type="text" name="BOset::WScontent::SearchCriteria::search_to" class=" form-control" value="" title="Search To" id="BOset::WScontent::SearchCriteria::search_to::0" tabindex="41" title="to" class="form-control" ><div class="input-group-append"><button type="button" class="btn-unstyled calIcon" title="Show date picker"  onClick="tsOpenCalendar( event, &quot;BOset::WScontent::SearchCriteria::search_to::0&quot;, &quot;0&quot;, &quot;true&quot;, &quot;sToken&quot;, &quot;1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=&quot;);" id="cal::BOset::WScontent::SearchCriteria::search_to::0"></button>
+</div></div>
+                        </label>
+                    </li>
+                    <li class="item-search-submit">
+                        <input type="submit" class="btn btn-secondary" tabindex="42" value="Go" name="Go" onclick="doGAClicks('Search')">
+                    </li>
+                </ul>
+
+		    </form>
+        </div>
+
+
+
+    <div class="articles  has-primary-features has-secondary-features has-tertiary-features">
+
+    <!-- top scrolling features included -->
+
+<div class="article-container primary-feature-wrapper">
+
+
+
+        <div id="feature-box" class="static-inner">
+                        <div class='item item-0 static'><div class="bfi-breadcrumb" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<a href="http://www.bfi.org.uk" shape="rect">Home</a> / <a href="http://www.bfi.org.uk/whats-on" shape="rect">What’s on</a> / <a href="https://whatson.bfi.org.uk/Online" shape="rect">BFI Southbank</a>
+</div>
+<div class="ads-leaderboard-desktop" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<!-- /21537322/BFI_WHATSON_ROS_Leaderboard -->
+	<div id="div-gpt-ad-1464088872525-1">
+		<p style="margin:0">
+			<br clear="none"/>
+			Advertisement</p>
+	</div>
+</div>
+<div class="ads-leaderboard-mobile" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<!-- /21537322/BFI_WHATSON_ROS_Leaderboard -->
+	<div id="div-gpt-ad-1464088872525-2">
+		Advertisement</div>
+</div>
+</div>
+                </div>
+
+
+
+
+	</div>
+
+
+    <div class="article-body-container">
+
+        <div class="article-container main-article-body">
+        <div id="film-article" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+<h4><a href="article/cinematicescapes" shape="rect">Cinematic Escapes</a>
+</h4>
+
+<h1>Akira</h1>
+
+<p class="intro">This cult classic, based on a popular manga, will blow your mind.</p>
+<!-- Audience View search widget --><div name="avWidget" id="avWidget_A75F9B94-4D72-4551-9525-080853567746_IDK44A2L1OUDLPBJ1YWWZOCB2CRPCPYWM24CRIRH0U4ZUVK0CNETG" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="">
+<script type="text/javascript">
+  registerWidget( "SearchWebWidget2", "avWidget_A75F9B94-4D72-4551-9525-080853567746_IDK44A2L1OUDLPBJ1YWWZOCB2CRPCPYWM24CRIRH0U4ZUVK0CNETG", {
+  "SearchWebWidget2": "",
+
+  "css_id": "",
+
+  "css_style": "",
+
+  "css_class": "",
+
+  "showNoResults": "",
+
+  "title": "",
+
+  "showLegend": "",
+
+  "showPrice": "",
+   "1": "1"});
+</script></div> <!-- end Audience View search widget -->
+
+<p><img alt="Image from Akira" src="/ArticleMedia/Images/WhatsOn%20images/202012/akira-02.jpg"/>
+</p>
+
+<p class="credits">Japan 1988<br clear="none"/>
+Dir Katsuhiro Otomo<br clear="none"/>
+With the voices of Mitsuo Iwata, Nozomu Sasaki, Mami Koyama<br clear="none"/>
+125min<br clear="none"/>
+Digital<br clear="none"/>
+English subtitles<br clear="none"/>
+Certificate 15</p>
+
+<p class="description">Katsuhiro Otomo’s seminal anime – a striking, hyperkinetic adaptation of his own manga – almost single-handedly introduced the genre to audiences outside of Japan. It’s 2019, and in a dazzling Neo-Tokyo, cyber-punk bikers cruise the Blade Runner-esque streets and do battle with military scientists and a telekinetic child. Impeccably detailed with fluid, jaw-dropping action, Akira remains a stunning cinematic achievement.</p>
+</div>
+
+        </div>
+
+        <div class="article-container secondary-linked-features">
+
+<div id="promoCodeBox" class="promotional-code-input">
+<form method="POST" action="/Online/default.asp">
+    <input type="hidden" name="sToken" value="1,243c928d,5fbc2520,F083C9F5-11A9-4162-AC15-D4B9C3578F06,at302xudIRxQ2cuHR9UF2FSTgxI=">
+
+    <input type="hidden" name="BOparam::WScontent::loadArticle::article_id" value="A75F9B94-4D72-4551-9525-080853567746">
+
+        <input type="hidden" name="BOparam::WScontent::loadArticle::context_id" value="">
+
+
+                <h4>
+                  <span class="fas fa-tag promotag"></span> Promotional Code</h4>
+        <ul class="list-unstyled">
+
+                <li class="promotional-code-message">
+                    If you have a BFI promotion, please enter your code here:
+                </li>
+
+            <li>
+                <div class="input-group">
+                  <input id="promoCodeBoxInput" type="text" tabindex="43"   class="form-control" name="BOparam::WScontent::loadArticle::promocode_access_code" title="If you have a BFI promotion, please enter your code here:" >
+                  <span class="input-group-append">
+                    <input type="submit" class="btn btn-secondary"  tabindex="44" name="doWork::WScontent::loadArticle" value="Go" onclick="doGAClicks('Apply')" >
+                  </span>
+                </div>
+            </li>
+        </ul>
+</form>
+    </div>
+
+        </div>
+
+    <div class="article-container tertiary-linked-features">
+
+    <div class="tertiary-linked-features-div" id="tertiary-linked-features-0">
+    <div class="side-box" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+<div class="side-box-text"><!--<h2>BFI Southbank has now reopened</h2>
+
+<p><a href="article/bfi-southbank-update-faq">Read more about the reopening</a></p>-->
+<h2>Calendar</h2>
+
+<p><div name="avWidget" id="avWidget_53F9E45D-B138-4945-A06F-1235DE741344_IDHNXDWG3MY50PIS42RCSC4M3BREHO53ZDODIJOMU2TJ20151WJZM" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="">
+<script type="text/javascript">
+  registerWidget( "CalendarWidget", "avWidget_53F9E45D-B138-4945-A06F-1235DE741344_IDHNXDWG3MY50PIS42RCSC4M3BREHO53ZDODIJOMU2TJ20151WJZM", {
+  "CalendarWidget": "",
+
+  "css_id": "",
+
+  "css_style": "",
+
+  "css_class": "",
+
+  "displayMonth": "",
+
+  "seriesName": "",
+
+  "title": "",
+   "1": "1"});
+</script></div>
+</p>
+<!--<p>
+			<span id="cke_bm_76S" style="display: none;">&nbsp;</span><b>On Friday 15 December there will be no box office counter service. Phone lines will remain open as normal from 11.30am-8.30pm and online booking is unaffected. The BFI complex will re-open at 5.30pm and access to evening performances remain unaffected.</b><span id="cke_bm_76E" style="display: none;">&nbsp;</span></p>--><!--<p>
+			Quick links</p>-->
+
+<ul>
+	<li><a href="article/filmsindex" shape="rect">All films A–Z</a>
+</li>
+	<li><a href="article/programme-changes" shape="rect">Programme changes</a>
+</li>
+	<li><a href="http://www.bfi.org.uk/imax" shape="rect">BFI IMAX</a>
+</li>
+</ul>
+
+<ul>
+	<li><a href="article/accessiblescreenings" shape="rect">Accessible screenings</a>
+</li>
+	<li><a href="article/35mm70mmscreenings" shape="rect">35mm and 70mm screenings</a>
+</li>
+	<!--<li><a href="article/silentfilmscreenings">Silent film screenings</a></li>-->
+</ul>
+<!--<p>
+			<strong>We’re experiencing intermittent difficulties with our phone lines and are working to resolve the issue as soon as possible. Please keep trying. You can book online or in person or email <a href="mailto:box.office@bfi.org.uk">box.office@bfi.org.uk</a> and we’ll do our best to resolve your query as quickly as possible.</strong></p>--><!--<p>
+			<strong>Our two secondary entrances are now closed. Access to BFI Southbank will be through the Riverfront and Theatre Avenue entrances.</strong></p>--></div>
+</div>
+
+    </div>
+
+    <div class="tertiary-linked-features-div" id="tertiary-linked-features-1">
+    <div class="ads-tertiary" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<!-- /21537322/BFI_WHATSON_ROS_MPU1 -->
+	<div id="div-gpt-ad-1464088872525-3">
+		Advertisement</div>
+</div>
+
+    </div>
+
+    <div class="tertiary-linked-features-div" id="tertiary-linked-features-2">
+    <div class="side-box" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<!--<a href="http://www.bfi.org.uk/about-bfi/become-bfi-member"><img alt="" src="/ArticleMedia/Images/Logo/bfi-members-flash-sale-2019.jpg" /></a>--><a href="http://www.bfi.org.uk/about-bfi/become-bfi-member" shape="rect"><img alt="BFI Membership" src="/ArticleMedia/Images/membership/bfi-membership-side-promo-suspiria-red-carpet-830x467.jpg"/>
+</a>
+</div>
+<div class="side-box-text" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<h2>
+		BFI Membership</h2>
+	<p>
+		Become a BFI Member from only £37.</p>
+	<p>
+		<a href="http://www.bfi.org.uk/join" shape="rect">bfi.org.uk/join</a>
+</p>
+</div>
+<br clear="none" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/"/>
+
+    </div>
+
+    <div class="tertiary-linked-features-div" id="tertiary-linked-features-3">
+    <div class="side-box" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/"><a href="article/25-and-under" shape="rect"><img alt="25 and under" src="/ArticleMedia/Images/BFI-Branding/bfi-southbank-25-and-under-promo-our-ladies-830x467.jpg"/>
+</a>
+</div>
+
+<div class="side-box-text" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+<h2>25 &amp; under</h2>
+
+<p>If you're aged 16 to 25, you can get £3 cinema tickets at BFI Southbank to any film, any time.</p>
+
+<p><a href="article/25-and-under" shape="rect">Sign up now!</a>
+</p>
+</div>
+
+    </div>
+
+    <div class="tertiary-linked-features-div" id="tertiary-linked-features-4">
+    <div class="side-box" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/"><a href="https://core-cms.bfi.org.uk/media/4651/download" shape="rect"><img alt="BFI Southbank Guide April 2020" src="/ArticleMedia/Images/WhatsOn%20images/202012/bfi-southbank-guide-2020-dec-830x467.jpg"/>
+</a>
+</div>
+
+<div class="side-box-text" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+<h2>BFI Southbank Guide</h2>
+
+<p>To view in large format, please download or save to your device. Large print BFI Southbank Guides are also available at the Box Office - just ask a member of staff.</p>
+
+<p><a href="https://core-cms.bfi.org.uk/media/4651/download" shape="rect">December 2020 Guide</a>
+<br clear="none"/>
+<a href="https://core-cms.bfi.org.uk/media/4650/download" shape="rect">December 2020 Guide calendar</a>
+</p>
+</div>
+
+    </div>
+
+    </div>
+
+    </div>
+    </div>
+</div>
+
+        </div><!--\\ .bodyDetails -->
+    </div><!--\\ .container -->
+</div><!--\\ #content -->
+  <div id="footer">
+    <div class="footer-content container">
+<div id="footer-wrapper" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/">
+	<div id="zone-footer">
+		<div id="region-footer-first">
+			<div class="footer-menu-strip">
+				<span style="line-height: 1.4285;">© 2020 British Film Institute. All right reserved. Registered charity 287780.</span>
+<br clear="none"/>
+				<br clear="none"/>
+				<a href="http://www.bfi.org.uk/terms-use" shape="rect">Terms of use</a> | <a href="http://www.bfi.org.uk/tickets-other-purchases-bfi-southbank" shape="rect">BFI Southbank purchases</a> | <a href="http://www.bfi.org.uk/bfi-online-community-guidelines" shape="rect">Online community guidelines</a> | <a href="http://www.bfi.org.uk/privacy-policy" shape="rect">Privacy policy</a>
+</div>
+		</div>
+	</div>
+</div>
+<br clear="none" xmlns="http://www.w3.org/1999/xhtml" xmlns:av="http://www.audienceview.com/xml/email/"/>
+
+  </div>
+</div><!--\\ .content-wrapper -->
+<div id="fade" class="black_overlay"></div>
+
+
+
+<!-- inclusion of bootstrap.js -->
+<!-- http://twitter.github.com for documentation on bootstrap -->
+<script src="/lib/bootstrap/js/bootstrap.bundle.min.js?_=7.39.2" type="text/javascript"></script>
+<!-- end of bootstrap.js -->
+
+<!-- Font Awesome for icons -->
+<script src="/lib/fontawesome-free/js/all.min.js"></script>
+
+<!-- contains bootstrap specific function declarations -->
+<script src="bootstrap-functions.js?_=7.39.2" type="text/javascript"></script>
+<!-- Logout Handler -->
+<script>
+$(document).ready(function() {
+    var body = $("body");
+
+    body
+    .on("logged-out", function(e) {
+        var targetPage = "default.asp?BOparam::WScontent::loadArticle::permalink=akira2020&BOparam::WScontent::loadArticle::context_id=";
+        window.location.assign("login.asp?targetPage="+encodeURIComponent(targetPage));
+    });
+
+    // on pressing Enter key on an anchor trigger click
+    $("a").keypress(function(e){
+      if(e.keyCode == 13){
+        $(this).trigger("click");
+      }
+    });
+
+    // When page is loaded make sure the Page Load Spinner is not shown
+    if (spinnerDelayTimeout) {
+        cancelSpinnerTimeouts();
+    }
+
+    body.removeClass("show-spinner");
+
+    // Show spinner when form submitted or link clicked
+    var onSubmit;
+    $("form").each(
+      //Trigger the spinner after any other onsubmit functions for the form
+      function(index)
+      {
+        onSubmit = $(this).attr("onsubmit");
+        if ( onSubmit && onSubmit != "" ) {
+          onSubmit = onSubmit.trim();
+          // if the submit is "returning", we need to && showSpinner otherwise it won't be called
+          var returnIndex = onSubmit.indexOf("return");
+          if ( returnIndex != -1 ) {
+            // remove any trailing semi-colons
+            if ( onSubmit.indexOf(";") == onSubmit.length-1 )
+              onSubmit = onSubmit.substr(0, onSubmit.length-1);
+
+            // wrap the return in () in case it contains ||
+            // (add 6 to strip the original "return")
+            onSubmit = onSubmit.substr(0, returnIndex) + "return (" + onSubmit.substr(returnIndex + 6) + ")";
+
+            // and then append the call to the spinner
+            onSubmit += " && showSpinner()";
+          }
+          else {
+            onSubmit += ";showSpinner()";
+          }
+        }
+        else {
+          onSubmit = "showSpinner()";
+        }
+        $(this).attr("onsubmit", onSubmit);
+      }
+    );
+
+    // attach an event listener to each <a> tag to show the spinner if needed
+    // only do this if the <a> tag has an "href" attribute, so we don't show
+    // the spinner if staying on the page.  If navigating away from the page
+    // via an onClick, we are assuming the onClick handles the display of the spinner
+    // (or submits the form with jQuery, so the spinner attached to the form.submit
+    // is fired)
+    $("a").click(function(e) {
+      var href = $(this).attr("href") || "";
+      var target = $(this).attr("target") || "";
+
+      if ((target == "" || /^(_self|_top|_parent)/.test(href)) && href != "" && !/^(#|javascript:|mailto:|file:)/.test(href))
+        showSpinner();
+    });
+});
+</script>
+<!-- CONTENT END -->
+
+</body>
+</html>
+<script>
+  $(function(){
+
+    // "Continue Shopping" and "Look for other events" buttons to redirect back to Brochure page user came from
+    $("a[name=continue-shopping], a[name=continueShopping], input[name=startOver], a[name=error-StartOver], input[name=error-StartOver]").on("click", function(e) {
+      var returnTo = getCookie('returnTo');
+      if(returnTo){
+        e.preventDefault();
+        deleteCookie('returnTo');
+        window.location.href = returnTo;
+      }
+    })
+
+    // "New Order" button to redirect to EIF home page
+    $("input.new-order,input[name=cancel-order]").on("click", function(e){
+         var returnTo = getCookie('returnTo');
+          if(returnTo){
+            e.preventDefault();
+            $("#popupDiv_okayButton").on("click", function(e){
+               $.ajax({
+                 url: 'clearOrder.asp',
+                 complete: function() {
+                    deleteCookie('returnTo');
+                    window.location.href = returnTo;
+                 }
+                });
+
+             });
+          }
+    })
+  });
+
+//adding the returnTo to the cookie
+  var returnTo = "";
+
+  if (returnTo) {
+      var reffA = document.createElement('a');
+      reffA.href = returnTo;
+
+    if(reffA.host != window.location.host) {
+      setCookie("returnTo", returnTo, 1);
+    }
+  }
+
+  /*
+    *****************************************************
+    Cookie methods
+    *****************************************************
+  */
+  function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+          }
+      }
+      return "";
+  }
+
+  function deleteCookie(cname) {
+      setCookie(cname, "", -1);
+  }
+</script>

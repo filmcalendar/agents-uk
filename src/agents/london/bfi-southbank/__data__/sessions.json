@@ -1,0 +1,50 @@
+[
+  {
+    "dateTime": "2020-12-03T20:35:00.000Z",
+    "bookingLink": {
+      "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
+      "method": "POST",
+      "formUrlEncoded": {
+        "BOset::WSmap::seatmap::performance_ids": "B7F26229-1292-4042-B748-30C41E42D16A",
+        "createBO::WSmap": "1"
+      }
+    },
+    "attributes": ["cinematic-escapes", "subtitles"]
+  },
+  {
+    "dateTime": "2020-12-12T17:10:00.000Z",
+    "bookingLink": {
+      "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
+      "method": "POST",
+      "formUrlEncoded": {
+        "BOset::WSmap::seatmap::performance_ids": "A0B3444F-FB87-4F23-BB9B-0744F6ECFF04",
+        "createBO::WSmap": "1"
+      }
+    },
+    "attributes": ["cinematic-escapes", "subtitles"]
+  },
+  {
+    "dateTime": "2020-12-27T18:10:00.000Z",
+    "bookingLink": {
+      "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
+      "method": "POST",
+      "formUrlEncoded": {
+        "BOset::WSmap::seatmap::performance_ids": "127802EF-E87A-455C-8EC8-9E20E58E59C0",
+        "createBO::WSmap": "1"
+      }
+    },
+    "attributes": ["cinematic-escapes", "subtitles"]
+  },
+  {
+    "dateTime": "2020-12-30T20:35:00.000Z",
+    "bookingLink": {
+      "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
+      "method": "POST",
+      "formUrlEncoded": {
+        "BOset::WSmap::seatmap::performance_ids": "8C61C51D-DB1A-4FBE-AD9A-F141483F924B",
+        "createBO::WSmap": "1"
+      }
+    },
+    "attributes": ["cinematic-escapes", "subtitles"]
+  }
+]

@@ -1,0 +1,68 @@
+import nock from 'nock';
+import * as agent from '.';
+
+describe('bfi-southbank', () => {
+  const dataDir = `${__dirname}/__data__`;
+  nock('https://whatson.bfi.org.uk')
+    .persist()
+    .get('/Online/article/filmsindex')
+    .replyWithFile(200, `${dataDir}/programme.html`)
+    .get('/Online/article/akira2020')
+    .replyWithFile(200, `${dataDir}/film.html`);
+
+  afterAll(() => {
+    nock.cleanAll();
+  });
+
+  it('programme', async () => {
+    expect.assertions(2);
+    const [venue] = await agent.venues();
+    const result = await agent.programme(venue);
+
+    const expected = [
+      'https://whatson.bfi.org.uk/Online/article/35shotsofrum2020',
+      'https://whatson.bfi.org.uk/Online/article/akira2020',
+      'https://whatson.bfi.org.uk/Online/article/allaboutmymother2020',
+    ];
+    expect(result.programme).toHaveLength(58);
+    expect(result.programme).toMatchObject(expect.arrayContaining(expected));
+  });
+
+  it('film', async () => {
+    expect.assertions(1);
+    const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
+    const [venue] = await agent.venues();
+    const result = await agent.page(url, venue);
+
+    const expected = {
+      title: 'Akira',
+      year: 1988,
+      director: ['Katsuhiro Otomo'],
+      cast: ['Mitsuo Iwata', 'Nozomu Sasaki', 'Mami Koyama'],
+    };
+    expect(result?.films[0]).toStrictEqual(expected);
+  });
+
+  it('sessions', async () => {
+    expect.assertions(2);
+    const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
+    const [venue] = await agent.venues();
+    const result = await agent.page(url, venue);
+
+    const expected = {
+      dateTime: '2020-12-03T20:35:00.000Z',
+      attributes: ['cinematic-escapes', 'subtitles'],
+      bookingLink: {
+        method: 'POST',
+        url: 'https://whatson.bfi.org.uk/Online/mapSelect.asp',
+        formUrlEncoded: {
+          'BOset::WSmap::seatmap::performance_ids':
+            'B7F26229-1292-4042-B748-30C41E42D16A',
+          'createBO::WSmap': '1',
+        },
+      },
+    };
+    expect(result?.sessions).toHaveLength(4);
+    expect(result?.sessions[0]).toStrictEqual(expected);
+  });
+});
