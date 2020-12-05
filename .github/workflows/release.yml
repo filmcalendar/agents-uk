@@ -1,0 +1,62 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+  #     - run: yarn install --frozen-lockfile
+  #     - run: yarn validate
+
+  # test-coverage:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+  #     - run: yarn install --frozen-lockfile
+  #     - run: yarn ci:test:coverage
+  #     - uses: codecov/codecov-action@v1
+
+  # release:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Semantic Release
+  #       uses: cycjimmy/semantic-release-action@v2
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  publish:
+    # needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - id: dotenv
+        uses: falti/dotenv-action@v0.2.5
+      - name: Publish docker image
+        uses: filmcalendar/build-country-agents-action@main
+        with:
+          fc-country: ${{ steps.dotenv.outputs.FC_COUNTRY }}
+          docker-registry-password: ${{ secrets.GH_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          package-name: fc-agents-${{ steps.dotenv.outputs.FC_COUNTRY }}
