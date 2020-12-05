@@ -1,4 +1,9 @@
 /.vscode
 /.bin
 /coverage
+/data-*
+/docker
 /node_modules
+.dockerignore
+.env.secrets
+yarn.lock
