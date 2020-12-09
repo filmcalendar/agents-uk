@@ -1,0 +1,13 @@
+[
+  { "Cinema_Id": 7733, "CinemaName": "Aldgate" },
+  { "Cinema_Id": 237, "CinemaName": "Bloomsbury" },
+  { "Cinema_Id": 240, "CinemaName": "Canterbury" },
+  { "Cinema_Id": 7908, "CinemaName": "Colchester" },
+  { "Cinema_Id": 242, "CinemaName": "Knutsford" },
+  { "Cinema_Id": 243, "CinemaName": "Mayfair" },
+  { "Cinema_Id": 7736, "CinemaName": "Oxford" },
+  { "Cinema_Id": 244, "CinemaName": "Richmond" },
+  { "Cinema_Id": 247, "CinemaName": "Soho" },
+  { "Cinema_Id": 238, "CinemaName": "Victoria" },
+  { "Cinema_Id": 248, "CinemaName": "Wimbledon" }
+]

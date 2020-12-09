@@ -1,3 +1,6 @@
+// CHAINS
+export * as Curzon from './cinemas/chains/curzon';
+
 // LONDON
 export * as BFISouthbank from './london/bfi-southbank';
 export * as Genesis from './london/genesis';
