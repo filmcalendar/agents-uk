@@ -95,11 +95,11 @@ export const getSession: GetSessionFn = (event, url, eventAttributes) => {
     'yyyy-MM-dd h:mma',
     Date.now()
   ).toISOString();
-  const bookingLink = URL.resolve(url, Url);
+  const link = URL.resolve(url, Url);
 
   return {
     dateTime,
-    bookingLink,
+    link,
     attributes: [...eventAttributes, ...getSessionAttributes(event)].filter(
       Boolean
     ),

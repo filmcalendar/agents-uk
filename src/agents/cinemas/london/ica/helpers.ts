@@ -99,7 +99,7 @@ const getSession: GetSessionFn = (el, url, fieldName, eventAttributes) => {
     'd MMM yyyy HH:mm',
     Date.now()
   ).toISOString();
-  const bookingLink: FC.Agent.BookingRequest = {
+  const link: FC.Agent.BookingRequest = {
     url,
     method: 'POST',
     formUrlEncoded: {
@@ -107,7 +107,7 @@ const getSession: GetSessionFn = (el, url, fieldName, eventAttributes) => {
     },
   };
 
-  return { dateTime, bookingLink, attributes: [...eventAttributes] };
+  return { dateTime, link, attributes: [...eventAttributes] };
 };
 
 type GetSessionsFn = (

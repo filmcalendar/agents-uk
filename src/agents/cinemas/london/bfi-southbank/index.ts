@@ -18,15 +18,16 @@ export const register: FC.Agent.RegisterFn = () => ({
   agent: ref,
   country: 'uk',
   language: 'en-GB',
-  type: 'cinemas',
+  type: 'films',
 });
 
-export const venues: FC.Agent.VenuesFn = async () => [
+export const providers: FC.Agent.ProvidersFn = async () => [
   {
-    name: 'BFI Southbank',
-    url: 'https://whatson.bfi.org.uk/Online/',
     address: 'Belvedere Road, South Bank, London SE1 8XT',
+    name: 'BFI Southbank',
     phone: '02079283232',
+    type: 'cinema',
+    url: 'https://whatson.bfi.org.uk/Online/',
   },
 ];
 
@@ -55,7 +56,7 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
   return { programme: [...new Set(prg)] };
 };
 
-export const page: FC.Agent.PageFn = async (url, venue) => {
+export const page: FC.Agent.PageFn = async (url, provider) => {
   const $page = await fletch.html(url, {
     validateStatus: (status) =>
       status <= 400 || status === 503 || status === 500,
@@ -71,7 +72,7 @@ export const page: FC.Agent.PageFn = async (url, venue) => {
 
   return {
     url,
-    venue,
+    provider,
     films: [
       {
         title: getTitle($page),

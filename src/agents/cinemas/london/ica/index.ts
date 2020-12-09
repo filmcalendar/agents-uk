@@ -19,16 +19,17 @@ export const register: FC.Agent.RegisterFn = () => ({
   agent: ref,
   country: 'uk',
   language: 'en-GB',
-  type: 'cinemas',
+  type: 'films',
 });
 
-export const venues: FC.Agent.VenuesFn = async () => [
+export const providers: FC.Agent.ProvidersFn = async () => [
   {
-    name: 'Institute of Contemporary Arts',
-    url: 'https://www.ica.art',
     address: 'The Mall, London SW1Y 5AH',
-    phone: '02079303647',
     email: 'info@ica.art',
+    name: 'Institute of Contemporary Arts',
+    phone: '02079303647',
+    type: 'cinema',
+    url: 'https://www.ica.art',
   },
 ];
 
@@ -51,12 +52,12 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
   return { programme: [...new Set(prg)] };
 };
 
-export const page: FC.Agent.PageFn = async (url, venue) => {
+export const page: FC.Agent.PageFn = async (url, provider) => {
   const $page = await fletch.html(url);
 
   return {
     url,
-    venue,
+    provider,
     films: [
       {
         title: getTitle($page),

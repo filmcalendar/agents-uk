@@ -17,15 +17,16 @@ export const register: FC.Agent.RegisterFn = () => ({
   agent: ref,
   country: 'uk',
   language: 'en-GB',
-  type: 'cinemas',
+  type: 'films',
 });
 
-export const venues: FC.Agent.VenuesFn = async () => [
+export const providers: FC.Agent.ProvidersFn = async () => [
   {
-    name: 'Genesis Cinema',
-    url: 'https://genesiscinema.co.uk/GenesisCinema.dll/Home',
     address: '93-95 Mile End Rd, London E1 4UJ',
+    name: 'Genesis Cinema',
     phone: '02077802000',
+    type: 'cinema',
+    url: 'https://genesiscinema.co.uk/GenesisCinema.dll/Home',
   },
 ];
 
@@ -46,12 +47,12 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
   return { programme: [...new Set(prg)] };
 };
 
-export const page: FC.Agent.PageFn = async (url, venue) => {
+export const page: FC.Agent.PageFn = async (url, provider) => {
   const $page = await fletch.html(url);
 
   return {
     url,
-    venue,
+    provider,
     films: [
       {
         title: getTitle($page),

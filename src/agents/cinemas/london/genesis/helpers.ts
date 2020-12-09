@@ -132,11 +132,11 @@ const getSession: GetSessionFn = (el, day, url, eventAttributes) => {
     'EEE d MMM yyyy HH:mm',
     Date.now()
   ).toISOString();
-  const bookingLink = URL.resolve(url, $el.attr('href') || '');
+  const link = URL.resolve(url, $el.attr('href') || '');
 
   return {
     dateTime,
-    bookingLink,
+    link,
     attributes: [...getSessionAttributes($el), ...eventAttributes],
   };
 };

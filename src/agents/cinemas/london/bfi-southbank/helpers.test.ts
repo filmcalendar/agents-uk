@@ -1,6 +1,7 @@
 import $ from 'cheerio';
 import fs from 'fs';
 
+import type * as FC from '@filmcalendar/types';
 import mockArticleContext from './__data__/article-context.json';
 import mockEvents from './__data__/events.json';
 import mockSessions from './__data__/sessions.json';
@@ -52,6 +53,6 @@ describe('bfi southbank - helpers', () => {
     const $page = $.load(mockFilmHtml).root();
     const result = getSessions($page);
 
-    expect(result).toStrictEqual(mockSessions);
+    expect(result).toStrictEqual(mockSessions as FC.Agent.Session[]);
   });
 });

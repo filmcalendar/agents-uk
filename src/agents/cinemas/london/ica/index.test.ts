@@ -1,4 +1,6 @@
 import nock from 'nock';
+import type * as FC from '@filmcalendar/types';
+
 import * as agent from '.';
 
 describe('ica', () => {
@@ -18,8 +20,8 @@ describe('ica', () => {
 
   it('programme', async () => {
     expect.assertions(2);
-    const [venue] = await agent.venues();
-    const result = await agent.programme(venue);
+    const [provider] = await agent.providers();
+    const result = await agent.programme(provider);
 
     const expected = [
       'https://www.ica.art/films/for20',
@@ -33,8 +35,8 @@ describe('ica', () => {
   it('film', async () => {
     expect.assertions(1);
     const url = 'https://www.ica.art/films/a-storm-was-coming';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
     const expected = {
       title: 'A Storm Was Coming',
@@ -47,12 +49,12 @@ describe('ica', () => {
   it('sessions', async () => {
     expect.assertions(2);
     const url = 'https://www.ica.art/films/air-conditioner';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
-    const expected = {
+    const expected: FC.Agent.Session = {
       dateTime: '2020-12-13T18:00:00.000Z',
-      bookingLink: {
+      link: {
         url:
           'https://buy.ica.art/ica/website/EventDetails.aspx?Stylesheet=main-spektrix.css&EventId=96401&resize=true',
         method: 'POST',
@@ -61,6 +63,7 @@ describe('ica', () => {
       attributes: [],
     };
     expect(result?.sessions).toHaveLength(1);
-    expect(result?.sessions[0]).toStrictEqual(expected);
+    const [firstSession] = result?.sessions || [];
+    expect(firstSession).toStrictEqual(expected);
   });
 });

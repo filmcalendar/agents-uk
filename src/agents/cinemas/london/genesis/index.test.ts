@@ -16,8 +16,8 @@ describe('genesis', () => {
 
   it('programme', async () => {
     expect.assertions(2);
-    const [venue] = await agent.venues();
-    const result = await agent.programme(venue);
+    const [provider] = await agent.providers();
+    const result = await agent.programme(provider);
 
     const expected = [
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=22804686',
@@ -32,8 +32,8 @@ describe('genesis', () => {
     expect.assertions(1);
     const url =
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=14448909';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
     const expected = [
       {
@@ -58,17 +58,18 @@ describe('genesis', () => {
     expect.assertions(2);
     const url =
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=14448909';
-    const [venue] = await agent.venues();
-    const { _data } = await agent.programme(venue);
-    const result = await agent.page(url, venue, _data);
+    const [provider] = await agent.providers();
+    const { _data } = await agent.programme(provider);
+    const result = await agent.page(url, provider, _data);
 
     const expected = {
       dateTime: '2020-12-03T21:00:00.000Z',
-      bookingLink:
+      link:
         'https://genesiscinema.co.uk/GenesisCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_22710131.TcsSection_4496269',
       attributes: [],
     };
     expect(result?.sessions).toHaveLength(1);
-    expect(result?.sessions[0]).toStrictEqual(expected);
+    const [firstSession] = result?.sessions || [];
+    expect(firstSession).toStrictEqual(expected);
   });
 });

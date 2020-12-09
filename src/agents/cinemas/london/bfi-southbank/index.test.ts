@@ -1,4 +1,6 @@
 import nock from 'nock';
+import type * as FC from '@filmcalendar/types';
+
 import * as agent from '.';
 
 describe('bfi-southbank', () => {
@@ -16,8 +18,8 @@ describe('bfi-southbank', () => {
 
   it('programme', async () => {
     expect.assertions(2);
-    const [venue] = await agent.venues();
-    const result = await agent.programme(venue);
+    const [provider] = await agent.providers();
+    const result = await agent.programme(provider);
 
     const expected = [
       'https://whatson.bfi.org.uk/Online/article/35shotsofrum2020',
@@ -31,8 +33,8 @@ describe('bfi-southbank', () => {
   it('film', async () => {
     expect.assertions(1);
     const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
     const expected = {
       title: 'Akira',
@@ -46,13 +48,13 @@ describe('bfi-southbank', () => {
   it('sessions', async () => {
     expect.assertions(2);
     const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
     const expected = {
       dateTime: '2020-12-03T20:35:00.000Z',
       attributes: ['cinematic-escapes', 'subtitles'],
-      bookingLink: {
+      link: {
         method: 'POST',
         url: 'https://whatson.bfi.org.uk/Online/mapSelect.asp',
         formUrlEncoded: {
@@ -63,6 +65,7 @@ describe('bfi-southbank', () => {
       },
     };
     expect(result?.sessions).toHaveLength(4);
-    expect(result?.sessions[0]).toStrictEqual(expected);
+    const [firstSession] = result?.sessions || [];
+    expect(firstSession).toStrictEqual(expected as FC.Agent.Session);
   });
 });

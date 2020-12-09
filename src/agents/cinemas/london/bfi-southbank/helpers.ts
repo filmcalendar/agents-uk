@@ -139,7 +139,7 @@ export const getEvents: GetEventsFn = ($page) => {
 
 type GetSessionAttributesFn = (event: Event) => string[];
 const getSessionAttributes: GetSessionAttributesFn = (event) =>
-  event.keywords
+  (event.keywords || '')
     .split(',')
     .map((tag) => tag.trim())
     .filter((tag) => !/^releases$/.test(tag))
@@ -155,7 +155,7 @@ export const getSession: GetSessionFn = (event) => {
     'EEEE dd MMMM yyyy HH:mm',
     Date.now()
   ).toISOString();
-  const bookingLink: FC.Agent.BookingRequest = {
+  const link: FC.Agent.BookingRequest = {
     url: 'https://whatson.bfi.org.uk/Online/mapSelect.asp',
     method: 'POST',
     formUrlEncoded: {
@@ -166,7 +166,7 @@ export const getSession: GetSessionFn = (event) => {
 
   return {
     dateTime,
-    bookingLink,
+    link,
     attributes: [...getSessionAttributes(event)],
   };
 };

@@ -14,8 +14,8 @@ describe('prince-charles-cinema', () => {
 
   it('programme', async () => {
     expect.assertions(2);
-    const [venue] = await agent.venues();
-    const result = await agent.programme(venue);
+    const [provider] = await agent.providers();
+    const result = await agent.programme(provider);
 
     const expected = [
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=17526412',
@@ -30,9 +30,9 @@ describe('prince-charles-cinema', () => {
     expect.assertions(1);
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=17526412';
-    const [venue] = await agent.venues();
-    const { _data } = await agent.programme(venue);
-    const result = await agent.page(url, venue, _data);
+    const [provider] = await agent.providers();
+    const { _data } = await agent.programme(provider);
+    const result = await agent.page(url, provider, _data);
 
     const expected = [
       {
@@ -55,17 +55,18 @@ describe('prince-charles-cinema', () => {
     expect.assertions(2);
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=17526412';
-    const [venue] = await agent.venues();
-    const { _data } = await agent.programme(venue);
-    const result = await agent.page(url, venue, _data);
+    const [provider] = await agent.providers();
+    const { _data } = await agent.programme(provider);
+    const result = await agent.page(url, provider, _data);
 
     const expected = {
-      bookingLink:
+      link:
         'https://princecharlescinema.com/PrinceCharlesCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_17638266.TcsSection_17512153',
       dateTime: '2020-12-03T11:45:00.000Z',
       attributes: [],
     };
     expect(result?.sessions).toHaveLength(29);
-    expect(result?.sessions[0]).toStrictEqual(expected);
+    const [firstSession] = result?.sessions || [];
+    expect(firstSession).toStrictEqual(expected);
   });
 });

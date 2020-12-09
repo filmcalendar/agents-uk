@@ -18,16 +18,17 @@ export const register: FC.Agent.RegisterFn = () => ({
   agent: ref,
   country: 'uk',
   language: 'en-GB',
-  type: 'cinemas',
+  type: 'films',
 });
 
-export const venues: FC.Agent.VenuesFn = async () => [
+export const providers: FC.Agent.ProvidersFn = async () => [
   {
-    name: 'The Prince Charles Cinema',
-    url: 'https://princecharlescinema.com/PrinceCharlesCinema.dll/Home',
     address: '7 Leicester PL, London WC2H 7BY',
-    phone: '02074943654',
     email: 'boxofficemanager@princecharlescinema.com',
+    name: 'The Prince Charles Cinema',
+    phone: '02074943654',
+    type: 'cinema',
+    url: 'https://princecharlescinema.com/PrinceCharlesCinema.dll/Home',
   },
 ];
 
@@ -47,7 +48,7 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
   };
 };
 
-export const page: FC.Agent.PageFn = async (url, venue, tempData) => {
+export const page: FC.Agent.PageFn = async (url, provider, tempData) => {
   const { programmeData } = tempData as {
     programmeData: Map<number, PCC.Film>;
   };
@@ -57,7 +58,7 @@ export const page: FC.Agent.PageFn = async (url, venue, tempData) => {
 
   return {
     url,
-    venue,
+    provider,
     films: [
       {
         title: getTitle(film),

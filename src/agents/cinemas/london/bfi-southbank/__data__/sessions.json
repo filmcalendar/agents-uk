@@ -1,7 +1,7 @@
 [
   {
     "dateTime": "2020-12-03T20:35:00.000Z",
-    "bookingLink": {
+    "link": {
       "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
       "method": "POST",
       "formUrlEncoded": {
@@ -13,7 +13,7 @@
   },
   {
     "dateTime": "2020-12-12T17:10:00.000Z",
-    "bookingLink": {
+    "link": {
       "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
       "method": "POST",
       "formUrlEncoded": {
@@ -25,7 +25,7 @@
   },
   {
     "dateTime": "2020-12-27T18:10:00.000Z",
-    "bookingLink": {
+    "link": {
       "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
       "method": "POST",
       "formUrlEncoded": {
@@ -37,7 +37,7 @@
   },
   {
     "dateTime": "2020-12-30T20:35:00.000Z",
-    "bookingLink": {
+    "link": {
       "url": "https://whatson.bfi.org.uk/Online/mapSelect.asp",
       "method": "POST",
       "formUrlEncoded": {

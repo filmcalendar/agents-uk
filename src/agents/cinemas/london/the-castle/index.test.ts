@@ -17,8 +17,8 @@ describe('the-castle', () => {
 
   it('programme', async () => {
     expect.assertions(2);
-    const [venue] = await agent.venues();
-    const result = await agent.programme(venue);
+    const [provider] = await agent.providers();
+    const result = await agent.programme(provider);
 
     const expected = [
       'https://thecastlecinema.com/programme/3141361/coraline/',
@@ -32,8 +32,8 @@ describe('the-castle', () => {
   it('film', async () => {
     expect.assertions(1);
     const url = 'https://thecastlecinema.com/programme/3141361/coraline/';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
     const expected = {
       title: 'Coraline',
@@ -47,15 +47,16 @@ describe('the-castle', () => {
   it('sessions', async () => {
     expect.assertions(2);
     const url = 'https://thecastlecinema.com/programme/3141361/coraline/';
-    const [venue] = await agent.venues();
-    const result = await agent.page(url, venue);
+    const [provider] = await agent.providers();
+    const result = await agent.page(url, provider);
 
     const expected = {
-      bookingLink: 'https://thecastlecinema.com/bookings/3141362/',
+      link: 'https://thecastlecinema.com/bookings/3141362/',
       dateTime: '2020-12-05T11:30:00.000Z',
       attributes: [],
     };
     expect(result?.sessions).toHaveLength(3);
-    expect(result?.sessions[0]).toStrictEqual(expected);
+    const [firstSession] = result?.sessions || [];
+    expect(firstSession).toStrictEqual(expected);
   });
 });

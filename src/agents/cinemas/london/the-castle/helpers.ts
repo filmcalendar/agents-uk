@@ -67,7 +67,7 @@ export const getSessions: GetSessionsFn = ($page) =>
 
       return {
         dateTime: new Date(startDate).toISOString(),
-        bookingLink: url,
+        link: url,
         attributes: getEventAttributes($page),
       };
     })
