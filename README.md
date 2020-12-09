@@ -4,7 +4,7 @@
   <a href="https://codecov.io/gh/filmcalendar/agents-uk">
     <img src="https://codecov.io/gh/filmcalendar/agents-uk/branch/main/graph/badge.svg?token=4B95Z0Z74R"/>
   </a>
-  <img src="https://github.com/filmcalendar/agents-uk/workflows/Build/badge.svg">
+  <img src="https://github.com/filmcalendar/agents-uk/workflows/Release/badge.svg">
 </p>
 
 > United Kingdom agents
