@@ -1,7 +1,7 @@
 /.vscode
 /.bin
 /coverage
-/data-*
+/data
 /docker
 /node_modules
 .dockerignore

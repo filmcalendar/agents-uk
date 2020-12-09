@@ -14,7 +14,7 @@
 **Chains**
 
 - [ ] [Cineworld](https://www.cineworld.co.uk)
-- [ ] [Curzon](https://www.curzoncinemas.com)
+- [x] [Curzon](https://www.curzoncinemas.com)
 - [ ] [Electric](https://www.electriccinema.co.uk)
 - [ ] [Empire](https://www.empirecinemas.co.uk)
 - [ ] [Everyman](https://www.everymancinema.com)
@@ -128,6 +128,17 @@
 
 - [ ] [Bertha DocHouse](https://dochouse.org)
 - [x] [Prince Charles Cinema](https://princecharlescinema.com)
+
+## Live TV
+
+- [x] [Channel 4](https://www.channel4.com/)
+
+## Streaming
+
+- [x] [BBC iPlayer](https://www.bbc.co.uk/iplayer)
+- [ ] [All4](https://www.channel4.com/)
+- [ ] [Curzon Home Cinema](https://www.curzonhomecinema.com/)
+- [ ] [Mubi](https://mubi.com/)
 
 ## Contribute
 
