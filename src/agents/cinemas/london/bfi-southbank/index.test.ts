@@ -9,11 +9,27 @@ describe('bfi-southbank', () => {
     .persist()
     .get('/Online/article/filmsindex')
     .replyWithFile(200, `${dataDir}/programme.html`)
+    .get('/Online/article/releases')
+    .replyWithFile(200, `${dataDir}/releases.html`)
     .get('/Online/article/akira2020')
     .replyWithFile(200, `${dataDir}/film.html`);
 
   afterAll(() => {
     nock.cleanAll();
+  });
+
+  it('featured', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const result = await agent.featured(provider);
+
+    const expected = [
+      'https://whatson.bfi.org.uk/Online/article/mogulmowgli2020',
+      'https://whatson.bfi.org.uk/Online/article/countylines202010',
+      'https://whatson.bfi.org.uk/Online/article/countylinesplusqanda',
+    ];
+    expect(result).toHaveLength(10);
+    expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('programme', async () => {

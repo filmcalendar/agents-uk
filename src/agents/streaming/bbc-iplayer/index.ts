@@ -29,6 +29,19 @@ export const providers: FC.Agent.ProvidersFn = async () => [
   },
 ];
 
+export const featured: FC.Agent.FeaturedFn = async () => {
+  const url = 'https://www.bbc.co.uk/iplayer/group/featured';
+  const $page = await fletch.html(url);
+
+  const feats = $page
+    .find('.grid__item .content-item__link')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return [...new Set(feats)];
+};
+
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://www.bbc.co.uk/iplayer/categories/films/a-z';
   const $page = await fletch.html(url);

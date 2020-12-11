@@ -33,6 +33,8 @@ export const providers: FC.Agent.ProvidersFn = async () => [
   },
 ];
 
+export const featured: FC.Agent.FeaturedFn = async () => [];
+
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://www.ica.art/films';
   const $page = await fletch.html(url);

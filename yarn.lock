@@ -328,13 +328,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@filmcalendar/agents-core@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.8.0.tgz#08c82230230a8134184e542996d65803090b7aa7"
-  integrity sha512-m2ZjTwiB8L/zbIyS4kKRKFaYL0zClKzDWrsNlhxEb8AIYB1PL7in6WuOD836eFdZmiYHc8OqilA6ocWYKkqmhA==
+"@filmcalendar/agents-core@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.9.0.tgz#8abc71bb2ec7a89f19810be9ea7d17dd84a4e6d4"
+  integrity sha512-sCgCtZgzo/sRScMGV4XSf/T1p7+X6zR2Jq6cFsNzHPk6hPZZRTLyXyVKx/WBIYe9NFC4CFEez1iVTNhY6ScYIQ==
   dependencies:
-    "@filmcalendar/schemas" "1.3.0"
-    "@filmcalendar/types" "1.2.0"
+    "@filmcalendar/schemas" "1.4.0"
+    "@filmcalendar/types" "1.3.0"
     "@sindresorhus/slugify" "1.1.0"
     "@tuplo/series-with" "1.0.0"
     ajv "6.12.6"
@@ -344,15 +344,15 @@
     normalizr "3.6.1"
     yargs-parser "20.2.4"
 
-"@filmcalendar/schemas@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.3.0.tgz#2cc9123c71b62c1562766fbb95fd46cc63a274bd"
-  integrity sha512-+ol1Sld45kCtpwRAkSoQHS30q3rYYNlVCsWWBxM5zN4Mv/zEtswSXeWrMMEMglMqUoqpaLs5HaMsR8hG5G15Ww==
+"@filmcalendar/schemas@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.4.0.tgz#78a7d0871b6ec980335ee618e371ae4eb35d4ccb"
+  integrity sha512-9Rc1j6bISxxu7pLQfVyJ3owuUDMlWrnuq/VeX2TwOxNc4ZfTx79wXDp+tnFLzF2zC1eWZP97jVX5zN6GOKXkFQ==
 
-"@filmcalendar/types@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.2.0.tgz#805f4d78cb257e7964436fd1b4887a056e9b5ff2"
-  integrity sha512-UgpvvhkbSCzTR3l+syJnGTyifYvi3SChyKqJnypXEfhtlYOFgwCfUbxbdvStFgGvDlOu24cpG3Vnm4LY0dvHJA==
+"@filmcalendar/types@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.3.0.tgz#a085bcbd3cc5eb27961fde93e442a988064e86bb"
+  integrity sha512-DgN4usNj8X+wrzSIsOx3ka5xi3FbKlOf5Uj+AuWYGSLss7Ix0ZkqESixrWlvRM1KACsa1mZi7A6mWGC8b4qrvg==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -984,7 +984,7 @@ acorn-globals@^6.0.0:
     acorn "^7.1.1"
     acorn-walk "^7.1.1"
 
-acorn-jsx@^5.2.0, acorn-jsx@^5.3.1:
+acorn-jsx@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.1.tgz#fc8661e11b7ac1539c47dbfea2e72b3af34d267b"
   integrity sha512-K0Ptm/47OKfQRpNQ2J/oIN/3QYiK6FwW+eJbILhsdxh2WTLdl+30o8aGdTbm5JbffpFFAg/g+zi1E+jvJha5ng==
@@ -2155,16 +2155,7 @@ eslint@7.15.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-espree@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-7.3.0.tgz#dc30437cf67947cf576121ebd780f15eeac72348"
-  integrity sha512-dksIWsvKCixn1yrEXO8UosNSxaDoSYpq9reEjZSbHLpT5hpaCAKTLBwq0RHtLrIr+c0ByiYzWT8KTMRzoRCNlw==
-  dependencies:
-    acorn "^7.4.0"
-    acorn-jsx "^5.2.0"
-    eslint-visitor-keys "^1.3.0"
-
-espree@^7.3.1:
+espree@^7.3.0, espree@^7.3.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/espree/-/espree-7.3.1.tgz#f2df330b752c6f55019f8bd89b7660039c1bbbb6"
   integrity sha512-v3JCNCE64umkFpmkFGqzVKsOT0tN1Zr+ueqLZfpV1Ob8e+CEgPWa+OxCoGH3tnhimMKIaBm4m/vaRpJ/krRz2g==

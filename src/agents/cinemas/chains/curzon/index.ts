@@ -50,6 +50,8 @@ export const providers: FC.Agent.ProvidersFn = async () => {
   return seriesWith(providerList, getCinemaInfo);
 };
 
+export const featured: FC.Agent.FeaturedFn = async () => [];
+
 export const programme: FC.Agent.ProgrammeFn = async (provider) => {
   const { urlThisWeek, urlComingSoon } = provider._data as CZ.ProviderData;
 

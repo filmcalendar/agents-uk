@@ -6,6 +6,8 @@ describe('the-castle', () => {
   const dataDir = `${__dirname}/__data__`;
   nock('https://thecastlecinema.com')
     .persist()
+    .get('/')
+    .replyWithFile(200, `${dataDir}/home.html`)
     .get('/calendar/film/')
     .replyWithFile(200, `${dataDir}/programme.html`)
     .get('/programme/3141361/coraline/')
@@ -13,6 +15,19 @@ describe('the-castle', () => {
 
   afterAll(() => {
     nock.cleanAll();
+  });
+
+  it('featured', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const result = await agent.featured(provider);
+
+    const expected = [
+      'https://thecastlecinema.com/programme/3165214/wonder-woman-1984/',
+      'https://thecastlecinema.com/programme/3143804/county-lines/',
+    ];
+    expect(result).toHaveLength(2);
+    expect(result).toStrictEqual(expected);
   });
 
   it('programme', async () => {

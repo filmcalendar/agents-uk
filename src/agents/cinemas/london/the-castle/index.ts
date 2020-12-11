@@ -31,6 +31,19 @@ export const providers: FC.Agent.ProvidersFn = async () => [
   },
 ];
 
+export const featured: FC.Agent.FeaturedFn = async (provider) => {
+  const { url } = provider;
+  const $page = await fletch.html(url);
+
+  const feats = $page
+    .find('.hero-home a[href^="/programme"]')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return [...new Set(feats)];
+};
+
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://thecastlecinema.com/calendar/film/';
   const $page = await fletch.html(url);

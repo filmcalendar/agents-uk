@@ -7,6 +7,8 @@ describe('bbc-iplayer', () => {
   const dataDir = `${__dirname}/__data__`;
   nock('https://www.bbc.co.uk')
     .persist()
+    .get('/iplayer/group/featured')
+    .replyWithFile(200, `${dataDir}/featured.html`)
     .get(/iplayer\/categories\/films\/a-z/)
     .replyWithFile(200, `${dataDir}/films.html`)
     .get(/programmes/)
@@ -15,6 +17,20 @@ describe('bbc-iplayer', () => {
   afterAll(() => {
     nock.cleanAll();
     dateNowSpy.mockRestore();
+  });
+
+  it('featured', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const result = await agent.featured(provider);
+
+    const expected = [
+      'https://www.bbc.co.uk/iplayer/episode/m000q6rf/small-axe-series-1-alex-wheatle',
+      'https://www.bbc.co.uk/iplayer/episode/m000pb15/his-dark-materials-series-2-1-the-city-of-magpies',
+      'https://www.bbc.co.uk/iplayer/episode/p08xhqx8/we-are-who-we-are-series-1-1-right-here-right-now',
+    ];
+    expect(result).toHaveLength(31);
+    expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('programme', async () => {
@@ -26,11 +42,9 @@ describe('bbc-iplayer', () => {
       'https://www.bbc.co.uk/iplayer/episode/p04b183c/adam-curtis-hypernormalisation',
       'https://www.bbc.co.uk/iplayer/episode/b0078tnk/a-damsel-in-distress',
       'https://www.bbc.co.uk/iplayer/episode/p07ctvvn/a-high-school-rape-goes-viral-roll-red-roll',
-      'https://www.bbc.co.uk/iplayer/episode/m000pqsk/amundsen',
-      'https://www.bbc.co.uk/iplayer/episode/b00785fw/angel-face',
     ];
     expect(result.programme).toHaveLength(36);
-    expect(result.programme.slice(0, 5)).toStrictEqual(expected);
+    expect(result.programme.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('film', async () => {

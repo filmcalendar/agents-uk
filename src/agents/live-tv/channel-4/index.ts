@@ -47,6 +47,8 @@ export const providers: FC.Agent.ProvidersFn = async () => {
   });
 };
 
+export const featured: FC.Agent.FeaturedFn = async () => [];
+
 export const programme: FC.Agent.ProgrammeFn = async (venue) => {
   if (!venue || !venue._data) return { programme: [] };
   const { _data } = venue;

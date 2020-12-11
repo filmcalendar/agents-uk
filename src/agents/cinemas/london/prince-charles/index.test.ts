@@ -5,11 +5,25 @@ describe('prince-charles-cinema', () => {
   const dataDir = `${__dirname}/__data__`;
   nock('https://princecharlescinema.com')
     .persist()
+    .get('/PrinceCharlesCinema.dll/Home')
+    .replyWithFile(200, `${dataDir}/home.html`)
     .get('/PrinceCharlesCinema.dll/WhatsOn')
     .replyWithFile(200, `${dataDir}/programme.html`);
 
   afterAll(() => {
     nock.cleanAll();
+  });
+
+  it('featured', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const result = await agent.featured(provider);
+
+    const expected = [
+      'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=17526412',
+    ];
+    expect(result).toHaveLength(1);
+    expect(result).toStrictEqual(expected);
   });
 
   it('programme', async () => {

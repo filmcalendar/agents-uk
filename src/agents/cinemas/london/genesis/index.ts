@@ -1,4 +1,5 @@
 import URL from 'url';
+import $ from 'cheerio';
 import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
@@ -29,6 +30,18 @@ export const providers: FC.Agent.ProvidersFn = async () => [
     url: 'https://genesiscinema.co.uk/GenesisCinema.dll/Home',
   },
 ];
+
+export const featured: FC.Agent.FeaturedFn = async (provider) => {
+  const { url } = provider;
+  const $page = await fletch.html(url);
+  const feats = $page
+    .find('#banner .item a[href^=WhatsOn]')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return [...new Set(feats)];
+};
 
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn';

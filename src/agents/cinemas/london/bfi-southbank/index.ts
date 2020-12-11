@@ -31,6 +31,19 @@ export const providers: FC.Agent.ProvidersFn = async () => [
   },
 ];
 
+export const featured: FC.Agent.FeaturedFn = async () => {
+  const url = 'https://whatson.bfi.org.uk/Online/article/releases';
+  const $page = await fletch.html(url);
+
+  const feats = $page
+    .find('.editorial-component h4 a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => `https://whatson.bfi.org.uk/Online/${href}`);
+
+  return [...new Set(feats)];
+};
+
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://whatson.bfi.org.uk/Online/article/filmsindex';
   const $page = await fletch.html(url);

@@ -5,6 +5,8 @@ describe('genesis', () => {
   const dataDir = `${__dirname}/__data__`;
   nock('https://genesiscinema.co.uk')
     .persist()
+    .get('/GenesisCinema.dll/Home')
+    .replyWithFile(200, `${dataDir}/home.html`)
     .get('/GenesisCinema.dll/WhatsOn')
     .replyWithFile(200, `${dataDir}/programme.html`)
     .get('/GenesisCinema.dll/WhatsOn?Film=14448909')
@@ -12,6 +14,20 @@ describe('genesis', () => {
 
   afterAll(() => {
     nock.cleanAll();
+  });
+
+  it('featured', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const result = await agent.featured(provider);
+
+    const expected = [
+      'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=22813783',
+      'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=22840383',
+      'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=22839126',
+    ];
+    expect(result).toHaveLength(20);
+    expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('programme', async () => {

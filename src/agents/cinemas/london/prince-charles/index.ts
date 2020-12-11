@@ -1,4 +1,6 @@
 import URL from 'url';
+import fletch from '@tuplo/fletch';
+import $ from 'cheerio';
 
 import type * as FC from '@filmcalendar/types';
 import type * as PCC from './index.d';
@@ -31,6 +33,19 @@ export const providers: FC.Agent.ProvidersFn = async () => [
     url: 'https://princecharlescinema.com/PrinceCharlesCinema.dll/Home',
   },
 ];
+
+export const featured: FC.Agent.FeaturedFn = async (provider) => {
+  const { url } = provider;
+  const $page = await fletch.html(url);
+
+  const feats = $page
+    .find('#Bannercv3WhatsOnWidgetBanner a[href^=WhatsOn]')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return [...new Set(feats)];
+};
 
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn';
