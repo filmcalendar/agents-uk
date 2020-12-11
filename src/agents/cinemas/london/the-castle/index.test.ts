@@ -8,9 +8,9 @@ describe('the-castle', () => {
     .persist()
     .get('/')
     .replyWithFile(200, `${dataDir}/home.html`)
-    .get('/calendar/film/')
-    .replyWithFile(200, `${dataDir}/programme.html`)
-    .get('/programme/3141361/coraline/')
+    .get('/listings/')
+    .replyWithFile(200, `${dataDir}/listings.html`)
+    .get(/it-s-a-wonderful-life\/$/)
     .replyWithFile(200, `${dataDir}/film.html`);
 
   afterAll(() => {
@@ -36,41 +36,43 @@ describe('the-castle', () => {
     const result = await agent.programme(provider);
 
     const expected = [
+      'https://thecastlecinema.com/programme/2289750/cine-real-the-snowman/',
+      'https://thecastlecinema.com/programme/3152194/cocoon/',
       'https://thecastlecinema.com/programme/3141361/coraline/',
-      'https://thecastlecinema.com/programme/3142081/wolfwalkers-q-a/',
-      'https://thecastlecinema.com/programme/3142080/wolfwalkers/',
     ];
-    expect(result.programme).toHaveLength(17);
-    expect(result.programme).toStrictEqual(expect.arrayContaining(expected));
+    expect(result.programme).toHaveLength(20);
+    expect(result.programme.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('film', async () => {
     expect.assertions(1);
-    const url = 'https://thecastlecinema.com/programme/3141361/coraline/';
+    const url =
+      'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const [provider] = await agent.providers();
     const result = await agent.page(url, provider);
 
     const expected = {
-      title: 'Coraline',
-      director: ['Henry Selick'],
-      cast: ['Dakota Fanning', 'Teri Hatcher', 'John Hodgman'],
-      year: 2009,
+      title: "It's a Wonderful Life",
+      director: ['Frank Capra'],
+      cast: ['James Stewart', 'Donna Reed', 'Lionel Barrymore'],
+      year: 1946,
     };
     expect(result?.films[0]).toStrictEqual(expected);
   });
 
   it('sessions', async () => {
     expect.assertions(2);
-    const url = 'https://thecastlecinema.com/programme/3141361/coraline/';
+    const url =
+      'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const [provider] = await agent.providers();
     const result = await agent.page(url, provider);
 
     const expected = {
-      link: 'https://thecastlecinema.com/bookings/3141362/',
-      dateTime: '2020-12-05T11:30:00.000Z',
-      attributes: [],
+      dateTime: '2020-12-14T21:00:00.000Z',
+      link: 'https://thecastlecinema.com/bookings/3141391/',
+      attributes: ['5-mondays'],
     };
-    expect(result?.sessions).toHaveLength(3);
+    expect(result?.sessions).toHaveLength(6);
     const [firstSession] = result?.sessions || [];
     expect(firstSession).toStrictEqual(expected);
   });

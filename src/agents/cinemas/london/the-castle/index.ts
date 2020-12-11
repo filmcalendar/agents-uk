@@ -45,7 +45,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
 };
 
 export const programme: FC.Agent.ProgrammeFn = async () => {
-  const url = 'https://thecastlecinema.com/calendar/film/';
+  const url = 'https://thecastlecinema.com/listings/';
   const $page = await fletch.html(url);
 
   const prg = $page

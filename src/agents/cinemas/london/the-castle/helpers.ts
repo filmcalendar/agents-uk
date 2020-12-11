@@ -1,5 +1,6 @@
 import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
+import slugify from '@sindresorhus/slugify';
 
 import type * as FC from '@filmcalendar/types';
 
@@ -53,6 +54,29 @@ export const getEventAttributes: GetEventAttributesFn = ($page) => {
   return attributes;
 };
 
+type GetBookingIdFromUrlFn = (bookingLink: string) => string;
+export const getBookingIdFromUrl: GetBookingIdFromUrlFn = (bookingLink) => {
+  const [, bookingId] = /(\d+)\/$/.exec(bookingLink) || ['', ''];
+  return bookingId;
+};
+
+type GetSessionsAttributesFn = (
+  $page: cheerio.Cheerio,
+  bookingsLink: string
+) => string[];
+export const getSessionAttributes: GetSessionsAttributesFn = (
+  $page,
+  bookingLink
+) => {
+  const bookingId = getBookingIdFromUrl(bookingLink);
+  const performance = `TcsPerformance_${bookingId}`;
+  const screeningType = $page
+    .find(`a[href*=${performance}] .screening-type`)
+    .text();
+
+  return [slugify(screeningType)].filter(Boolean);
+};
+
 type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Agent.Session[];
 export const getSessions: GetSessionsFn = ($page) =>
   $page
@@ -65,10 +89,15 @@ export const getSessions: GetSessionsFn = ($page) =>
       if (jsonld['@type'] !== 'ScreeningEvent') return null;
       const { url, startDate } = JSON.parse(code);
 
+      const attributes = [
+        ...getSessionAttributes($page, url),
+        ...getEventAttributes($page),
+      ];
+
       return {
         dateTime: new Date(startDate).toISOString(),
         link: url,
-        attributes: getEventAttributes($page),
+        attributes: [...new Set(attributes)],
       };
     })
     .filter(Boolean) as FC.Agent.Session[];
