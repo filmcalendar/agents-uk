@@ -1,5 +1,7 @@
 import $ from 'cheerio';
 import fs from 'fs';
+import nock from 'nock';
+import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 import mockArticleContext from './__data__/article-context.json';
@@ -10,11 +12,22 @@ import {
   getArticleContext,
   getEvents,
   getSessions,
+  getExpandedUrlFromPage,
 } from './helpers';
 
 const mockFilmHtml = fs.readFileSync(`${__dirname}/__data__/film.html`, 'utf8');
 
 describe('bfi southbank - helpers', () => {
+  const dataDir = `${__dirname}/__data__`;
+  nock('https://whatson.bfi.org.uk')
+    .persist()
+    .get('/Online/article/akira2020')
+    .replyWithFile(200, `${dataDir}/film.html`);
+
+  afterAll(() => {
+    nock.cleanAll();
+  });
+
   it('extracts credits', () => {
     expect.assertions(1);
     const $page = $.load(mockFilmHtml).root();
@@ -54,5 +67,16 @@ describe('bfi southbank - helpers', () => {
     const result = getSessions($page);
 
     expect(result).toStrictEqual(mockSessions as FC.Agent.Session[]);
+  });
+
+  it('gets expanded url for a page', async () => {
+    expect.assertions(1);
+    const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
+    const $page = await fletch.html(url);
+    const result = getExpandedUrlFromPage($page);
+
+    const expected =
+      'https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=A75F9B94-4D72-4551-9525-080853567746';
+    expect(result).toBe(expected);
   });
 });

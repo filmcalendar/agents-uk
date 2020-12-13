@@ -3,10 +3,37 @@ import $ from 'cheerio';
 import slugify from '@sindresorhus/slugify';
 import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
+import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 
-import type { ArticleContext, LocalPageData, Event } from './index.d';
+import type * as BFI from './index.d';
+
+type GetArticleContextFn = ($page: cheerio.Cheerio) => BFI.ArticleContext;
+export const getArticleContext: GetArticleContextFn = ($page) => {
+  if (!$page) return {} as BFI.ArticleContext;
+
+  const script = $page
+    .find('script')
+    .toArray()
+    .find((scr) => /function loadLocalPage/i.test($(scr).html() || ''));
+  const src = $(script).html();
+  if (!src) return {} as BFI.ArticleContext;
+
+  const code = new vm.Script(src);
+  const sandbox: BFI.LocalPageData = {
+    createSearchMapping: (): null => null,
+    tsAddReadyEvent: (): null => null,
+  };
+  vm.createContext(sandbox);
+  code.runInContext(sandbox, { displayErrors: true });
+
+  return sandbox.articleContext as BFI.ArticleContext;
+};
+
+type GetExpandedUrlFn = (articleId: string) => string;
+export const getExpandedUrl: GetExpandedUrlFn = (articleId) =>
+  `https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=${articleId}`;
 
 type GetTitleFn = ($page: cheerio.Cheerio) => string;
 export const getTitle: GetTitleFn = ($page) =>
@@ -94,29 +121,7 @@ export const getYear: GetYearFn = (credits) => {
   return Number(yy);
 };
 
-type GetArticleContextFn = ($page: cheerio.Cheerio) => ArticleContext;
-export const getArticleContext: GetArticleContextFn = ($page) => {
-  if (!$page) return {} as ArticleContext;
-
-  const script = $page
-    .find('script')
-    .toArray()
-    .find((scr) => /function loadLocalPage/i.test($(scr).html() || ''));
-  const src = $(script).html();
-  if (!src) return {} as ArticleContext;
-
-  const code = new vm.Script(src);
-  const sandbox: LocalPageData = {
-    createSearchMapping: (): null => null,
-    tsAddReadyEvent: (): null => null,
-  };
-  vm.createContext(sandbox);
-  code.runInContext(sandbox, { displayErrors: true });
-
-  return sandbox.articleContext as ArticleContext;
-};
-
-type GetEventsFn = ($page: cheerio.Cheerio) => Event[];
+type GetEventsFn = ($page: cheerio.Cheerio) => BFI.Event[];
 export const getEvents: GetEventsFn = ($page) => {
   const articleContext = getArticleContext($page);
   const { searchResults = [], searchNames } = articleContext;
@@ -128,16 +133,16 @@ export const getEvents: GetEventsFn = ($page) => {
         // eslint-disable-next-line no-param-reassign
         if (row[i]) accc[key] = row[i];
         return accc;
-      }, {} as Event);
+      }, {} as BFI.Event);
       acc.push(data);
       return acc;
-    }, [] as Event[])
+    }, [] as BFI.Event[])
     .filter((r) => /Southbank Public Programme/i.test(r.venue_group))
     .filter((r) => !/Courses|Podstock/.test(r.keywords))
     .filter((r) => !/Mark Kermode Live/i.test(r.short_description));
 };
 
-type GetSessionAttributesFn = (event: Event) => string[];
+type GetSessionAttributesFn = (event: BFI.Event) => string[];
 const getSessionAttributes: GetSessionAttributesFn = (event) =>
   (event.keywords || '')
     .split(',')
@@ -145,7 +150,7 @@ const getSessionAttributes: GetSessionAttributesFn = (event) =>
     .filter((tag) => !/^releases$/.test(tag))
     .map((tag) => slugify(tag.toLowerCase()));
 
-type GetSessionFn = (event: Event) => FC.Agent.Session | null;
+type GetSessionFn = (event: BFI.Event) => FC.Agent.Session | null;
 export const getSession: GetSessionFn = (event) => {
   if (event.availability_status === 'S') return null;
   const { start_date } = event;
@@ -174,3 +179,9 @@ export const getSession: GetSessionFn = (event) => {
 type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Agent.Session[];
 export const getSessions: GetSessionsFn = ($page) =>
   getEvents($page).map(getSession).filter(Boolean) as FC.Agent.Session[];
+
+type GetExpandedUrlFromPageFn = ($page: cheerio.Cheerio) => string;
+export const getExpandedUrlFromPage: GetExpandedUrlFromPageFn = ($page) => {
+  const { articleId } = getArticleContext($page);
+  return getExpandedUrl(articleId);
+};

@@ -4,12 +4,15 @@ import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 import {
+  getArticleContext,
   getCast,
   getCredits,
   getDirector,
   getSessions,
   getTitle,
   getYear,
+  getExpandedUrlFromPage,
+  getExpandedUrl,
 } from './helpers';
 
 export const ref = 'bfi-southbank';
@@ -42,6 +45,41 @@ export const featured: FC.Agent.FeaturedFn = async () => {
     .map((href) => `https://whatson.bfi.org.uk/Online/${href}`);
 
   return [...new Set(feats)];
+};
+
+export const collections: FC.Agent.CollectionsFn = async () => {
+  const url = 'https://whatson.bfi.org.uk/Online/article/seasons';
+  const $page = await fletch.html(url);
+
+  const urls = $page
+    .find('h4 a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => `https://whatson.bfi.org.uk/Online/${href}`);
+
+  return { collections: [...new Set(urls)] };
+};
+
+export const collection: FC.Agent.CollectionFn = async (url) => {
+  const $page = await fletch.html(url);
+
+  const name = $page.find('.main-article-body h1').text();
+  const description = $page.find('.main-article-body .section-intro').text();
+  const [image] = $page
+    .find('p > img')
+    .toArray()
+    .map((img) => $(img).attr('src'))
+    .map((src) => URL.resolve(url, src || ''));
+
+  const { searchResults } = getArticleContext($page);
+  const prg = searchResults
+    .map((result) => result[14])
+    .map((href) => {
+      const [, articleId] = /article_id=([A-Z0-9-]+)/.exec(href) || ['', ''];
+      return getExpandedUrl(articleId);
+    });
+
+  return { url, name, description, image, programme: [...new Set(prg)] };
 };
 
 export const programme: FC.Agent.ProgrammeFn = async () => {
@@ -84,7 +122,8 @@ export const page: FC.Agent.PageFn = async (url, provider) => {
   if (director.length === 0) return null;
 
   return {
-    url,
+    // so that it matches with Collections
+    url: getExpandedUrlFromPage($page),
     provider,
     films: [
       {

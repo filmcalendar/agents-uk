@@ -1,4 +1,5 @@
 export type ArticleContext = {
+  articleId: string;
   searchNames: string[];
   searchResults: string[][];
 };
