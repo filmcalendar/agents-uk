@@ -47,6 +47,41 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
   return [...new Set(feats)];
 };
 
+type CollectionData = Map<string, string>;
+
+export const collections: FC.Agent.CollectionsFn = async () => {
+  const url = 'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons';
+  const $page = await fletch.html(url);
+  const _data = $page
+    .find('.film .ninecol a[href^="Seasons?e"]:not(.info)')
+    .toArray()
+    .reduce((acc, a) => {
+      const $a = $(a);
+      const href = $a.attr('href');
+      const collectionUrl = URL.resolve(url, href || '');
+      if (acc.has(collectionUrl)) return acc;
+      acc.set(collectionUrl, $a.text().trim());
+
+      return acc;
+    }, new Map() as CollectionData);
+
+  return { collections: [..._data.keys()], _data };
+};
+
+export const collection: FC.Agent.CollectionFn = async (url, options) => {
+  const data = (options?._data || new Map()) as CollectionData;
+  const $page = await fletch.html(url);
+
+  const name = data.get(url) || '';
+  const urls = $page
+    .find('.film a[href^="WhatsOn?f="]')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return { url, name, programme: [...new Set(urls)] };
+};
+
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn';
   const data = await getWhatsOnData(url);
