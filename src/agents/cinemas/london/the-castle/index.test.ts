@@ -10,6 +10,8 @@ describe('the-castle', () => {
     .replyWithFile(200, `${dataDir}/home.html`)
     .get('/listings/')
     .replyWithFile(200, `${dataDir}/listings.html`)
+    .get('/category/3141470/enchanted-castle/')
+    .replyWithFile(200, `${dataDir}/collection.html`)
     .get(/it-s-a-wonderful-life\/$/)
     .replyWithFile(200, `${dataDir}/film.html`);
 
@@ -42,6 +44,50 @@ describe('the-castle', () => {
     ];
     expect(result.programme).toHaveLength(20);
     expect(result.programme.slice(0, 3)).toStrictEqual(expected);
+  });
+
+  it('collections', async () => {
+    expect.assertions(1);
+    const [provider] = await agent.providers();
+    const result = await agent.collections(provider);
+
+    const expected = [
+      'https://thecastlecinema.com/category/3141470/enchanted-castle/',
+      'https://thecastlecinema.com/listings/#',
+    ];
+    expect(result.collections).toStrictEqual(expected);
+  });
+
+  it('collection', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const collectionData = await agent.collections(provider);
+    const [url] = collectionData.collections;
+    const result = await agent.collection(url, { _data: collectionData._data });
+
+    const expected = {
+      url: 'https://thecastlecinema.com/category/3141470/enchanted-castle/',
+      name: 'Enchanted Castle',
+      description: 'Winter fables, fairy tales and a feast of festive faves',
+      image: 'https://thecastlecinema.com/static/images/cms/snowman.jpg',
+    };
+    expect(result).toMatchObject(expected);
+    expect(result.programme).toHaveLength(12);
+  });
+
+  it('collection (no season page)', async () => {
+    expect.assertions(1);
+    const [provider] = await agent.providers();
+    const collectionData = await agent.collections(provider);
+    const [, url] = collectionData.collections;
+    const result = await agent.collection(url, { _data: collectionData._data });
+
+    const expected = {
+      url: 'https://thecastlecinema.com/listings/#',
+      name: "Doc'n Roll Festival",
+      programme: ['/programme/3049995/this-film-shouldn-t-exist/'],
+    };
+    expect(result).toStrictEqual(expected);
   });
 
   it('film', async () => {

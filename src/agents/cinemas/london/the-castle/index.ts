@@ -44,6 +44,64 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
   return [...new Set(feats)];
 };
 
+type CollectionData = Map<string, FC.Agent.Collection>;
+
+export const collections: FC.Agent.CollectionsFn = async () => {
+  const url = 'https://thecastlecinema.com/listings/';
+  const $page = await fletch.html(url);
+
+  const collectionData = $page
+    .find('.tile-eventname')
+    .toArray()
+    .reduce((acc, event) => {
+      const $event = $(event);
+      const $eventLink = $event.find('a:nth-child(2)');
+      const href = $eventLink.attr('href');
+      const pageUrl = $event.find('a[href^="/programme"]').attr('href');
+      if (!href || !pageUrl) return acc;
+      if (/^\/organisation/.test(href)) return acc;
+
+      const collectionUrl = URL.resolve(url, href);
+      const newCollection =
+        acc.get(collectionUrl) ||
+        ({ url: '', name: '', programme: [] } as FC.Agent.Collection);
+      newCollection.url = collectionUrl;
+      newCollection.name = $eventLink.text();
+      newCollection.programme.push(pageUrl);
+      acc.set(collectionUrl, newCollection);
+
+      return acc;
+    }, new Map() as CollectionData);
+
+  return { collections: [...collectionData.keys()], _data: collectionData };
+};
+
+export const collection: FC.Agent.CollectionFn = async (url, options) => {
+  const data = (options?._data || new Map()) as CollectionData;
+  if (/listings/.test(url)) return data.get(url) as FC.Agent.Collection;
+
+  const $page = await fletch.html(url);
+
+  const name = $page.find('.hero-title h3').text();
+  const [description] = $page
+    .find('.intro p')
+    .toArray()
+    .map((p) => $(p).text().trim())
+    .filter(Boolean);
+  const image = URL.resolve(
+    url,
+    $page.find('.hero-image img').attr('src') || ''
+  );
+
+  const prg = $page
+    .find('.tile-details > a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return { name, description, image, url, programme: [...new Set(prg)] };
+};
+
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://thecastlecinema.com/listings/';
   const $page = await fletch.html(url);
