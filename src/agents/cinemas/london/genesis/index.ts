@@ -34,6 +34,7 @@ export const providers: FC.Agent.ProvidersFn = async () => [
 export const featured: FC.Agent.FeaturedFn = async (provider) => {
   const { url } = provider;
   const $page = await fletch.html(url);
+
   const feats = $page
     .find('#banner .item a[href^=WhatsOn]')
     .toArray()
@@ -41,6 +42,34 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
     .map((href) => URL.resolve(url, href || ''));
 
   return [...new Set(feats)];
+};
+
+export const collections: FC.Agent.CollectionsFn = async (provider) => {
+  const { url } = provider;
+  const $page = await fletch.html(url);
+
+  const urls = $page
+    .find('#phoenix-primary-nav li:nth-child(2)')
+    .find('ul .has-children li:not(.go-back) a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return { collections: [...new Set(urls)] };
+};
+
+export const collection: FC.Agent.CollectionFn = async (url) => {
+  const $page = await fletch.html(url);
+
+  const name = $page.find('#content > h2.subtitle:nth-child(1)').text();
+
+  const prg = $page
+    .find('.film-title > a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return { name, url, programme: [...new Set(prg)] };
 };
 
 export const programme: FC.Agent.ProgrammeFn = async () => {

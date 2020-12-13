@@ -10,7 +10,9 @@ describe('genesis', () => {
     .get('/GenesisCinema.dll/WhatsOn')
     .replyWithFile(200, `${dataDir}/programme.html`)
     .get('/GenesisCinema.dll/WhatsOn?Film=14448909')
-    .replyWithFile(200, `${dataDir}/film.html`);
+    .replyWithFile(200, `${dataDir}/film.html`)
+    .get('/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63')
+    .replyWithFile(200, `${dataDir}/season.html`);
 
   afterAll(() => {
     nock.cleanAll();
@@ -28,6 +30,38 @@ describe('genesis', () => {
     ];
     expect(result).toHaveLength(20);
     expect(result.slice(0, 3)).toStrictEqual(expected);
+  });
+
+  it('collections', async () => {
+    expect.assertions(2);
+    const [provider] = await agent.providers();
+    const result = await agent.collections(provider);
+
+    const expected = [
+      'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=50',
+      'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63',
+      'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=64',
+    ];
+    expect(result.collections).toHaveLength(5);
+    expect(result.collections.slice(0, 3)).toStrictEqual(expected);
+  });
+
+  it('collection', async () => {
+    expect.assertions(1);
+    const url =
+      'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63';
+    const result = await agent.collection(url);
+
+    const expected = {
+      url:
+        'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63',
+      name: 'Anniversary Season',
+      programme: [
+        'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=2572401',
+        'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=22663092',
+      ],
+    };
+    expect(result).toStrictEqual(expected);
   });
 
   it('programme', async () => {
