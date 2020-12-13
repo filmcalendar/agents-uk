@@ -9,6 +9,7 @@ export * as PrinceCharles from './cinemas/london/prince-charles';
 export * as TheCastle from './cinemas/london/the-castle';
 
 // LIVE TV
+export * as BBC from './live-tv/bbc';
 export * as Channel4 from './live-tv/channel-4';
 
 // STREAMING
