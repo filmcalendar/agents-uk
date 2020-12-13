@@ -2,7 +2,7 @@ import fs from 'fs';
 import nock from 'nock';
 import $ from 'cheerio';
 
-import { findMovieUrls, getDirector } from './helpers';
+import { findMovieUrls, getDirector, isCollection } from './helpers';
 
 const mockFilmHtml = fs.readFileSync(`${__dirname}/__data__/film.html`, 'utf8');
 
@@ -13,7 +13,9 @@ describe('ica - helpers', () => {
     .get('/films')
     .replyWithFile(200, `${dataDir}/programme.html`)
     .get('/films/air-conditioner')
-    .replyWithFile(200, `${dataDir}/film.html`);
+    .replyWithFile(200, `${dataDir}/film.html`)
+    .get('/films/for20')
+    .replyWithFile(200, `${dataDir}/season.html`);
 
   afterAll(() => {
     nock.cleanAll();
@@ -39,5 +41,13 @@ describe('ica - helpers', () => {
 
     const expected = ['Javier Fernández Vázquez'];
     expect(result).toStrictEqual(expected);
+  });
+
+  it('checks if page is a collection', async () => {
+    expect.assertions(1);
+    const url = 'https://www.ica.art/films/for20';
+    const result = await isCollection(url);
+
+    expect(result).toBe(url);
   });
 });

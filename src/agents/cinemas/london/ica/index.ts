@@ -6,6 +6,7 @@ import fletch from '@tuplo/fletch';
 import type * as FC from '@filmcalendar/types';
 
 import {
+  isCollection,
   findMovieUrls,
   getDirector,
   getSessions,
@@ -33,7 +34,33 @@ export const providers: FC.Agent.ProvidersFn = async () => [
   },
 ];
 
-export const featured: FC.Agent.FeaturedFn = async () => [];
+export const collections: FC.Agent.CollectionsFn = async () => {
+  const url = 'https://www.ica.art/films';
+  const $page = await fletch.html(url);
+
+  const pageUrls = $page
+    .find('.item.films > a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+  const urls = await seriesWith(pageUrls, isCollection);
+
+  return { collections: [...new Set(urls)].filter(Boolean) as string[] };
+};
+
+export const collection: FC.Agent.CollectionFn = async (url) => {
+  const $page = await fletch.html(url);
+
+  const name = $page.find('.title').text();
+  const image = URL.resolve(url, $page.find('#img-gallery').attr('src') || '');
+  const urls = $page
+    .find('a[href^="/films/"]')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => URL.resolve(url, href || ''));
+
+  return { url, name, image, programme: [...new Set(urls)] };
+};
 
 export const programme: FC.Agent.ProgrammeFn = async () => {
   const url = 'https://www.ica.art/films';

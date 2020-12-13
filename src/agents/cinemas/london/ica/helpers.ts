@@ -6,6 +6,13 @@ import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 
+type IsCollectionFn = (url: string) => Promise<string | boolean>;
+export const isCollection: IsCollectionFn = async (url) => {
+  const $page = await fletch.html(url);
+
+  return /Programme/.test($page.find('.subhead-films').text()) ? url : false;
+};
+
 type FindMovieUrlsFn = (url: string) => Promise<string[]>;
 export const findMovieUrls: FindMovieUrlsFn = async (url) => {
   const $page = await fletch.html(url);

@@ -9,13 +9,45 @@ describe('ica', () => {
     .persist()
     .get('/films')
     .replyWithFile(200, `${dataDir}/programme.html`)
+    .get('/films/for20')
+    .replyWithFile(200, `${dataDir}/season.html`)
     .get(/films\/.+/i)
     .replyWithFile(200, `${dataDir}/film.html`)
     .get(/book/)
     .replyWithFile(404, `${dataDir}/book.html`);
-
   afterAll(() => {
     nock.cleanAll();
+  });
+
+  it('collections', async () => {
+    expect.assertions(1);
+    const [provider] = await agent.providers();
+    const result = await agent.collections(provider);
+
+    const expected = {
+      collections: ['https://www.ica.art/films/for20'],
+    };
+    expect(result).toStrictEqual(expected);
+  });
+
+  it('collection', async () => {
+    expect.assertions(3);
+    const url = 'https://www.ica.art/films/for20';
+    const result = await agent.collection(url);
+
+    const expected = {
+      url,
+      name: 'FRAMES of REPRESENTATION 2020',
+      image: 'https://www.ica.art/media/00554.jpg',
+    };
+    const expectedProgramme = [
+      'https://www.ica.art/films/panquiaco',
+      'https://www.ica.art/films/oroslan',
+      'https://www.ica.art/films/the-earth-is-blue-as-an-orange',
+    ];
+    expect(result).toMatchObject(expected);
+    expect(result.programme).toHaveLength(18);
+    expect(result.programme.slice(0, 3)).toStrictEqual(expectedProgramme);
   });
 
   it('programme', async () => {
