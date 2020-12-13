@@ -128,7 +128,7 @@ describe('channel4 - helpers', () => {
       title: 'The File on Thelma Jordon',
       url: '/tv-guide/2020/12/08/F4/30401988',
     } as C4.Program;
-    expect(result).toHaveLength(6);
+    expect(result).toHaveLength(8);
     expect(result[0]).toStrictEqual(expected);
   });
 

@@ -54,7 +54,9 @@ export const getDailyProgramme: GetDailyProgrammeFn = async (params) => {
   const { channels } = await fletch.json<C4.DailyProgramme>(url);
   const { programmes = [] } = channels[channelId] as C4.Channel;
 
-  return programmes.filter((program) => program.isMovie === 'true');
+  return programmes.filter(
+    (program) => program.isMovie !== 'false' || !program.isMovie
+  );
 };
 
 type GetSlotIdFromUrlFn = (url: string) => string;
