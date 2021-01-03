@@ -53,7 +53,7 @@ jobs:
       - id: dotenv
         uses: falti/dotenv-action@v0.2.5
       - name: Publish docker image
-        uses: filmcalendar/build-country-agents-action@main
+        uses: filmcalendar/build-agents-action@main
         with:
           fc-country: ${{ steps.dotenv.outputs.FC_COUNTRY }}
           docker-registry-password: ${{ secrets.GH_TOKEN }}
