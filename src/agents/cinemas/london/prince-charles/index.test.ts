@@ -114,8 +114,7 @@ describe('prince-charles-cinema', () => {
     const result = await agent.page(url, provider, _data);
 
     const expected = {
-      link:
-        'https://princecharlescinema.com/PrinceCharlesCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_17638266.TcsSection_17512153',
+      link: 'https://princecharlescinema.com/PrinceCharlesCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_17638266.TcsSection_17512153',
       dateTime: '2020-12-03T11:45:00.000Z',
       attributes: [],
     };

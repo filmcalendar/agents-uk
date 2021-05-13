@@ -12,4 +12,4 @@ export * as BBC from './live-tv/bbc';
 export * as Channel4 from './live-tv/channel-4';
 
 // STREAMING
-export * as BbcIplayer from './streaming/bbc-iplayer';
+export * as BBCiPlayer from './streaming/bbc-iplayer';

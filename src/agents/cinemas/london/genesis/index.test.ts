@@ -53,8 +53,7 @@ describe('genesis', () => {
     const result = await agent.collection(url);
 
     const expected = {
-      url:
-        'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63',
+      url: 'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63',
       name: 'Anniversary Season',
       programme: [
         'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=2572401',
@@ -113,9 +112,8 @@ describe('genesis', () => {
     const result = await agent.page(url, provider, _data);
 
     const expected = {
-      dateTime: '2020-12-03T21:00:00.000Z',
-      link:
-        'https://genesiscinema.co.uk/GenesisCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_22710131.TcsSection_4496269',
+      dateTime: '2021-12-03T21:00:00.000Z',
+      link: 'https://genesiscinema.co.uk/GenesisCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_22710131.TcsSection_4496269',
       attributes: [],
     };
     expect(result?.sessions).toHaveLength(1);

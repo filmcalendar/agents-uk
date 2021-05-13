@@ -1,5 +1,5 @@
 import program from '@filmcalendar/agents-core';
 
-import agents from 'src/agents';
+import agents from './agents';
 
 program(agents);

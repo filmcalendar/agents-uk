@@ -111,10 +111,9 @@ export const programme: FC.Agent.ProgrammeFn = async (provider) => {
   const $page = await fletch.html(url);
 
   const availableDatesUrls = getAvailableDatesUrls(url, $page);
-  const schedule = await seriesWith(
-    availableDatesUrls,
-    getDailySchedule
-  ).then((data) => data.flat());
+  const schedule = await seriesWith(availableDatesUrls, getDailySchedule).then(
+    (data) => data.flat()
+  );
   const prg = schedule
     .map((item) => item.props.href)
     .map((href) => URL.resolve(url, href || ''));

@@ -3,7 +3,6 @@ import $ from 'cheerio';
 import slugify from '@sindresorhus/slugify';
 import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
-import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 

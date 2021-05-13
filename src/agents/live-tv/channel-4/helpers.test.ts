@@ -42,7 +42,7 @@ describe('channel4 - helpers', () => {
     expect.assertions(1);
     const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1607380796000);
     const result = getAvailableDates(
-      (mockResponse as unknown) as C4.DailyProgramme
+      mockResponse as unknown as C4.DailyProgramme
     );
 
     const expected = [
