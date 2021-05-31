@@ -1,10 +1,13 @@
 # agents-uk
 
 <p>
-  <a href="https://codecov.io/gh/filmcalendar/agents-uk">
-    <img src="https://codecov.io/gh/filmcalendar/agents-uk/branch/main/graph/badge.svg?token=4B95Z0Z74R"/>
+  <a href="https://codeclimate.com/github/filmcalendar/agents-uk/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/590ff1d2e95f2dac76cd/maintainability" />
   </a>
-  <img src="https://github.com/filmcalendar/agents-uk/workflows/Release/badge.svg">
+  <a href="https://codeclimate.com/github/filmcalendar/agents-uk/test_coverage">
+    <img src="https://api.codeclimate.com/v1/badges/590ff1d2e95f2dac76cd/test_coverage" />
+  </a>
+  <img src="https://github.com/filmcalendar/agents-uk/workflows/Build/badge.svg">
 </p>
 
 > United Kingdom agents

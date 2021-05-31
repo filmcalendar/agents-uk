@@ -1,6 +1,6 @@
-/.vscode
-/.bin
+/.nyc_output
 /coverage
+/.bin
 /data
 /docker
 /node_modules
