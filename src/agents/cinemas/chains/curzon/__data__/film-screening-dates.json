@@ -1,0 +1,352 @@
+{
+  "filmScreeningDates": [
+    {
+      "businessDate": "2021-06-15",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003137",
+          "sites": [
+            { "siteId": "ALD1", "showtimeAttributeIds": ["0000000011"] }
+          ]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-16",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003372",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003239",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003429",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-17",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003372",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003239",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003429",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-18",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-19",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-20",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-21",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003137",
+          "sites": [
+            { "siteId": "ALD1", "showtimeAttributeIds": ["0000000011"] }
+          ]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-22",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003137",
+          "sites": [
+            { "siteId": "ALD1", "showtimeAttributeIds": ["0000000011"] }
+          ]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-23",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003381",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-24",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003137",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003407",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003391",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003439",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003450",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        },
+        {
+          "filmId": "HO00003408",
+          "sites": [{ "siteId": "ALD1", "showtimeAttributeIds": [] }]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-06-30",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003433",
+          "sites": [
+            {
+              "siteId": "ALD1",
+              "showtimeAttributeIds": ["0000000032", "0000000008"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-07-07",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003441",
+          "sites": [
+            { "siteId": "ALD1", "showtimeAttributeIds": ["0000000006"] }
+          ]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-07-11",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003382",
+          "sites": [
+            {
+              "siteId": "ALD1",
+              "showtimeAttributeIds": ["0000000017", "0000000008"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-07-29",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003444",
+          "sites": [
+            {
+              "siteId": "ALD1",
+              "showtimeAttributeIds": ["0000000008", "0000000010"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "businessDate": "2021-09-02",
+      "filmScreenings": [
+        {
+          "filmId": "HO00003442",
+          "sites": [
+            { "siteId": "ALD1", "showtimeAttributeIds": ["0000000006"] }
+          ]
+        }
+      ]
+    }
+  ]
+}

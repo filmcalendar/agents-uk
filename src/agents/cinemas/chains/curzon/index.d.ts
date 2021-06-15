@@ -1,41 +1,100 @@
-export type Cinema = {
-  Cinema_Id: string;
-  CinemaName: string;
+type CinemaData = {
+  address: string;
+  city: string;
+  findMoreLink: string;
+  id: string;
+  name: string;
+  postcode: string;
+};
+
+export type VenueFinderSearchData = {
+  cinemas: CinemaData[];
+};
+
+type ComponentData = {
+  componentType: string;
+  id: string;
+  props: VenueFinderSearchData | unknown;
+};
+
+type InitialiseData = {
+  api: {
+    authToken: string;
+    url: string;
+  };
+};
+
+export type InitData = {
+  initData: {
+    componentsData: ComponentData[];
+    occInititialiseData: InitialiseData;
+  };
 };
 
 export type ProviderData = {
+  authToken: string;
   cinemaId: string;
-  urlThisWeek: string;
-  urlComingSoon: string;
+  apiUrl: string;
 };
 
-export type Experience = {
-  Name: string;
+export type FilmScreenings = {
+  filmId: string;
 };
 
-export type Screening = {
-  StartDateTime: string;
-  SoldOut: boolean;
-  NotBookable: boolean;
-  SessionExpired: boolean;
-  CinemaId: string;
-  Scheduleid: string;
-  Experience: Experience[];
+export type FilmScreeningDates = {
+  businessDate: string;
+  filmScreenings: FilmScreenings[];
 };
 
-export type ExperienceType = {
-  Times: Screening[];
+export type FilmScreeningDatesResponse = {
+  filmScreeningDates: FilmScreeningDates[];
 };
 
-export type Session = {
-  ExperienceTypes: ExperienceType[];
+type Showtime = {
+  id: string;
+  attributeIds: string[];
+  schedule: {
+    startsAt: string;
+  };
 };
 
-export type FilmData = {
-  Title: string;
-  FriendlyName: string;
-  Director: string;
-  Cast: string;
-  Sessions: Session[];
-  FilmData?: FilmData;
+type CastAndCrew = {
+  castAndCrewMemberId: string;
+  roles: string[];
+};
+
+type Person = {
+  id: string;
+  name: {
+    givenName: string;
+    middleName: string | null;
+    familyName: string;
+  };
+};
+
+export type FilmPeople = Record<string, string>;
+
+type Attribute = {
+  id: string;
+  shortName: { text: string };
+};
+
+export type AttributesMap = Record<string, string>;
+
+type Film = {
+  id: string;
+  title: { text: string };
+  castAndCrew: CastAndCrew[];
+};
+
+type RelatedData = {
+  attributes: Attribute[];
+  castAndCrew: Person[];
+  films: Film[];
+};
+
+export type BusinessDateResponse = {
+  businessDate: string;
+  showtimes: Showtime[];
+  relatedData: RelatedData;
 };

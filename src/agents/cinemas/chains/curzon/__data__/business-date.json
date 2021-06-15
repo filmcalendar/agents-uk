@@ -1,0 +1,241 @@
+{
+  "businessDate": "2021-06-15",
+  "showtimes": [
+    {
+      "id": "ALD1-27902",
+      "schedule": {
+        "businessDate": "2021-06-15",
+        "startsAt": "2021-06-15T21:10:00+01:00",
+        "endsAt": "2021-06-15T23:12:00+01:00",
+        "filmStartsAt": "2021-06-15T21:35:00+01:00",
+        "filmEndsAt": "2021-06-15T23:12:00+01:00"
+      },
+      "isSoldOut": false,
+      "seatLayoutId": 4,
+      "filmId": "HO00003137",
+      "siteId": "ALD1",
+      "screenId": "ALD1-2",
+      "attributeIds": ["0000000011"],
+      "isAllocatedSeating": true,
+      "requires3dGlasses": false,
+      "eventId": null,
+      "restrictions": ["FilmAdvanceBookingRule"],
+      "filmAdvanceBookingRuleId": "ALD1-2-HO00003137"
+    }
+  ],
+  "relatedData": {
+    "sites": [
+      {
+        "id": "ALD1",
+        "name": { "text": "Aldgate", "translations": [] },
+        "location": null,
+        "contactDetails": {
+          "phoneNumbers": [],
+          "email": "",
+          "address": {
+            "line1": "2 Canter Way",
+            "line2": "London ",
+            "city": " E1 8PS"
+          }
+        },
+        "ianaTimeZoneName": "Europe/London"
+      }
+    ],
+    "films": [
+      {
+        "id": "HO00003137",
+        "title": { "text": "A Quiet Place Part II", "translations": [] },
+        "synopsis": {
+          "text": "Following the deadly events at home, the Abbott family (Emily Blunt, Millicent Simmonds, Noah Jupe) must now face the terrors of the outside world as they continue their fight for survival in silence. Forced to venture into the unknown, they quickly realize that the creatures that hunt by sound are not the only threats that lurk beyond the sand path. ",
+          "translations": []
+        },
+        "shortSynopsis": {
+          "text": "Following the deadly events at home, the Abbott family must now face the terrors of the outside world as they continue their fight for survival in silence. ",
+          "translations": []
+        },
+        "censorRatingId": "HO00000006",
+        "censorRatingNote": {
+          "text": "Sustained threat, bloody images",
+          "translations": []
+        },
+        "releaseDate": "2021-06-03",
+        "runtimeInMinutes": 97,
+        "trailerUrl": "https://www.youtube.com/watch?v=71ayAvCf78Q",
+        "displayPriority": 50,
+        "castAndCrew": [
+          { "castAndCrewMemberId": "0000000340", "roles": ["Actor"] },
+          { "castAndCrewMemberId": "0000000341", "roles": ["Actor"] },
+          { "castAndCrewMemberId": "0000000342", "roles": ["Actor"] },
+          {
+            "castAndCrewMemberId": "0000000343",
+            "roles": ["Actor", "Director"]
+          },
+          { "castAndCrewMemberId": "0000000344", "roles": ["Actor"] },
+          { "castAndCrewMemberId": "0000000345", "roles": ["Actor"] },
+          { "castAndCrewMemberId": "0000000346", "roles": ["Producer"] },
+          { "castAndCrewMemberId": "0000000347", "roles": ["Producer"] },
+          { "castAndCrewMemberId": "0000000348", "roles": ["Producer"] }
+        ],
+        "genreIds": ["0000000002", "0000000030", "0000000035"],
+        "categories": ["NowShowing"],
+        "showtimeAttributeIds": ["0000000011"],
+        "externalIds": {
+          "moviexchangeReleaseId": "e72d7dd5-5529-4a7a-8596-04490110c5f6",
+          "corporateId": null
+        },
+        "hopk": "HO00003137",
+        "hoCode": "A000003916",
+        "eventId": null,
+        "distributorName": "Paramount",
+        "siteData": [
+          { "siteId": "ALD1", "filmAdvanceBookingRuleId": "ALD1-2-HO00003137" },
+          {
+            "siteId": "CAN01",
+            "filmAdvanceBookingRuleId": "CAN01-2-HO00003137"
+          },
+          { "siteId": "COL1", "filmAdvanceBookingRuleId": "COL1-2-HO00003137" },
+          { "siteId": "HOX1", "filmAdvanceBookingRuleId": "HOX1-2-HO00003137" },
+          { "siteId": "KNU1", "filmAdvanceBookingRuleId": "KNU1-2-HO00003137" },
+          { "siteId": "OXF1", "filmAdvanceBookingRuleId": "OXF1-2-HO00003137" },
+          { "siteId": "SHE1", "filmAdvanceBookingRuleId": "SHE1-2-HO00003137" },
+          { "siteId": "VIC1", "filmAdvanceBookingRuleId": "VIC1-2-HO00003137" }
+        ]
+      }
+    ],
+    "castAndCrew": [
+      {
+        "id": "0000000340",
+        "name": {
+          "givenName": "Cillian",
+          "familyName": "Murphy",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000341",
+        "name": {
+          "givenName": "Emily",
+          "familyName": "Blunt",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000342",
+        "name": {
+          "givenName": "Djimon",
+          "familyName": "Hounsou",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000343",
+        "name": {
+          "givenName": "John",
+          "familyName": "Krasinski",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000344",
+        "name": {
+          "givenName": "Millicent ",
+          "familyName": "Simmonds",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000345",
+        "name": {
+          "givenName": "Noah",
+          "familyName": "Jupe",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000346",
+        "name": {
+          "givenName": "Michael",
+          "familyName": "Bay",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000347",
+        "name": {
+          "givenName": "Andrew",
+          "familyName": "Form",
+          "middleName": null
+        }
+      },
+      {
+        "id": "0000000348",
+        "name": {
+          "givenName": "Brad",
+          "familyName": "Fuller",
+          "middleName": null
+        }
+      }
+    ],
+    "genres": [
+      {
+        "id": "0000000002",
+        "name": { "text": "Drama", "translations": [] },
+        "description": { "text": "Drama", "translations": [] }
+      },
+      {
+        "id": "0000000030",
+        "name": { "text": "Horror", "translations": [] },
+        "description": null
+      },
+      {
+        "id": "0000000035",
+        "name": { "text": "Sci-fi", "translations": [] },
+        "description": null
+      }
+    ],
+    "censorRatings": [
+      {
+        "id": "HO00000006",
+        "classification": { "text": "15", "translations": [] },
+        "classificationDescription": { "text": "15", "translations": [] },
+        "ageRestriction": { "minimumAge": 0 }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "0000000011",
+        "name": {
+          "text": "Subtitled screening for Hard of Hearing",
+          "translations": []
+        },
+        "shortName": {
+          "text": "Subtitled",
+          "translations": []
+        },
+        "description": null,
+        "importantMessage": null,
+        "displayPriority": 100,
+        "isPromoted": false
+      }
+    ],
+    "screens": [
+      { "id": "ALD1-2", "name": { "text": "Screen 2", "translations": [] } }
+    ],
+    "events": [],
+    "filmAdvanceBookingRules": [
+      {
+        "id": "ALD1-2-HO00003137",
+        "filmId": "HO00003137",
+        "siteId": "ALD1",
+        "bookingPeriods": [
+          {
+            "startsAt": "2019-10-12T06:00:00+01:00",
+            "bookingModes": ["Paid", "Unpaid", "UnpaidConfirmed"],
+            "restrictions": [],
+            "loyaltyRewardId": null
+          }
+        ]
+      }
+    ]
+  }
+}

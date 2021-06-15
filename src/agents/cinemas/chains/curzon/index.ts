@@ -1,19 +1,15 @@
 import fletch from '@tuplo/fletch';
-import slugify from '@sindresorhus/slugify';
-import seriesWith from '@tuplo/series-with';
-import URL from 'url';
+import { URL } from 'url';
+import $ from 'cheerio';
 
 import type * as FC from '@filmcalendar/types';
-import isSpecialScreening from 'src/lib/is-special-screening';
 
 import type * as CZ from './index.d';
 import {
-  getCinemaInfo,
-  getPageFilmData,
-  getFilmData,
-  getTitle,
-  getDirector,
-  getCast,
+  requestCurzonApi,
+  getFilmScreeningDates,
+  getFilmPeople,
+  getFilmInfo,
   getSessions,
 } from './helpers';
 
@@ -27,60 +23,76 @@ export const register: FC.Agent.RegisterFn = () => ({
 });
 
 export const providers: FC.Agent.ProvidersFn = async () => {
-  const url = 'https://movie-curzon.peachdigital.com/quickbook/GetCinemas/36';
+  const url = 'https://www.curzon.com/venues/';
 
-  const json = await fletch.json<CZ.Cinema[]>(url);
-  const providerList = json.map((item) => {
-    const { CinemaName: name, Cinema_Id: cinemaId } = item;
-    const slug = slugify(name);
-    const _data: CZ.ProviderData = {
-      cinemaId,
-      urlThisWeek: `https://www.curzoncinemas.com/${slug}/this-week`,
-      urlComingSoon: `https://www.curzoncinemas.com/${slug}/coming-soon`,
-    };
+  const { initData } = await fletch.script<CZ.InitData>(url, {
+    scriptSandbox: { window: { initialiseWidgets: () => null } },
+    scriptFindFn: ($page) =>
+      $page
+        .find('script')
+        .toArray()
+        .find((script) => /initData/.test($(script).html() || '')),
+  });
+  if (!initData) return [];
+
+  const venueFinderSearch = initData.componentsData.find(
+    (component) => component.componentType === 'VenueFinderSearch'
+  );
+  if (!venueFinderSearch) return [];
+
+  const { props } = venueFinderSearch as { props: CZ.VenueFinderSearchData };
+  const { cinemas = [] } = props;
+  const { api } = initData.occInititialiseData;
+  const { authToken } = api;
+
+  return cinemas.map((cinema) => {
+    const { address, city, findMoreLink, id, name, postcode } = cinema;
 
     return {
-      name,
+      address: [address, city, postcode].join(', '),
       chain: 'Curzon',
-      url: `https://www.curzoncinemas.com/${slug}/info`,
-      _data,
-    };
+      name: name.replace(/curzon/i, '').trim(),
+      type: 'cinema',
+      url: new URL(findMoreLink, url).href,
+      _data: {
+        authToken,
+        cinemaId: id,
+        apiUrl: api.url,
+      },
+    } as FC.Agent.Provider;
   });
-
-  return seriesWith(providerList, getCinemaInfo);
 };
 
 export const programme: FC.Agent.ProgrammeFn = async (provider) => {
-  const { urlThisWeek, urlComingSoon } = provider._data as CZ.ProviderData;
+  const filmScreeningDates = await getFilmScreeningDates(provider);
 
-  const programmes = await seriesWith(
-    [urlThisWeek, urlComingSoon],
-    getPageFilmData
-  );
-
-  const prg = programmes
-    .flat()
-    .filter((film) => !isSpecialScreening(film.Title))
-    .map((film) => film.FriendlyName)
-    .map((path) => URL.resolve(urlThisWeek, path));
+  const prg = filmScreeningDates
+    .flatMap((fsd) => fsd.filmScreenings)
+    .map((fs) => fs.filmId)
+    .map((filmId) => `https://www.curzon.com/films/${filmId}`);
 
   return { programme: [...new Set(prg)] };
 };
 
 export const page: FC.Agent.PageFn = async (url, provider) => {
-  const $page = await fletch.html(url);
-  const [film] = getFilmData($page);
+  const { _data } = provider;
+  const { cinemaId } = _data as CZ.ProviderData;
+
+  const parts = url.split('/');
+  const filmId = parts[parts.length - 1];
+
+  const { relatedData } = await requestCurzonApi<CZ.BusinessDateResponse>(
+    '/ocapi/v1/browsing/master-data/showtimes/business-date/first',
+    { urlSearchParams: { filmIds: filmId, siteIds: cinemaId } },
+    provider
+  );
+  const { films = [], castAndCrew } = relatedData;
+  const filmPeople = getFilmPeople(castAndCrew);
 
   return {
     url,
     provider,
-    films: [
-      {
-        title: getTitle(film),
-        director: getDirector(film),
-        cast: getCast(film),
-      },
-    ],
-    sessions: getSessions(film),
+    films: films.map((film) => getFilmInfo(film, filmPeople)),
+    sessions: await getSessions(filmId, provider),
   };
 };
