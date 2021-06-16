@@ -65,6 +65,3 @@ jobs:
         with:
           fc-country: ${{ steps.dotenv.outputs.FC_COUNTRY }}
           docker-registry-password: ${{ secrets.GH_TOKEN }}
-      - uses: actions/delete-package-versions@v1
-        with:
-          package-name: fc-agents-${{ steps.dotenv.outputs.FC_COUNTRY }}
