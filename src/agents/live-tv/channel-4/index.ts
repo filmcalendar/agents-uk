@@ -3,7 +3,7 @@ import type * as FC from '@filmcalendar/types';
 import fletch from '@tuplo/fletch';
 import dtFormat from 'date-fns/format';
 import seriesWith from '@tuplo/series-with';
-import URL from 'url';
+import { URL } from 'url';
 
 import type * as C4 from './index.d';
 import type { GetDailyProgrammeParams } from './helpers';
@@ -58,8 +58,8 @@ export const programme: FC.Agent.ProgrammeFn = async (venue) => {
     getDailyProgramme
   ).then((data) => data.flat());
 
-  const prg = programs.map((program) =>
-    URL.resolve('https://www.channel4.com', program.url)
+  const prg = programs.map(
+    (program) => new URL(program.url, 'https://www.channel4.com').href
   );
 
   return { programme: [...new Set(prg)], _data: { programs } };
