@@ -5,7 +5,6 @@ import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
 
 import type * as FC from '@filmcalendar/types';
-
 import type * as BFI from './index.d';
 
 type GetArticleContextFn = ($page: cheerio.Cheerio) => BFI.ArticleContext;

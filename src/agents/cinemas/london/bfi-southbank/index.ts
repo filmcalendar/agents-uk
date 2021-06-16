@@ -1,5 +1,5 @@
 import $ from 'cheerio';
-import URL from 'url';
+import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
@@ -63,17 +63,19 @@ export const collections: FC.Agent.CollectionsFn = async () => {
 export const collection: FC.Agent.CollectionFn = async (url) => {
   const $page = await fletch.html(url);
 
-  const name = $page.find('.main-article-body h1').text();
-  const description = $page.find('.main-article-body .section-intro').text();
+  const name = $page.find('.main-article-body > h1').text();
+  const description = $page
+    .find('.main-article-body > h3:first-of-type')
+    .text();
   const [image] = $page
-    .find('p > img')
+    .find('[href^="#synopsis"] > img')
     .toArray()
     .map((img) => $(img).attr('src'))
-    .map((src) => URL.resolve(url, src || ''));
+    .map((src) => new URL(src || '', url).href);
 
-  const { searchResults } = getArticleContext($page);
+  const { searchResults = [] } = getArticleContext($page);
   const prg = searchResults
-    .map((result) => result[14])
+    .map((result) => result[18])
     .map((href) => {
       const [, articleId] = /article_id=([A-Z0-9-]+)/.exec(href) || ['', ''];
       return getExpandedUrl(articleId);
@@ -102,7 +104,7 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
     .filter(Boolean)
     .sort((a, b) => (a && b ? a.localeCompare(b) : 0))
     .map((href) => `/Online/${href}`)
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { programme: [...new Set(prg)] };
 };

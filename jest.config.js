@@ -4,7 +4,6 @@ export default {
   moduleNameMapper: {
     'src/(.*)': '<rootDir>/src/$1',
   },
-  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.[jt]s$': 'ts-jest',
   },

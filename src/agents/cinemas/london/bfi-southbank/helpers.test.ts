@@ -21,7 +21,7 @@ describe('bfi southbank - helpers', () => {
   const dataDir = `${__dirname}/__data__`;
   nock('https://whatson.bfi.org.uk')
     .persist()
-    .get('/Online/article/akira2020')
+    .get(/Online\/article\/.+/)
     .replyWithFile(200, `${dataDir}/film.html`);
 
   afterAll(() => {
@@ -30,23 +30,25 @@ describe('bfi southbank - helpers', () => {
 
   it('extracts credits', () => {
     expect.assertions(1);
+
     const $page = $.load(mockFilmHtml).root();
     const result = getCredits($page);
 
     const expected: string[] = [
-      'Japan 1988',
-      'Dir Katsuhiro Otomo',
-      'With the voices of Mitsuo Iwata, Nozomu Sasaki, Mami Koyama',
-      '125min',
+      'USA-Germany 2020',
+      'Dir Chloé Zhao',
+      'With Frances McDormand, David Strathairn, Linda May, Swankie',
+      '107min',
       'Digital',
-      'English subtitles',
-      'Certificate 15',
+      'Certificate 12A',
+      'A Walt Disney Studios Motion Pictures UK release',
     ];
     expect(result).toStrictEqual(expected);
   });
 
   it('extracts the article context', () => {
     expect.assertions(1);
+
     const $page = $.load(mockFilmHtml).root();
     const result = getArticleContext($page);
 
@@ -55,6 +57,7 @@ describe('bfi southbank - helpers', () => {
 
   it('extracts events', () => {
     expect.assertions(1);
+
     const $page = $.load(mockFilmHtml).root();
     const result = getEvents($page);
 
@@ -63,6 +66,7 @@ describe('bfi southbank - helpers', () => {
 
   it('lists sessions', () => {
     expect.assertions(1);
+
     const $page = $.load(mockFilmHtml).root();
     const result = getSessions($page);
 
@@ -71,12 +75,13 @@ describe('bfi southbank - helpers', () => {
 
   it('gets expanded url for a page', async () => {
     expect.assertions(1);
+
     const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
     const $page = await fletch.html(url);
     const result = getExpandedUrlFromPage($page);
 
     const expected =
-      'https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=A75F9B94-4D72-4551-9525-080853567746';
+      'https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=E7F346D1-95D4-4916-AE8A-35A2860B86EA';
     expect(result).toBe(expected);
   });
 });
