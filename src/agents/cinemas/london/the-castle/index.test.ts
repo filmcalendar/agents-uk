@@ -21,6 +21,7 @@ describe('the-castle', () => {
 
   it('featured', async () => {
     expect.assertions(2);
+
     const [provider] = await agent.providers();
     const result = await agent.featured(provider);
 
@@ -32,22 +33,9 @@ describe('the-castle', () => {
     expect(result).toStrictEqual(expected);
   });
 
-  it('programme', async () => {
-    expect.assertions(2);
-    const [provider] = await agent.providers();
-    const result = await agent.programme(provider);
-
-    const expected = [
-      'https://thecastlecinema.com/programme/2289750/cine-real-the-snowman/',
-      'https://thecastlecinema.com/programme/3152194/cocoon/',
-      'https://thecastlecinema.com/programme/3141361/coraline/',
-    ];
-    expect(result.programme).toHaveLength(20);
-    expect(result.programme.slice(0, 3)).toStrictEqual(expected);
-  });
-
   it('collections', async () => {
     expect.assertions(1);
+
     const [provider] = await agent.providers();
     const result = await agent.collections(provider);
 
@@ -60,6 +48,7 @@ describe('the-castle', () => {
 
   it('collection', async () => {
     expect.assertions(2);
+
     const [provider] = await agent.providers();
     const collectionData = await agent.collections(provider);
     const [url] = collectionData.collections;
@@ -77,6 +66,7 @@ describe('the-castle', () => {
 
   it('collection (no season page)', async () => {
     expect.assertions(1);
+
     const [provider] = await agent.providers();
     const collectionData = await agent.collections(provider);
     const [, url] = collectionData.collections;
@@ -88,6 +78,21 @@ describe('the-castle', () => {
       programme: ['/programme/3049995/this-film-shouldn-t-exist/'],
     };
     expect(result).toStrictEqual(expected);
+  });
+
+  it('programme', async () => {
+    expect.assertions(2);
+
+    const [provider] = await agent.providers();
+    const result = await agent.programme(provider);
+
+    const expected = [
+      'https://thecastlecinema.com/programme/2289750/cine-real-the-snowman/',
+      'https://thecastlecinema.com/programme/3152194/cocoon/',
+      'https://thecastlecinema.com/programme/3141361/coraline/',
+    ];
+    expect(result.programme).toHaveLength(20);
+    expect(result.programme.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('film', async () => {

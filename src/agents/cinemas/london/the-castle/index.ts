@@ -1,5 +1,5 @@
 import $ from 'cheerio';
-import URL from 'url';
+import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
@@ -39,7 +39,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
     .find('.hero-home a[href^="/programme"]')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return [...new Set(feats)];
 };
@@ -61,7 +61,7 @@ export const collections: FC.Agent.CollectionsFn = async () => {
       if (!href || !pageUrl) return acc;
       if (/^\/organisation/.test(href)) return acc;
 
-      const collectionUrl = URL.resolve(url, href);
+      const collectionUrl = new URL(href, url).href;
       const newCollection =
         acc.get(collectionUrl) ||
         ({ url: '', name: '', programme: [] } as FC.Agent.Collection);
@@ -88,16 +88,14 @@ export const collection: FC.Agent.CollectionFn = async (url, options) => {
     .toArray()
     .map((p) => $(p).text().trim())
     .filter(Boolean);
-  const image = URL.resolve(
-    url,
-    $page.find('.hero-image img').attr('src') || ''
-  );
+  const image = new URL($page.find('.hero-image img').attr('src') || '', url)
+    .href;
 
   const prg = $page
     .find('.tile-details > a')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { name, description, image, url, programme: [...new Set(prg)] };
 };
@@ -111,7 +109,7 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
     .toArray()
     .filter((a) => !/Pitchblack Playback/i.test($(a).text()))
     .map((a) => $(a).attr('href'))
-    .map((href) => (href ? URL.resolve(url, href) : ''))
+    .map((href) => (href ? new URL(href, url).href : ''))
     .filter(Boolean);
 
   return { programme: [...new Set(prg)] };
