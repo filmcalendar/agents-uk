@@ -47,15 +47,15 @@
   },
   "scripts": {
     "build": "bash scripts/build.sh",
-    "ci:test": "jest --ci",
+    "ci:test": "TZ='Europe/London' jest --ci",
     "ci:test:coverage": "bash ./scripts/coverage.sh",
     "dev": "bash scripts/watch.sh",
     "docker:rm-all": "docker rm $(docker ps -a -q)",
     "docker:rmi-all": "docker rmi -f $(docker images -q)",
     "docker:run": "env-cmd -f .env.secrets fc-agents-docker-run-local",
     "lint": "eslint --ext .ts src/",
-    "dev-run": "NODE_ENV=development fc-agent",
-    "test": "jest --watch",
+    "dev-run": "TZ='Europe/London' NODE_ENV=development fc-agent",
+    "test": "TZ='Europe/London' jest --watch",
     "ts-check": "tsc --noEmit",
     "validate": "yarn lint; yarn ts-check; yarn ci:test"
   },
