@@ -16,6 +16,7 @@ describe('genesis cinema - helpers', () => {
 
   it('extracts events inline', async () => {
     expect.assertions(1);
+
     const url = 'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn';
     const result = await getEventsInline(url);
 

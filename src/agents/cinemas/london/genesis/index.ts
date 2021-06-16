@@ -1,4 +1,4 @@
-import URL from 'url';
+import { URL } from 'url';
 import $ from 'cheerio';
 import fletch from '@tuplo/fletch';
 
@@ -39,7 +39,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
     .find('#banner .item a[href^=WhatsOn]')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return [...new Set(feats)];
 };
@@ -53,7 +53,7 @@ export const collections: FC.Agent.CollectionsFn = async (provider) => {
     .find('ul .has-children li:not(.go-back) a')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { collections: [...new Set(urls)] };
 };
@@ -67,7 +67,7 @@ export const collection: FC.Agent.CollectionFn = async (url) => {
     .find('.film-title > a')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { name, url, programme: [...new Set(prg)] };
 };
@@ -77,14 +77,13 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
   const events = await getEventsInline(url);
 
   const prg = events
-    .filter(
-      (event) =>
-        !/Live Music, Ballet & Theatre/i.test(event.type) &&
-        !/Online Screenings/.test(event.type)
-    )
+    .filter((event) => !/Live Music, Ballet & Theatre/i.test(event.type))
+    .filter((event) => !/Online Screenings/i.test(event.type))
     .filter((event) => !/Hot Desking/i.test(event.title))
+    .filter((event) => !/The Yard - Book a Table/i.test(event.title))
+    .filter((event) => !/Euro \d{4} at Genesis/i.test(event.title))
     .map((event) => event.url)
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { programme: [...new Set(prg)] };
 };

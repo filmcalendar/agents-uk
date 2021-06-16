@@ -2,7 +2,7 @@ import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
 import slugify from '@sindresorhus/slugify';
 import dtParse from 'date-fns/parse';
-import URL from 'url';
+import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
@@ -132,7 +132,7 @@ const getSession: GetSessionFn = (el, day, url, eventAttributes) => {
     'EEE d MMM yyyy HH:mm',
     Date.now()
   ).toISOString();
-  const link = URL.resolve(url, $el.attr('href') || '');
+  const link = new URL($el.attr('href') || '', url).href;
 
   return {
     dateTime,
