@@ -10,14 +10,15 @@ import {
 } from './helpers';
 
 describe('bbc-iplayer - helpers', () => {
-  const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1607380796000);
+  // 2021-06-16
+  const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1623848047000);
 
   const dataDir = `${__dirname}/__data__`;
   nock('https://www.bbc.co.uk')
     .persist()
     .get('/iplayer/categories/films/a-z')
     .replyWithFile(200, `${dataDir}/films.html`)
-    .get('/iplayer/episode/b0074n82/citizen-kane')
+    .get('/iplayer/episode/m0007zh7/20th-century-women')
     .replyWithFile(200, `${dataDir}/film.html`);
 
   afterAll(() => {
@@ -27,67 +28,62 @@ describe('bbc-iplayer - helpers', () => {
 
   it('get page programme', async () => {
     expect.assertions(2);
+
     const url = 'https://www.bbc.co.uk/iplayer/categories/films/a-z';
     const result = await getPageProgramme(url);
 
     const expected = [
-      'https://www.bbc.co.uk/iplayer/episode/p04b183c/adam-curtis-hypernormalisation',
+      'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women',
+      'https://www.bbc.co.uk/iplayer/episode/m000kkby/310-to-yuma-2007',
       'https://www.bbc.co.uk/iplayer/episode/b0078tnk/a-damsel-in-distress',
-      'https://www.bbc.co.uk/iplayer/episode/p07ctvvn/a-high-school-rape-goes-viral-roll-red-roll',
-      'https://www.bbc.co.uk/iplayer/episode/m000pqsk/amundsen',
-      'https://www.bbc.co.uk/iplayer/episode/b00785fw/angel-face',
     ];
     expect(result).toHaveLength(36);
-    expect(result.slice(0, 5)).toStrictEqual(expected);
+    expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('gets episode id from url', () => {
     expect.assertions(1);
-    const url = 'https://www.bbc.co.uk/iplayer/episode/b0074n82/citizen-kane';
+
+    const url =
+      'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const result = getEpisodeIdFromUrl(url);
 
-    const expected = 'b0074n82';
+    const expected = 'm0007zh7';
     expect(result).toBe(expected);
   });
 
   it('get title', async () => {
     expect.assertions(1);
-    const url = 'https://www.bbc.co.uk/iplayer/episode/b0074n82/citizen-kane';
+
+    const url =
+      'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const $page = await fletch.html(url);
     const result = getTitle($page);
 
-    const expected = 'Citizen Kane';
+    const expected = '20th Century Women';
     expect(result).toBe(expected);
   });
 
   it('get credits', async () => {
     expect.assertions(1);
-    const url = 'https://www.bbc.co.uk/iplayer/episode/b0074n82/citizen-kane';
+
+    const url =
+      'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const $page = await fletch.html(url);
     const result = getCredits($page);
 
     const expected = new Map([
-      ['director', ['Orson Welles']],
+      ['director', ['Mike Mills']],
       [
         'cast',
         [
-          'Orson Welles',
-          'Buddy Swan',
-          'Sonny Bupp',
-          'Harry Shannon',
-          'Joseph Cotten',
-          'Everett Sloane',
-          'Agnes Moorehead',
-          'Ray Collins',
-          'Dorothy Comingore',
-          'George Coulouris',
-          'Paul Stewart',
-          'Ruth Warrick',
-          'Fortunio Bonanova',
-          'Gus Schilling',
-          'Erskine Sanford',
-          'Philip Van Zandt',
-          'William Alland',
+          'Annette Bening',
+          'Elle Fanning',
+          'Greta Gerwig',
+          'Billy Crudup',
+          'Lucas Jade Zumann',
+          'Alison Elliott',
+          'Thea Gill',
         ],
       ],
     ]);
@@ -96,13 +92,15 @@ describe('bbc-iplayer - helpers', () => {
 
   it('get availability', async () => {
     expect.assertions(1);
-    const url = 'https://www.bbc.co.uk/iplayer/episode/b0074n82/citizen-kane';
+
+    const url =
+      'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const $page = await fletch.html(url);
     const result = getAvailability($page);
 
     const expected = {
-      start: '2020-12-07T00:00:00.000Z',
-      end: '2020-12-14T02:00:00.000Z',
+      start: '2021-06-16T00:00:00.000Z',
+      end: '2021-06-29T00:30:00.000Z',
       attributes: ['audio-described', 'sign-language'],
     };
     expect(result).toStrictEqual(expected);

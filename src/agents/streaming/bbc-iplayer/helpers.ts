@@ -1,5 +1,5 @@
 import $ from 'cheerio';
-import URL from 'url';
+import { URL } from 'url';
 import dtParse from 'date-fns/parse';
 import dtAdd from 'date-fns/add';
 import dtFormat from 'date-fns/format';
@@ -14,7 +14,7 @@ export const getPageProgramme: GetPageProgrammeFn = async (url) => {
     .find('.list .content-item__link')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 };
 
 type GetEpisodeIdFromUrlFn = (url: string) => string;

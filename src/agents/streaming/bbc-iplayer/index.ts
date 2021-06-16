@@ -1,6 +1,6 @@
 import $ from 'cheerio';
 import fletch from '@tuplo/fletch';
-import URL from 'url';
+import { URL } from 'url';
 import seriesWith from '@tuplo/series-with';
 import type * as FC from '@filmcalendar/types';
 
@@ -37,7 +37,7 @@ export const featured: FC.Agent.FeaturedFn = async () => {
     .find('.grid__item .content-item__link')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return [...new Set(feats)];
 };
@@ -50,7 +50,7 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
     .find('.pagination__list .button--clickable')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
   const pageUrls = [url, ...otherPageUrls];
   const prg = await seriesWith(pageUrls, getPageProgramme);
 
