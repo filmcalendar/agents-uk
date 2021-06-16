@@ -31,7 +31,7 @@
     "@typescript-eslint/eslint-plugin": "4.27.0 ",
     "@typescript-eslint/parser": "4.27.0",
     "env-cmd": "10.1.0",
-    "esbuild": "0.12.8",
+    "esbuild": "0.12.9",
     "eslint": "7.28.0",
     "eslint-config-airbnb-typescript": "12.3.1",
     "eslint-config-prettier": "8.3.0",
@@ -82,7 +82,6 @@
     },
     "rules": {
       "jest/no-hooks": "off",
-      "@typescript-eslint/comma-dangle": "off",
       "no-underscore-dangle": "off"
     },
     "overrides": [

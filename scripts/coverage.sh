@@ -5,4 +5,5 @@ rimraf coverage/
 rimraf .nyc_output/
 
 NODE_ENV=test LOG_LEVEL=silent nyc yarn ci:test \
-  --coverage true --coverageReporters lcov
+  --coverage true \
+  --coverageReporters lcov
