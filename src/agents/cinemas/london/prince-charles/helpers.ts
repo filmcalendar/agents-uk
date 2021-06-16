@@ -2,7 +2,7 @@ import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
 import slugify from '@sindresorhus/slugify';
 import dtParse from 'date-fns/parse';
-import URL from 'url';
+import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
@@ -95,7 +95,7 @@ export const getSession: GetSessionFn = (event, url, eventAttributes) => {
     'yyyy-MM-dd h:mma',
     Date.now()
   ).toISOString();
-  const link = URL.resolve(url, Url);
+  const link = new URL(Url, url).href;
 
   return {
     dateTime,

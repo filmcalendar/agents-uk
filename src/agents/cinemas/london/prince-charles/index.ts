@@ -1,4 +1,4 @@
-import URL from 'url';
+import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 import $ from 'cheerio';
 
@@ -42,7 +42,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
     .find('#Bannercv3WhatsOnWidgetBanner a[href^=WhatsOn]')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return [...new Set(feats)];
 };
@@ -58,7 +58,7 @@ export const collections: FC.Agent.CollectionsFn = async () => {
     .reduce((acc, a) => {
       const $a = $(a);
       const href = $a.attr('href');
-      const collectionUrl = URL.resolve(url, href || '');
+      const collectionUrl = new URL(href || '', url).href;
       if (acc.has(collectionUrl)) return acc;
       acc.set(collectionUrl, $a.text().trim());
 
@@ -77,7 +77,7 @@ export const collection: FC.Agent.CollectionFn = async (url, options) => {
     .find('.film a[href^="WhatsOn?f="]')
     .toArray()
     .map((a) => $(a).attr('href'))
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { url, name, programme: [...new Set(urls)] };
 };
@@ -90,7 +90,7 @@ export const programme: FC.Agent.ProgrammeFn = async () => {
     acc.set(event.ID, event);
     return acc;
   }, new Map() as Map<string, PCC.Film>);
-  const prg = data.map((event) => URL.resolve(url, event.URL));
+  const prg = data.map((event) => new URL(event.URL, url).href);
 
   return {
     programme: [...new Set(prg)],
