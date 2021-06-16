@@ -1,5 +1,5 @@
 import $ from 'cheerio';
-import URL from 'url';
+import { URL } from 'url';
 import dtIsAfter from 'date-fns/isAfter';
 import dtIsSameDay from 'date-fns/isSameDay';
 import fletch from '@tuplo/fletch';
@@ -25,7 +25,7 @@ export const getAvailableDatesUrls: GetAvailableDatesUrlsFn = (url, $page) => {
 
       return dtIsSameDay(dtDate, today) || dtIsAfter(dtDate, today);
     })
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 };
 
 export async function getReduxState<T>(url: string): Promise<T> {

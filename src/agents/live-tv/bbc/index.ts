@@ -1,5 +1,5 @@
 import $ from 'cheerio';
-import URL from 'url';
+import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 import seriesWith from '@tuplo/series-with';
 import type * as FC from '@filmcalendar/types';
@@ -47,7 +47,7 @@ export const providers: FC.Agent.ProvidersFn = async () => {
         ref: slug,
         name,
         type: 'live-tv',
-        url: URL.resolve(url, href || ''),
+        url: new URL(href || '', url).href,
         _data: {
           tvGuideUrl: `https://www.bbc.co.uk/iplayer/guide/${slug}`,
         },
@@ -65,7 +65,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
       const { secondaryLabel } = item.props;
       return /film/i.test(secondaryLabel);
     })
-    .map((item) => URL.resolve(url, item.props.href));
+    .map((item) => new URL(item.props.href, url).href);
 
   return [...new Set(feats)];
 };
@@ -95,7 +95,7 @@ export const collection: FC.Agent.CollectionFn = async (url) => {
       const { props } = entity;
       return !/storyville/i.test(props.title);
     })
-    .map((entity) => URL.resolve(url, entity.props.href));
+    .map((entity) => new URL(entity.props.href, url).href);
 
   return {
     name: title,
@@ -116,7 +116,7 @@ export const programme: FC.Agent.ProgrammeFn = async (provider) => {
   );
   const prg = schedule
     .map((item) => item.props.href)
-    .map((href) => URL.resolve(url, href || ''));
+    .map((href) => new URL(href || '', url).href);
 
   return { programme: [...new Set(prg)], _data: { schedule } };
 };

@@ -30,30 +30,31 @@ describe('bbc - helpers', () => {
 
   it('gets available dates for a channel', async () => {
     expect.assertions(2);
+
     const url = 'https://www.bbc.co.uk/iplayer/guide/bbcfour';
     const $page = await fletch.html(url);
     const result = getAvailableDatesUrls(url, $page);
 
     const expected = [
-      'https://www.bbc.co.uk/iplayer/guide/bbcfour/20201213',
-      'https://www.bbc.co.uk/iplayer/guide/bbcfour/20201214',
-      'https://www.bbc.co.uk/iplayer/guide/bbcfour/20201215',
+      'https://www.bbc.co.uk/iplayer/guide/bbcfour/20210609',
+      'https://www.bbc.co.uk/iplayer/guide/bbcfour/20210610',
+      'https://www.bbc.co.uk/iplayer/guide/bbcfour/20210611',
     ];
-    expect(result).toHaveLength(8);
+    expect(result).toHaveLength(15);
     expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
   it('gets a schedule for a day/channel', async () => {
     expect.assertions(2);
-    const url = 'https://www.bbc.co.uk/iplayer/guide/bbcfour/20201213';
+    const url = 'https://www.bbc.co.uk/iplayer/guide/bbcfour/20210615';
     const result = await getDailySchedule(url);
 
     const expected: BBC.ScheduleItem = {
       meta: {
-        scheduledStart: '2020-12-14T02:00:00.000Z',
+        scheduledStart: '2021-06-17T19:00:00.000Z',
       },
       props: {
-        href: '/programmes/b01nx8kb',
+        href: '/programmes/b084zbf0',
         label: 'Film',
       },
     };

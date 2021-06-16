@@ -12,13 +12,13 @@ describe('bbc', () => {
     .persist()
     .get('/iplayer/guide')
     .replyWithFile(200, `${dataDir}/guide.html`)
-    .get(/iplayer\/guide\/.+/)
-    .replyWithFile(200, `${dataDir}/guide-channel.html`)
     .get('/bbcfour')
     .replyWithFile(200, `${dataDir}/channel.html`)
-    .get('/iplayer/group/p0841x0t')
+    .get('/iplayer/group/p099ct9m')
     .replyWithFile(200, `${dataDir}/group.html`)
-    .get('/programmes/b01nx8kb')
+    .get(/iplayer\/guide\/.+/)
+    .replyWithFile(200, `${dataDir}/guide-channel.html`)
+    .get('/programmes/b084zbf0')
     .replyWithFile(200, `${dataDir}/film.html`);
 
   afterAll(() => {
@@ -36,6 +36,7 @@ describe('bbc', () => {
 
   it('providers', async () => {
     expect.assertions(2);
+
     const result = await agent.providers();
 
     const expected = {
@@ -53,27 +54,27 @@ describe('bbc', () => {
 
   it('featured', async () => {
     expect.assertions(2);
+
     const provider = await getBbcFourProvider();
     const result = await agent.featured(provider);
 
     const expected = [
-      'https://www.bbc.co.uk/iplayer/episode/m000q5hp/storyville-red-penguins-murder-money-and-ice-hockey',
-      'https://www.bbc.co.uk/iplayer/episode/m0001qyv/bros-after-the-screaming-stops',
       'https://www.bbc.co.uk/iplayer/episode/m000pz1w/storyville-locked-in-breaking-the-silence',
     ];
-    expect(result).toHaveLength(6);
-    expect(result.slice(0, 3)).toStrictEqual(expected);
+    expect(result).toHaveLength(1);
+    expect(result).toStrictEqual(expected);
   });
 
   it('collections', async () => {
     expect.assertions(2);
+
     const provider = await getBbcFourProvider();
     const result = await agent.collections(provider);
 
     const expected = [
       'https://www.bbc.co.uk/iplayer/group/p08ywb7x',
-      'https://www.bbc.co.uk/iplayer/group/p06zl22b',
-      'https://www.bbc.co.uk/iplayer/group/p0841x0t',
+      'https://www.bbc.co.uk/iplayer/group/p099ct9m',
+      'https://www.bbc.co.uk/iplayer/group/p09jnrs0',
     ];
     expect(result.collections).toHaveLength(3);
     expect(result.collections.slice(0, 3)).toStrictEqual(expected);
@@ -81,59 +82,63 @@ describe('bbc', () => {
 
   it('collection', async () => {
     expect.assertions(3);
-    const url = 'https://www.bbc.co.uk/iplayer/group/p0841x0t';
+
+    const url = 'https://www.bbc.co.uk/iplayer/group/p099ct9m';
     const result = await agent.collection(url);
 
     const expected = {
-      url: 'https://www.bbc.co.uk/iplayer/group/p0841x0t',
-      name: 'Documentary Films',
-      description:
-        'Compelling stories from around the world - captured on camera.',
+      url,
+      name: 'Storyville',
+      description: 'Series showcasing the best in international documentaries.',
     };
     const expectedProgramme = [
-      'https://www.bbc.co.uk/iplayer/episode/p07cttsd/minding-the-gap-an-american-skateboarding-story',
-      'https://www.bbc.co.uk/iplayer/episode/p08q6jh8/any-one-of-us',
-      'https://www.bbc.co.uk/iplayer/episode/m0001qyv/bros-after-the-screaming-stops',
+      'https://www.bbc.co.uk/iplayer/episode/m000sl86/storyville-into-the-storm-surfing-to-survive',
+      'https://www.bbc.co.uk/iplayer/episode/m000nr85/the-mole-infiltrating-north-korea-series-1-part-1',
     ];
     expect(result).toMatchObject(expected);
-    expect(result.programme).toHaveLength(6);
-    expect(result.programme.slice(0, 3)).toStrictEqual(expectedProgramme);
+    expect(result.programme).toHaveLength(2);
+    expect(result.programme).toStrictEqual(expectedProgramme);
   });
 
   it('programme', async () => {
     expect.assertions(1);
+
     const provider = await getBbcFourProvider();
     const result = await agent.programme(provider);
 
-    const expected = ['https://www.bbc.co.uk/programmes/b01nx8kb'];
+    const expected = ['https://www.bbc.co.uk/programmes/b084zbf0'];
     expect(result.programme).toStrictEqual(expected);
   });
 
   it('film', async () => {
     expect.assertions(1);
+
     const provider = await getBbcFourProvider();
     const { _data } = await agent.programme(provider);
-    const url = 'https://www.bbc.co.uk/programmes/b01nx8kb';
+    const url = 'https://www.bbc.co.uk/programmes/b084zbf0';
     const result = await agent.page(url, provider, _data);
 
     const expected = {
-      title: 'My Week with Marilyn',
-      director: ['Simon Curtis'],
+      title: 'Florence Foster Jenkins',
+      director: ['Stephen Frears'],
       cast: [
-        'Michelle Williams',
-        'Eddie Redmayne',
-        'Kenneth Branagh',
-        'Julia Ormond',
-        'Judi Dench',
-        'Zoe Wanamaker',
-        'Derek Jacobi',
-        'Jim Carter',
-        'Toby Jones',
-        'Dougray Scott',
-        'Pip Torrens',
-        'Geraldine Somerville',
-        'Emma Watson',
-        'Ruth Fowler',
+        'Meryl Streep',
+        'Hugh Grant',
+        'Simon Helberg',
+        'Rebecca Ferguson',
+        'Nina Arianda',
+        'David Haig',
+        'Brid Brennan',
+        'John Kavanagh',
+        'Stanley Townsend',
+        'Allan Corduner',
+        'Christian McKay',
+        'John Sessions',
+        'Maggie Steed',
+        'Thelma Barlow',
+        'Paola Dionisotti',
+        'Carl Davis',
+        'Nat Luurtsema',
       ],
     };
     expect(result?.films[0]).toStrictEqual(expected);
@@ -141,17 +146,18 @@ describe('bbc', () => {
 
   it('sessions', async () => {
     expect.assertions(2);
+
     const provider = await getBbcFourProvider();
     const { _data } = await agent.programme(provider);
-    const url = 'https://www.bbc.co.uk/programmes/b01nx8kb';
+    const url = 'https://www.bbc.co.uk/programmes/b084zbf0';
     const result = await agent.page(url, provider, _data);
 
     const expected = {
       attributes: ['audio-described', 'sign-language'],
-      dateTime: '2020-12-14T02:00:00.000Z',
-      link: 'https://bbc.co.uk//programmes/b01nx8kb',
+      dateTime: '2021-06-17T19:00:00.000Z',
+      link: 'https://bbc.co.uk//programmes/b084zbf0',
     };
-    expect(result?.sessions).toHaveLength(8);
+    expect(result?.sessions).toHaveLength(15);
     const [firstSession] = result?.sessions || [];
     expect(firstSession).toStrictEqual(expected);
   });
