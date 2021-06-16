@@ -7,3 +7,4 @@
 .dockerignore
 .env.secrets
 yarn.lock
+yarn-error.log

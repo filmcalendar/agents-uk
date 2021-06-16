@@ -100,7 +100,7 @@ describe('bbc-iplayer - helpers', () => {
 
     const expected = {
       start: '2021-06-16T00:00:00.000Z',
-      end: '2021-06-29T00:30:00.000Z',
+      end: '2021-06-29T01:30:00.000Z',
       attributes: ['audio-described', 'sign-language'],
     };
     expect(result).toStrictEqual(expected);

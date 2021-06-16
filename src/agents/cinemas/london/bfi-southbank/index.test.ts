@@ -109,7 +109,7 @@ describe('bfi-southbank', () => {
     const result = await agent.page(url, provider);
 
     const expected = {
-      dateTime: '2021-06-16T13:40:00.000Z',
+      dateTime: '2021-06-16T14:40:00.000Z',
       attributes: ['hoh-subtitles'],
       link: {
         method: 'POST',

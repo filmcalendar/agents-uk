@@ -11,7 +11,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@filmcalendar/agents-core": "1.11.1",
+    "@filmcalendar/agents-core": "1.12.0",
     "@filmcalendar/types": "1.5.0",
     "@sindresorhus/slugify": "2.1.0",
     "@tuplo/fletch": "1.12.0",
@@ -47,15 +47,15 @@
   },
   "scripts": {
     "build": "bash scripts/build.sh",
-    "ci:test": "TZ='Europe/London' jest --ci",
+    "ci:test": "TZ=utc jest --ci",
     "ci:test:coverage": "bash ./scripts/coverage.sh",
     "dev": "bash scripts/watch.sh",
     "docker:rm-all": "docker rm $(docker ps -a -q)",
     "docker:rmi-all": "docker rmi -f $(docker images -q)",
     "docker:run": "env-cmd -f .env.secrets fc-agents-docker-run-local",
     "lint": "eslint --ext .ts src/",
-    "dev-run": "TZ='Europe/London' NODE_ENV=development fc-agent",
-    "test": "TZ='Europe/London' jest --watch",
+    "dev-run": "NODE_ENV=development fc-agent",
+    "test": "TZ=utc jest --watch",
     "ts-check": "tsc --noEmit",
     "validate": "yarn lint; yarn ts-check; yarn ci:test"
   },
