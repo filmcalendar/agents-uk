@@ -351,16 +351,16 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@filmcalendar/agents-core@1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.13.0.tgz#1e18aa5f410a3f437407ba03babbebf52eb12337"
-  integrity sha512-maRdZTf9TL1ROrvpvxM6k3gd8AxnM/ppxRPXKZr8U+SNPNlydHtEfMex9/QJwl4K+Fl4K2BNSqIAUqBPLgG3vQ==
+"@filmcalendar/agents-core@1.13.2":
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.13.2.tgz#cbde5176486d8abd1f2cd36f23d937eed40e941e"
+  integrity sha512-oiXejlT/X5zTrFPBE+V32pg+pI6pNtraytlTAGK5zzfLHqvyhUsqljKsA96WwbCyNrWL1q+arlEwy6sEi3/b1Q==
   dependencies:
     "@filmcalendar/schemas" "1.7.1"
     "@filmcalendar/types" "1.6.0"
     "@sindresorhus/slugify" "2.1.0"
     "@tuplo/series-with" "1.6.1"
-    "@tuplo/unhandler" "1.15.0"
+    "@tuplo/unhandler" "1.15.1"
     ajv "8.6.0"
     ajv-formats "2.1.0"
     clean-deep "3.4.0"
@@ -649,10 +649,10 @@
   resolved "https://registry.yarnpkg.com/@tuplo/split-names-list/-/split-names-list-1.11.1.tgz#7aa9c076c8d2990472f8d395bb9f51103c6b30e6"
   integrity sha512-mBpSYtUGjEc7yKbVMG6MetOAgUEB/ExQpKqkStZ6HWO6jO/clq79vBYuKA9ITZYQSipNdK3Lc4zQue8g5EnunA==
 
-"@tuplo/unhandler@1.15.0":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@tuplo/unhandler/-/unhandler-1.15.0.tgz#f46edc057d450c28b190f3fa6b14ac385ad876d5"
-  integrity sha512-l7rslpa6lcjgDLON0+63W4V4Jq67Uafzt9Gnqw0ACXPIN9xKCbR1O3/FndmQX1spnwAms8tKbGOvqkqiKBUWTg==
+"@tuplo/unhandler@1.15.1":
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/@tuplo/unhandler/-/unhandler-1.15.1.tgz#ad3434306ae76b81c793820821b887c9b4464645"
+  integrity sha512-G28wB9dftnaUKs08yISYMj9sdM0yOPaJlq5XIlS56koyIY13/8DKNr2nHB7WgJL2nXcwD0KUmWaxQpDNkO3Fzw==
   dependencies:
     "@types/node-fetch" "2.5.10"
     node-fetch "2.6.1"
