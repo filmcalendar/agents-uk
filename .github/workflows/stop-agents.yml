@@ -1,0 +1,17 @@
+name: Stop any agents still running (prune)
+on:
+  schedule:
+    - cron: '50 8 * * *'
+
+jobs:
+  start-agents:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start agents
+        uses: filmcalendar/run-agents-action@v1
+        with:
+          action: stop
+          country: uk
+          digitalOceanApiToken: ${{ secrets.DO_API_TOKEN }}
+          dockerRegistryPassword: ${{ secrets.GH_TOKEN }}
+          gitPassword: ${{ secrets.GH_TOKEN }}

@@ -58,10 +58,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - id: dotenv
-        uses: falti/dotenv-action@v0.2.5
       - name: Publish docker image
         uses: filmcalendar/build-agents-action@main
         with:
-          fc-country: ${{ steps.dotenv.outputs.FC_COUNTRY }}
-          docker-registry-password: ${{ secrets.GH_TOKEN }}
+          country: uk
+          dockerRegistryPassword: ${{ secrets.GH_TOKEN }}
