@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start agents
-        uses: filmcalendar/run-agents-action@v1
+        uses: filmcalendar/run-agents-action@main
         with:
           action: start
           country: uk
