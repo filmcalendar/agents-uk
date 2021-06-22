@@ -1,13 +1,14 @@
-name: Stop any agents still running
+name: Stop agents
 on:
   schedule:
     - cron: '50 8 * * *'
+  workflow_dispatch:
 
 jobs:
-  start-agents:
+  stop-agents:
     runs-on: ubuntu-latest
     steps:
-      - name: Start agents
+      - name: Stop agents
         uses: filmcalendar/run-agents-action@main
         with:
           action: stop
