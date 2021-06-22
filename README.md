@@ -8,6 +8,7 @@
     <img src="https://api.codeclimate.com/v1/badges/590ff1d2e95f2dac76cd/test_coverage" />
   </a>
   <img src="https://github.com/filmcalendar/agents-uk/workflows/Build/badge.svg">
+  <img src="https://github.com/filmcalendar/agents-uk/actions/workflows/run-agents.yml/badge.svg">
 </p>
 
 > United Kingdom agents
