@@ -351,13 +351,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@filmcalendar/agents-core@1.13.2":
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.13.2.tgz#cbde5176486d8abd1f2cd36f23d937eed40e941e"
-  integrity sha512-oiXejlT/X5zTrFPBE+V32pg+pI6pNtraytlTAGK5zzfLHqvyhUsqljKsA96WwbCyNrWL1q+arlEwy6sEi3/b1Q==
+"@filmcalendar/agents-core@1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.14.0.tgz#3231d2614a7e7e2dc871c38a1923e182f47d705d"
+  integrity sha512-/dMvpsXLMN+V+mBXk2UED9/OMps63qE08j6jNGEh777ALsTeOBKfsXdDMex6dUVqGb0qoIWIT2JaKSvBk3h9Iw==
   dependencies:
-    "@filmcalendar/schemas" "1.7.1"
-    "@filmcalendar/types" "1.6.0"
+    "@filmcalendar/schemas" "1.11.0"
+    "@filmcalendar/types" "1.9.0"
     "@sindresorhus/slugify" "2.1.0"
     "@tuplo/series-with" "1.6.1"
     "@tuplo/unhandler" "1.15.1"
@@ -369,15 +369,15 @@
     normalizr "3.6.1"
     yargs-parser "20.2.9"
 
-"@filmcalendar/schemas@1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.7.1.tgz#7d9cee2fc3d4223b86ad74bcc83800f67b207254"
-  integrity sha512-bKz+RiR+sS7MIVjOt2Xldq4vQoXPPz29J0h7irLixqj3/KHrnw6pcNdE6hga98xe+MMyCQ1bFOX4gfgwu8457w==
-
-"@filmcalendar/types@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.6.0.tgz#314d8f3a2c72773185b14f5f96f05844c6576b52"
-  integrity sha512-xv3OLJCTVwcGmed7E/QO2XXaGV6bgj+ZHQH9Bl2oOhRIfCyB3ZEKRZLni/UwUoe5LJ2nmE2JjrrrUYXiN4/P6Q==
+"@filmcalendar/schemas@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.11.0.tgz#eeea9919912eb86337452f6f92fa20fe30055283"
+  integrity sha512-GQJtL5xh3CUzpssApNFTfsQRZzIL174618CZIC0E4tUszvSRx7raN39sh+Uy3UTG9lNLTvEjqlZtMJVxHO49AQ==
+  dependencies:
+    "@filmcalendar/types" "1.9.0"
+    "@sindresorhus/slugify" "2.1.0"
+    md5 "2.3.0"
+    normalizr "3.6.1"
 
 "@filmcalendar/types@1.9.0":
   version "1.9.0"
