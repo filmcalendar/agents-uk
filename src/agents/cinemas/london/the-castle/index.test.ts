@@ -33,26 +33,26 @@ describe('the-castle', () => {
     expect(result).toStrictEqual(expected);
   });
 
-  it('collections', async () => {
+  it('seasons', async () => {
     expect.assertions(1);
 
     const [provider] = await agent.providers();
-    const result = await agent.collections(provider);
+    const result = await agent.seasons(provider);
 
     const expected = [
       'https://thecastlecinema.com/category/3141470/enchanted-castle/',
       'https://thecastlecinema.com/listings/#',
     ];
-    expect(result.collections).toStrictEqual(expected);
+    expect(result.seasonUrls).toStrictEqual(expected);
   });
 
-  it('collection', async () => {
+  it('season', async () => {
     expect.assertions(2);
 
     const [provider] = await agent.providers();
-    const collectionData = await agent.collections(provider);
-    const [url] = collectionData.collections;
-    const result = await agent.collection(url, { _data: collectionData._data });
+    const seasons = await agent.seasons(provider);
+    const [url] = seasons.seasonUrls;
+    const result = await agent.season(url, { _data: seasons._data });
 
     const expected = {
       url: 'https://thecastlecinema.com/category/3141470/enchanted-castle/',
@@ -64,13 +64,13 @@ describe('the-castle', () => {
     expect(result.programme).toHaveLength(12);
   });
 
-  it('collection (no season page)', async () => {
+  it('season (no season page)', async () => {
     expect.assertions(1);
 
     const [provider] = await agent.providers();
-    const collectionData = await agent.collections(provider);
-    const [, url] = collectionData.collections;
-    const result = await agent.collection(url, { _data: collectionData._data });
+    const seasons = await agent.seasons(provider);
+    const [, url] = seasons.seasonUrls;
+    const result = await agent.season(url, { _data: seasons._data });
 
     const expected = {
       url: 'https://thecastlecinema.com/listings/#',

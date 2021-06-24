@@ -33,25 +33,25 @@ describe('genesis', () => {
     expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collections', async () => {
+  it('seasons', async () => {
     expect.assertions(2);
 
     const [provider] = await agent.providers();
-    const result = await agent.collections(provider);
+    const result = await agent.seasons(provider);
 
     const expected = [
       'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=50',
     ];
-    expect(result.collections).toHaveLength(1);
-    expect(result.collections.slice(0, 3)).toStrictEqual(expected);
+    expect(result.seasonUrls).toHaveLength(1);
+    expect(result.seasonUrls.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collection', async () => {
+  it('season', async () => {
     expect.assertions(1);
 
     const url =
       'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63';
-    const result = await agent.collection(url);
+    const result = await agent.season(url);
 
     const expected = {
       url: 'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63',

@@ -47,7 +47,7 @@ export const featured: FC.Agent.FeaturedFn = async () => {
   return [...new Set(feats)];
 };
 
-export const collections: FC.Agent.CollectionsFn = async () => {
+export const seasons: FC.Agent.SeasonsFn = async () => {
   const url = 'https://whatson.bfi.org.uk/Online/article/seasons';
   const $page = await fletch.html(url);
 
@@ -57,10 +57,10 @@ export const collections: FC.Agent.CollectionsFn = async () => {
     .map((a) => $(a).attr('href'))
     .map((href) => `https://whatson.bfi.org.uk/Online/${href}`);
 
-  return { collections: [...new Set(urls)] };
+  return { seasonUrls: [...new Set(urls)] };
 };
 
-export const collection: FC.Agent.CollectionFn = async (url) => {
+export const season: FC.Agent.SeasonFn = async (url) => {
   const $page = await fletch.html(url);
 
   const name = $page.find('.main-article-body > h1').text();

@@ -37,26 +37,26 @@ describe('bfi-southbank', () => {
     expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collections', async () => {
+  it('seasons', async () => {
     expect.assertions(2);
 
     const [provider] = await agent.providers();
-    const result = await agent.collections(provider);
+    const result = await agent.seasons(provider);
 
     const expected = [
       'https://whatson.bfi.org.uk/Online/article/dreampalace',
       'https://whatson.bfi.org.uk/Online/article/robertaltman',
       'https://whatson.bfi.org.uk/Online/article/hervoice',
     ];
-    expect(result.collections).toHaveLength(11);
-    expect(result.collections.slice(0, 3)).toStrictEqual(expected);
+    expect(result.seasonUrls).toHaveLength(11);
+    expect(result.seasonUrls.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collection', async () => {
+  it('season', async () => {
     expect.assertions(2);
 
     const url = 'https://whatson.bfi.org.uk/Online/article/robertaltman';
-    const result = await agent.collection(url);
+    const result = await agent.season(url);
 
     const expected = {
       description:

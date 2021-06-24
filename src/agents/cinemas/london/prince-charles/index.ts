@@ -47,9 +47,9 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
   return [...new Set(feats)];
 };
 
-type CollectionData = Map<string, string>;
+type SeasonData = Map<string, string>;
 
-export const collections: FC.Agent.CollectionsFn = async () => {
+export const seasons: FC.Agent.SeasonsFn = async () => {
   const url = 'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons';
   const $page = await fletch.html(url);
   const _data = $page
@@ -63,13 +63,13 @@ export const collections: FC.Agent.CollectionsFn = async () => {
       acc.set(collectionUrl, $a.text().trim());
 
       return acc;
-    }, new Map() as CollectionData);
+    }, new Map() as SeasonData);
 
-  return { collections: [..._data.keys()], _data };
+  return { seasonUrls: [..._data.keys()], _data };
 };
 
-export const collection: FC.Agent.CollectionFn = async (url, options) => {
-  const data = (options?._data || new Map()) as CollectionData;
+export const season: FC.Agent.SeasonFn = async (url, options) => {
+  const data = (options?._data || new Map()) as SeasonData;
   const $page = await fletch.html(url);
 
   const name = data.get(url) || '';

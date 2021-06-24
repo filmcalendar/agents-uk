@@ -379,10 +379,10 @@
   resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.6.0.tgz#314d8f3a2c72773185b14f5f96f05844c6576b52"
   integrity sha512-xv3OLJCTVwcGmed7E/QO2XXaGV6bgj+ZHQH9Bl2oOhRIfCyB3ZEKRZLni/UwUoe5LJ2nmE2JjrrrUYXiN4/P6Q==
 
-"@filmcalendar/types@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.8.0.tgz#65859b0d562fbe937ca1f6168aef5f3900b2604f"
-  integrity sha512-kkwSEsC4Us//w6TyDuGfViqSszszLd+NbEm9gCH7WOdE+BGYvgWVu3l6ujgMjxHPRDk6HEBr7HRJmaUkU3rtSw==
+"@filmcalendar/types@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.9.0.tgz#07f9c7e5420ad5e93dd6d9053479875be2623c3c"
+  integrity sha512-QXTM8/FLM0lUYYHj6NA3FmgSihwJltk+BDhqLTK6ufcPnTYLTajaLqyh1ZRYufOHAEgT/M/kqm7T/CIQU0lhwA==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

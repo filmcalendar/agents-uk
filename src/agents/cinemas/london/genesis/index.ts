@@ -44,7 +44,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
   return [...new Set(feats)];
 };
 
-export const collections: FC.Agent.CollectionsFn = async (provider) => {
+export const seasons: FC.Agent.SeasonsFn = async (provider) => {
   const { url } = provider;
   const $page = await fletch.html(url);
 
@@ -55,10 +55,10 @@ export const collections: FC.Agent.CollectionsFn = async (provider) => {
     .map((a) => $(a).attr('href'))
     .map((href) => new URL(href || '', url).href);
 
-  return { collections: [...new Set(urls)] };
+  return { seasonUrls: [...new Set(urls)] };
 };
 
-export const collection: FC.Agent.CollectionFn = async (url) => {
+export const season: FC.Agent.SeasonFn = async (url) => {
   const $page = await fletch.html(url);
 
   const name = $page.find('#content > h2.subtitle:nth-child(1)').text();

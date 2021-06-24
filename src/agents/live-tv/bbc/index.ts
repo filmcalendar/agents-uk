@@ -70,7 +70,7 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
   return [...new Set(feats)];
 };
 
-export const collections: FC.Agent.CollectionsFn = async (provider) => {
+export const seasons: FC.Agent.SeasonsFn = async (provider) => {
   const { url } = provider;
   const { groups = [] } = await getReduxState<BBC.Channel>(url);
 
@@ -78,10 +78,10 @@ export const collections: FC.Agent.CollectionsFn = async (provider) => {
     (group) => `https://www.bbc.co.uk/iplayer/group/${group.id}`
   );
 
-  return { collections: [...new Set(urls)] };
+  return { seasonUrls: [...new Set(urls)] };
 };
 
-export const collection: FC.Agent.CollectionFn = async (url) => {
+export const season: FC.Agent.SeasonFn = async (url) => {
   const { header, entities } = await getReduxState<BBC.Group>(url);
   const { title, subtitle } = header;
 

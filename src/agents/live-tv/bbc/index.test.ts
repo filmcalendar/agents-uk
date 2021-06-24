@@ -65,26 +65,26 @@ describe('bbc', () => {
     expect(result).toStrictEqual(expected);
   });
 
-  it('collections', async () => {
+  it('seasons', async () => {
     expect.assertions(2);
 
     const provider = await getBbcFourProvider();
-    const result = await agent.collections(provider);
+    const result = await agent.seasons(provider);
 
     const expected = [
       'https://www.bbc.co.uk/iplayer/group/p08ywb7x',
       'https://www.bbc.co.uk/iplayer/group/p099ct9m',
       'https://www.bbc.co.uk/iplayer/group/p09jnrs0',
     ];
-    expect(result.collections).toHaveLength(3);
-    expect(result.collections.slice(0, 3)).toStrictEqual(expected);
+    expect(result.seasonUrls).toHaveLength(3);
+    expect(result.seasonUrls.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collection', async () => {
+  it('season', async () => {
     expect.assertions(3);
 
     const url = 'https://www.bbc.co.uk/iplayer/group/p099ct9m';
-    const result = await agent.collection(url);
+    const result = await agent.season(url);
 
     const expected = {
       url,

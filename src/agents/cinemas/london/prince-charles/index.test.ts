@@ -33,29 +33,29 @@ describe('prince-charles-cinema', () => {
     expect(result.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collections', async () => {
+  it('seasons', async () => {
     expect.assertions(2);
 
     const [provider] = await agent.providers();
-    const result = await agent.collections(provider);
+    const result = await agent.seasons(provider);
 
     const expected = [
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons?e=1',
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons?e=0',
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons?e=3',
     ];
-    expect(result.collections).toHaveLength(51);
-    expect(result.collections.slice(0, 3)).toStrictEqual(expected);
+    expect(result.seasonUrls).toHaveLength(51);
+    expect(result.seasonUrls.slice(0, 3)).toStrictEqual(expected);
   });
 
-  it('collection', async () => {
+  it('season', async () => {
     expect.assertions(3);
 
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons?e=1';
     const [provider] = await agent.providers();
-    const { _data } = await agent.collections(provider);
-    const result = await agent.collection(url, { _data });
+    const { _data } = await agent.seasons(provider);
+    const result = await agent.season(url, { _data });
 
     const expected = {
       url,
@@ -68,7 +68,7 @@ describe('prince-charles-cinema', () => {
     ];
     expect(result).toMatchObject(expected);
     expect(result.programme).toHaveLength(50);
-    expect(result.programme.slice(0, 3)).toStrictEqual(expectedProgramme);
+    expect(result.programme?.slice(0, 3)).toStrictEqual(expectedProgramme);
   });
 
   it('programme', async () => {
@@ -107,6 +107,7 @@ describe('prince-charles-cinema', () => {
 
   it('sessions', async () => {
     expect.assertions(2);
+
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=3527';
     const [provider] = await agent.providers();

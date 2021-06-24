@@ -44,13 +44,13 @@ export const featured: FC.Agent.FeaturedFn = async (provider) => {
   return [...new Set(feats)];
 };
 
-type CollectionData = Map<string, FC.Agent.Collection>;
+type SeasonData = Map<string, FC.Season>;
 
-export const collections: FC.Agent.CollectionsFn = async () => {
+export const seasons: FC.Agent.SeasonsFn = async () => {
   const url = 'https://thecastlecinema.com/listings/';
   const $page = await fletch.html(url);
 
-  const collectionData = $page
+  const seasonData = $page
     .find('.tile-eventname')
     .toArray()
     .reduce((acc, event) => {
@@ -64,21 +64,22 @@ export const collections: FC.Agent.CollectionsFn = async () => {
       const collectionUrl = new URL(href, url).href;
       const newCollection =
         acc.get(collectionUrl) ||
-        ({ url: '', name: '', programme: [] } as FC.Agent.Collection);
+        ({ url: '', name: '', programme: [] } as FC.Season);
       newCollection.url = collectionUrl;
       newCollection.name = $eventLink.text();
+      newCollection.programme = newCollection.programme || [];
       newCollection.programme.push(pageUrl);
       acc.set(collectionUrl, newCollection);
 
       return acc;
-    }, new Map() as CollectionData);
+    }, new Map() as SeasonData);
 
-  return { collections: [...collectionData.keys()], _data: collectionData };
+  return { seasonUrls: [...seasonData.keys()], _data: seasonData };
 };
 
-export const collection: FC.Agent.CollectionFn = async (url, options) => {
-  const data = (options?._data || new Map()) as CollectionData;
-  if (/listings/.test(url)) return data.get(url) as FC.Agent.Collection;
+export const season: FC.Agent.SeasonFn = async (url, options) => {
+  const data = (options?._data || new Map()) as SeasonData;
+  if (/listings/.test(url)) return data.get(url) as FC.Season;
 
   const $page = await fletch.html(url);
 
