@@ -70,7 +70,7 @@ describe('bfi southbank - helpers', () => {
     const $page = $.load(mockFilmHtml).root();
     const result = getSessions($page);
 
-    expect(result).toStrictEqual(mockSessions as FC.Agent.Session[]);
+    expect(result).toStrictEqual(mockSessions as FC.Session[]);
   });
 
   it('gets expanded url for a page', async () => {

@@ -43,7 +43,7 @@ describe('bbc', () => {
       ref: 'bbcone',
       name: 'BBC One',
       url: 'https://www.bbc.co.uk/bbcone',
-      type: 'live-tv' as FC.Agent.ProviderType,
+      type: 'live-tv' as FC.ProviderType,
       _data: {
         tvGuideUrl: 'https://www.bbc.co.uk/iplayer/guide/bbcone',
       },

@@ -62,7 +62,7 @@ export const getDailySchedule: GetDailyScheduleFn = async (url) => {
 type GetSessionsFn = (
   episodeId: string,
   schedule: BBC.ScheduleItem[]
-) => FC.Agent.Session[];
+) => FC.Session[];
 export const getSessions: GetSessionsFn = (episodeId, schedule) => {
   const rgEpisodeId = new RegExp(`${episodeId}$`);
   return schedule

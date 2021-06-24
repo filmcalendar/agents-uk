@@ -73,7 +73,7 @@ export const getYear: GetYearFn = (program) => {
   return Number(year);
 };
 
-type GetSessionsFn = (program: C4.Program) => FC.Agent.Session[];
+type GetSessionsFn = (program: C4.Program) => FC.Session[];
 export const getSessions: GetSessionsFn = (program) => {
   const { startDate, isAudioDescribed, isSubtitled, url } = program;
   const attributes = [

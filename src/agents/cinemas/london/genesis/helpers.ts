@@ -122,7 +122,7 @@ type GetSessionFn = (
   day: string,
   url: string,
   eventAttributes: string[]
-) => FC.Agent.Session;
+) => FC.Session;
 const getSession: GetSessionFn = (el, day, url, eventAttributes) => {
   const nowYear = new Date(Date.now()).getFullYear();
   const $el = $(el);
@@ -154,10 +154,7 @@ const getEventAttributes: GetEventAttributesFn = ($page) => {
   return attributes;
 };
 
-type GetSessionsFn = (
-  $page: cheerio.Cheerio,
-  url: string
-) => FC.Agent.Session[];
+type GetSessionsFn = ($page: cheerio.Cheerio, url: string) => FC.Session[];
 export const getSessions: GetSessionsFn = ($page, url) =>
   $page
     .find('.film-times li')

@@ -82,7 +82,7 @@ type GetSessionFn = (
   event: PCC.Performance,
   url: string,
   eventAttributes: string[]
-) => FC.Agent.Session | null;
+) => FC.Session | null;
 export const getSession: GetSessionFn = (event, url, eventAttributes) => {
   const { StartDate, StartTimeAndNotes, IsSoldOut, URL: Url } = event;
   if (IsSoldOut === 'Y') return null;
@@ -121,8 +121,8 @@ export const getEventAttributes: GetEventAttributesFn = (film) => {
   return attributes;
 };
 
-type GetSessionsFn = (film: PCC.Film, url: string) => FC.Agent.Session[];
+type GetSessionsFn = (film: PCC.Film, url: string) => FC.Session[];
 export const getSessions: GetSessionsFn = (film, url) =>
   film.Performances.map((event) =>
     getSession(event, url, getEventAttributes(film))
-  ).filter(Boolean) as FC.Agent.Session[];
+  ).filter(Boolean) as FC.Session[];

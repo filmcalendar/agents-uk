@@ -26,7 +26,7 @@ describe('channel-4', () => {
       ref: 'channel-4',
       name: 'Channel 4',
       url: 'https://www.channel4.com/now/C4',
-      type: 'live-tv' as FC.Agent.ProviderType,
+      type: 'live-tv' as FC.ProviderType,
       _data: {
         id: 'C4',
         availableDates: [
@@ -78,7 +78,7 @@ describe('channel-4', () => {
       title: 'My Man Godfrey',
       year: 1936,
     };
-    expect(result?.films[0]).toStrictEqual(expected as FC.Agent.Film);
+    expect(result?.films[0]).toStrictEqual(expected as FC.Film);
   });
 
   it('sessions', async () => {

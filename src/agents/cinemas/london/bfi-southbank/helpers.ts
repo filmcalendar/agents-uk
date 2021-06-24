@@ -148,7 +148,7 @@ const getSessionAttributes: GetSessionAttributesFn = (event) =>
     .filter((tag) => !/^releases$/.test(tag))
     .map((tag) => slugify(tag.toLowerCase()));
 
-type GetSessionFn = (event: BFI.Event) => FC.Agent.Session | null;
+type GetSessionFn = (event: BFI.Event) => FC.Session | null;
 export const getSession: GetSessionFn = (event) => {
   if (event.availability_status === 'S') return null;
   const { start_date } = event;
@@ -158,7 +158,7 @@ export const getSession: GetSessionFn = (event) => {
     'EEEE dd MMMM yyyy HH:mm',
     Date.now()
   ).toISOString();
-  const link: FC.Agent.BookingRequest = {
+  const link: FC.BookingRequest = {
     url: 'https://whatson.bfi.org.uk/Online/mapSelect.asp',
     method: 'POST',
     formUrlEncoded: {
@@ -174,9 +174,9 @@ export const getSession: GetSessionFn = (event) => {
   };
 };
 
-type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Agent.Session[];
+type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Session[];
 export const getSessions: GetSessionsFn = ($page) =>
-  getEvents($page).map(getSession).filter(Boolean) as FC.Agent.Session[];
+  getEvents($page).map(getSession).filter(Boolean) as FC.Session[];
 
 type GetExpandedUrlFromPageFn = ($page: cheerio.Cheerio) => string;
 export const getExpandedUrlFromPage: GetExpandedUrlFromPageFn = ($page) => {

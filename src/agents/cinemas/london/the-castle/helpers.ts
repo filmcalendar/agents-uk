@@ -77,7 +77,7 @@ export const getSessionAttributes: GetSessionsAttributesFn = (
   return [slugify(screeningType)].filter(Boolean);
 };
 
-type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Agent.Session[];
+type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Session[];
 export const getSessions: GetSessionsFn = ($page) =>
   $page
     .find('script[type="application/ld+json"]')
@@ -100,4 +100,4 @@ export const getSessions: GetSessionsFn = ($page) =>
         attributes: [...new Set(attributes)],
       };
     })
-    .filter(Boolean) as FC.Agent.Session[];
+    .filter(Boolean) as FC.Session[];

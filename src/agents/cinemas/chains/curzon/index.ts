@@ -59,7 +59,7 @@ export const providers: FC.Agent.ProvidersFn = async () => {
         cinemaId: id,
         apiUrl: api.url,
       },
-    } as FC.Agent.Provider;
+    } as FC.Provider;
   });
 };
 

@@ -67,7 +67,7 @@ export const getCredits: GetCreditsFn = ($page) => {
     }, new Map() as Map<string, string[]>);
 };
 
-type GetAvailabilityFn = ($page: cheerio.Cheerio) => FC.Agent.Availability;
+type GetAvailabilityFn = ($page: cheerio.Cheerio) => FC.Availability;
 export const getAvailability: GetAvailabilityFn = ($page) => {
   const today = new Date(Date.now());
   const start = new Date(dtFormat(today, 'y-MM-dd')).toISOString();

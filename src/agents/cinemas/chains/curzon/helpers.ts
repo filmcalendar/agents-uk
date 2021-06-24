@@ -8,7 +8,7 @@ import type * as CZ from './index.d';
 export function requestCurzonApi<T>(
   path: string,
   options: Record<string, unknown>,
-  provider: FC.Agent.Provider
+  provider: FC.Provider
 ): Promise<T> {
   const { _data } = provider;
   const { apiUrl, authToken } = _data as CZ.ProviderData;
@@ -21,7 +21,7 @@ export function requestCurzonApi<T>(
 }
 
 export async function getFilmScreeningDates(
-  provider: FC.Agent.Provider
+  provider: FC.Provider
 ): Promise<CZ.FilmScreeningDates[]> {
   const { _data } = provider;
   const { cinemaId } = _data as CZ.ProviderData;
@@ -48,10 +48,7 @@ export function getFilmPeople(castAndCrew: CZ.Person[]): CZ.FilmPeople {
   }, {} as Record<string, string>);
 }
 
-export function getFilmInfo(
-  data: CZ.Film,
-  filmPeople: CZ.FilmPeople
-): FC.Agent.Film {
+export function getFilmInfo(data: CZ.Film, filmPeople: CZ.FilmPeople): FC.Film {
   const { castAndCrew = [], title } = data;
 
   return {
@@ -79,8 +76,8 @@ export async function getSessionsForDate(
   date: string,
   filmId: string,
   cinemaId: string,
-  provider: FC.Agent.Provider
-): Promise<FC.Agent.Session[]> {
+  provider: FC.Provider
+): Promise<FC.Session[]> {
   const path = `/ocapi/v1/browsing/master-data/showtimes/business-date/${date}`;
   const { showtimes = [], relatedData } =
     await requestCurzonApi<CZ.BusinessDateResponse>(
@@ -104,8 +101,8 @@ export async function getSessionsForDate(
 
 export async function getSessions(
   filmId: string,
-  provider: FC.Agent.Provider
-): Promise<FC.Agent.Session[]> {
+  provider: FC.Provider
+): Promise<FC.Session[]> {
   const { _data } = provider;
   const { cinemaId } = _data as CZ.ProviderData;
 

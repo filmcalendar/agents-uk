@@ -26,7 +26,7 @@ describe('curzon', () => {
 
     const result = await agent.providers();
 
-    const expected: FC.Agent.Provider = {
+    const expected: FC.Provider = {
       address: '2 Canter Way, London, E1 8PS',
       chain: 'Curzon',
       name: 'Aldgate',

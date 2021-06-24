@@ -123,6 +123,6 @@ describe('bfi-southbank', () => {
     };
     expect(result?.sessions).toHaveLength(1);
     const [firstSession] = result?.sessions || [];
-    expect(firstSession).toStrictEqual(expected as FC.Agent.Session);
+    expect(firstSession).toStrictEqual(expected as FC.Session);
   });
 });
