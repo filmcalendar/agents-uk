@@ -75,7 +75,7 @@ describe('genesis', () => {
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=23236443',
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=23070069',
     ];
-    expect(result.programme).toHaveLength(50);
+    expect(result.programme).toHaveLength(49);
     expect(result.programme.slice(0, 3)).toStrictEqual(expected);
   });
 
