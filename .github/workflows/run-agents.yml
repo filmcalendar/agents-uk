@@ -1,7 +1,7 @@
-name: Run agents daily
+name: Run agents
 on:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,4 +16,3 @@ jobs:
           digitalOceanApiToken: ${{ secrets.DO_API_TOKEN }}
           dockerRegistryPassword: ${{ secrets.GH_TOKEN }}
           gitPassword: ${{ secrets.GH_TOKEN }}
-          gitRepoData: ruicosta042/data
