@@ -1,9 +1,9 @@
 name: Build
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   test:
@@ -47,20 +47,3 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-  publish:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
-      - name: Publish docker image
-        uses: filmcalendar/build-agents-action@main
-        with:
-          country: uk
-          dockerRegistryPassword: ${{ secrets.GH_TOKEN }}
