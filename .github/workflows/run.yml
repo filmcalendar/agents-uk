@@ -1,18 +1,20 @@
 name: Run agents
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 6 * * *'
-  workflow_dispatch:
 
 jobs:
   start-agents:
     runs-on: ubuntu-latest
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_AUTH_TOKEN }}
       - name: Start agents
         uses: filmcalendar/run-agents-action@main
         with:
-          action: start
           country: uk
-          digitalOceanApiToken: ${{ secrets.DO_API_TOKEN }}
-          dockerRegistryPassword: ${{ secrets.GH_TOKEN }}
+          digitalOceanAuthToken: ${{ secrets.DO_AUTH_TOKEN }}
           gitPassword: ${{ secrets.GH_TOKEN }}
