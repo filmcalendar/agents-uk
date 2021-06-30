@@ -16,3 +16,4 @@ jobs:
         uses: filmcalendar/build-agents-action@main
         with:
           country: uk
+          dockerRegistryPassword: ${{ secrets.GH_TOKEN }}
