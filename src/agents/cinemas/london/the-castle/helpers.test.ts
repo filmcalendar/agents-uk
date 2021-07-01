@@ -19,8 +19,6 @@ describe('the castle - helpers', () => {
   });
 
   it('get booking id from url', () => {
-    expect.assertions(1);
-
     const url = 'https://thecastlecinema.com/bookings/3141391/';
     const result = getBookingIdFromUrl(url);
 
@@ -33,8 +31,6 @@ describe('the castle - helpers', () => {
     ['https://thecastlecinema.com/bookings/3141399/', ['parent-and-baby']],
     ['https://thecastlecinema.com/bookings/3141397/', []],
   ])('get sessions attributes', async (bookingLink, expected) => {
-    expect.assertions(1);
-
     const url =
       'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const $page = await fletch.html(url);
@@ -44,8 +40,6 @@ describe('the castle - helpers', () => {
   });
 
   it('get sessions', async () => {
-    expect.assertions(2);
-
     const url =
       'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const $page = await fletch.html(url);

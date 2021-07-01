@@ -20,8 +20,6 @@ describe('the-castle', () => {
   });
 
   it('featured', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.featured(provider);
 
@@ -34,8 +32,6 @@ describe('the-castle', () => {
   });
 
   it('seasons', async () => {
-    expect.assertions(1);
-
     const [provider] = await agent.providers();
     const result = await agent.seasons(provider);
 
@@ -47,8 +43,6 @@ describe('the-castle', () => {
   });
 
   it('season', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const seasons = await agent.seasons(provider);
     const [url] = seasons.seasonUrls;
@@ -65,8 +59,6 @@ describe('the-castle', () => {
   });
 
   it('season (no season page)', async () => {
-    expect.assertions(1);
-
     const [provider] = await agent.providers();
     const seasons = await agent.seasons(provider);
     const [, url] = seasons.seasonUrls;
@@ -81,8 +73,6 @@ describe('the-castle', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.programme(provider);
 
@@ -96,7 +86,6 @@ describe('the-castle', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
     const url =
       'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const [provider] = await agent.providers();
@@ -112,7 +101,6 @@ describe('the-castle', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
     const url =
       'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const [provider] = await agent.providers();

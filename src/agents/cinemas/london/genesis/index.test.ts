@@ -19,8 +19,6 @@ describe('genesis', () => {
   });
 
   it('featured', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.featured(provider);
 
@@ -34,8 +32,6 @@ describe('genesis', () => {
   });
 
   it('seasons', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.seasons(provider);
 
@@ -47,8 +43,6 @@ describe('genesis', () => {
   });
 
   it('season', async () => {
-    expect.assertions(1);
-
     const url =
       'https://genesiscinema.co.uk/GenesisCinema.dll/Page?PageID=1&SubListID=0&SubPageID=63';
     const result = await agent.season(url);
@@ -65,8 +59,6 @@ describe('genesis', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.programme(provider);
 
@@ -80,8 +72,6 @@ describe('genesis', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
-
     const url =
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=23309654';
     const [provider] = await agent.providers();
@@ -104,8 +94,6 @@ describe('genesis', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
-
     const url =
       'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn?Film=23309654';
     const [provider] = await agent.providers();

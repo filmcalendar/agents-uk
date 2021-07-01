@@ -35,8 +35,6 @@ describe('bbc', () => {
   };
 
   it('providers', async () => {
-    expect.assertions(2);
-
     const result = await agent.providers();
 
     const expected = {
@@ -53,8 +51,6 @@ describe('bbc', () => {
   });
 
   it('featured', async () => {
-    expect.assertions(2);
-
     const provider = await getBbcFourProvider();
     const result = await agent.featured(provider);
 
@@ -66,8 +62,6 @@ describe('bbc', () => {
   });
 
   it('seasons', async () => {
-    expect.assertions(2);
-
     const provider = await getBbcFourProvider();
     const result = await agent.seasons(provider);
 
@@ -81,8 +75,6 @@ describe('bbc', () => {
   });
 
   it('season', async () => {
-    expect.assertions(3);
-
     const url = 'https://www.bbc.co.uk/iplayer/group/p099ct9m';
     const result = await agent.season(url);
 
@@ -101,8 +93,6 @@ describe('bbc', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(1);
-
     const provider = await getBbcFourProvider();
     const result = await agent.programme(provider);
 
@@ -111,8 +101,6 @@ describe('bbc', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
-
     const provider = await getBbcFourProvider();
     const { _data } = await agent.programme(provider);
     const url = 'https://www.bbc.co.uk/programmes/b084zbf0';
@@ -145,8 +133,6 @@ describe('bbc', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
-
     const provider = await getBbcFourProvider();
     const { _data } = await agent.programme(provider);
     const url = 'https://www.bbc.co.uk/programmes/b084zbf0';

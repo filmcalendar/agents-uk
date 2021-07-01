@@ -27,8 +27,6 @@ describe('bbc-iplayer - helpers', () => {
   });
 
   it('get page programme', async () => {
-    expect.assertions(2);
-
     const url = 'https://www.bbc.co.uk/iplayer/categories/films/a-z';
     const result = await getPageProgramme(url);
 
@@ -42,8 +40,6 @@ describe('bbc-iplayer - helpers', () => {
   });
 
   it('gets episode id from url', () => {
-    expect.assertions(1);
-
     const url =
       'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const result = getEpisodeIdFromUrl(url);
@@ -53,8 +49,6 @@ describe('bbc-iplayer - helpers', () => {
   });
 
   it('get title', async () => {
-    expect.assertions(1);
-
     const url =
       'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const $page = await fletch.html(url);
@@ -65,8 +59,6 @@ describe('bbc-iplayer - helpers', () => {
   });
 
   it('get credits', async () => {
-    expect.assertions(1);
-
     const url =
       'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const $page = await fletch.html(url);
@@ -91,8 +83,6 @@ describe('bbc-iplayer - helpers', () => {
   });
 
   it('get availability', async () => {
-    expect.assertions(1);
-
     const url =
       'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const $page = await fletch.html(url);

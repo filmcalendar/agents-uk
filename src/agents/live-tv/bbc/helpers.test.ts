@@ -29,8 +29,6 @@ describe('bbc - helpers', () => {
   });
 
   it('gets available dates for a channel', async () => {
-    expect.assertions(2);
-
     const url = 'https://www.bbc.co.uk/iplayer/guide/bbcfour';
     const $page = await fletch.html(url);
     const result = getAvailableDatesUrls(url, $page);
@@ -45,7 +43,6 @@ describe('bbc - helpers', () => {
   });
 
   it('gets a schedule for a day/channel', async () => {
-    expect.assertions(2);
     const url = 'https://www.bbc.co.uk/iplayer/guide/bbcfour/20210615';
     const result = await getDailySchedule(url);
 
@@ -63,7 +60,6 @@ describe('bbc - helpers', () => {
   });
 
   it('gets sessions from the schedule', () => {
-    expect.assertions(2);
     const episodeId = 'b01nx8kb';
     const result = getSessions(episodeId, mockSchedule);
 

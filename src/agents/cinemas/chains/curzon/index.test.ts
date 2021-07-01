@@ -22,8 +22,6 @@ describe('curzon', () => {
   });
 
   it('providers', async () => {
-    expect.assertions(2);
-
     const result = await agent.providers();
 
     const expected: FC.Provider = {
@@ -44,8 +42,6 @@ describe('curzon', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.programme(provider);
 
@@ -59,8 +55,6 @@ describe('curzon', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
-
     const url = 'https://www.curzon.com/films/HO00003137';
     const [provider] = await agent.providers();
     const result = await agent.page(url, provider);
@@ -81,8 +75,6 @@ describe('curzon', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
-
     const url = 'https://www.curzon.com/films/HO00003137';
     const [provider] = await agent.providers();
     const result = await agent.page(url, provider);

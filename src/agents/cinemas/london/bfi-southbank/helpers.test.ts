@@ -29,8 +29,6 @@ describe('bfi southbank - helpers', () => {
   });
 
   it('extracts credits', () => {
-    expect.assertions(1);
-
     const $page = $.load(mockFilmHtml).root();
     const result = getCredits($page);
 
@@ -47,8 +45,6 @@ describe('bfi southbank - helpers', () => {
   });
 
   it('extracts the article context', () => {
-    expect.assertions(1);
-
     const $page = $.load(mockFilmHtml).root();
     const result = getArticleContext($page);
 
@@ -56,8 +52,6 @@ describe('bfi southbank - helpers', () => {
   });
 
   it('extracts events', () => {
-    expect.assertions(1);
-
     const $page = $.load(mockFilmHtml).root();
     const result = getEvents($page);
 
@@ -65,8 +59,6 @@ describe('bfi southbank - helpers', () => {
   });
 
   it('lists sessions', () => {
-    expect.assertions(1);
-
     const $page = $.load(mockFilmHtml).root();
     const result = getSessions($page);
 
@@ -74,8 +66,6 @@ describe('bfi southbank - helpers', () => {
   });
 
   it('gets expanded url for a page', async () => {
-    expect.assertions(1);
-
     const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
     const $page = await fletch.html(url);
     const result = getExpandedUrlFromPage($page);

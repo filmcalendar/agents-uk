@@ -23,11 +23,8 @@ describe('bfi-southbank', () => {
   });
 
   it('featured', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.featured(provider);
-
     const expected = [
       'https://whatson.bfi.org.uk/Online/article/nomadland2021',
       'https://whatson.bfi.org.uk/Online/article/firstcow',
@@ -38,11 +35,8 @@ describe('bfi-southbank', () => {
   });
 
   it('seasons', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.seasons(provider);
-
     const expected = [
       'https://whatson.bfi.org.uk/Online/article/dreampalace',
       'https://whatson.bfi.org.uk/Online/article/robertaltman',
@@ -53,11 +47,8 @@ describe('bfi-southbank', () => {
   });
 
   it('season', async () => {
-    expect.assertions(2);
-
     const url = 'https://whatson.bfi.org.uk/Online/article/robertaltman';
     const result = await agent.season(url);
-
     const expected = {
       description:
         'We pay tribute to one of the most distinctive and audacious American directors.',
@@ -71,11 +62,8 @@ describe('bfi-southbank', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.programme(provider);
-
     const expected = [
       'https://whatson.bfi.org.uk/Online/article/20feetfromstardom',
       'https://whatson.bfi.org.uk/Online/article/35shotsofrum2021',
@@ -86,12 +74,9 @@ describe('bfi-southbank', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
-
     const url = 'https://whatson.bfi.org.uk/Online/article/nomadland2021';
     const [provider] = await agent.providers();
     const result = await agent.page(url, provider);
-
     const expected = {
       title: 'Nomadland',
       year: 2020,
@@ -102,12 +87,9 @@ describe('bfi-southbank', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
-
     const url = 'https://whatson.bfi.org.uk/Online/article/akira2020';
     const [provider] = await agent.providers();
     const result = await agent.page(url, provider);
-
     const expected = {
       dateTime: '2021-06-16T14:40:00.000Z',
       attributes: ['hoh-subtitles'],

@@ -34,8 +34,6 @@ describe('curzon - helpers', () => {
   });
 
   it('gets film screening dates response', async () => {
-    expect.assertions(2);
-
     const result = await getFilmScreeningDates(provider);
 
     const expected = {
@@ -52,8 +50,6 @@ describe('curzon - helpers', () => {
   });
 
   it('get film people', () => {
-    expect.assertions(1);
-
     const { relatedData } = mockBusinessDate as CZ.BusinessDateResponse;
     const { castAndCrew } = relatedData;
     const result = getFilmPeople(castAndCrew);
@@ -73,8 +69,6 @@ describe('curzon - helpers', () => {
   });
 
   it('gets film info', () => {
-    expect.assertions(1);
-
     const { relatedData } = mockBusinessDate;
     const { films = [], castAndCrew } = relatedData;
     const result = getFilmInfo(films[0], getFilmPeople(castAndCrew));
@@ -95,8 +89,6 @@ describe('curzon - helpers', () => {
   });
 
   it('gets film sessions at provider', async () => {
-    expect.assertions(2);
-
     const result = await getSessions('HO00003137', provider);
 
     const expected = {

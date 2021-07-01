@@ -38,8 +38,6 @@ describe('channel4 - helpers', () => {
   });
 
   it('gets available dates', () => {
-    expect.assertions(1);
-
     const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1607380796000);
     const result = getAvailableDates(
       mockResponse as unknown as C4.DailyProgramme
@@ -70,8 +68,6 @@ describe('channel4 - helpers', () => {
   });
 
   it('trims a C4.Program', () => {
-    expect.assertions(1);
-
     const mockProgramRaw = {
       slotId: '30401994',
       distribution: 'F4',
@@ -104,8 +100,6 @@ describe('channel4 - helpers', () => {
   });
 
   it('gets daily programme for a channel', async () => {
-    expect.assertions(2);
-
     const params: GetDailyProgrammeParams = {
       channelId: 'F4',
       date: '2020-12-07',
@@ -143,8 +137,6 @@ describe('channel4 - helpers', () => {
   });
 
   it('gets slotId from program url', () => {
-    expect.assertions(1);
-
     const url = 'https://www.channel4.com/tv-guide/2020/12/08/F4/30401988';
     const result = getSlotIdFromUrl(url);
 
@@ -153,8 +145,6 @@ describe('channel4 - helpers', () => {
   });
 
   it('gets film year', () => {
-    expect.assertions(1);
-
     const result = getYear(mockProgram);
 
     const expected = 2015;
@@ -162,8 +152,6 @@ describe('channel4 - helpers', () => {
   });
 
   it('gets sessions', () => {
-    expect.assertions(2);
-
     const result = getSessions(mockProgram);
 
     const expected = {

@@ -18,8 +18,6 @@ describe('channel-4', () => {
   });
 
   it('providers', async () => {
-    expect.assertions(2);
-
     const result = await agent.providers();
 
     const expected = {
@@ -48,8 +46,6 @@ describe('channel-4', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const providers = await agent.providers();
     const provider = providers.find((prv) => prv.ref === 'film-4');
     if (!provider) throw new Error('Film4 not found');
@@ -65,8 +61,6 @@ describe('channel-4', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
-
     const url = 'https://www.channel4.com/tv-guide/2021/06/16/F4/30507740';
     const providers = await agent.providers();
     const provider = providers.find((prv) => prv.ref === 'film-4');
@@ -82,8 +76,6 @@ describe('channel-4', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
-
     const url = 'https://www.channel4.com/tv-guide/2021/06/16/F4/30507740';
     const providers = await agent.providers();
     const provider = providers.find((prv) => prv.ref === 'film-4');

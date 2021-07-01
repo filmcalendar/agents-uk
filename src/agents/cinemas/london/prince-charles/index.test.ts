@@ -19,8 +19,6 @@ describe('prince-charles-cinema', () => {
   });
 
   it('featured', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.featured(provider);
 
@@ -34,8 +32,6 @@ describe('prince-charles-cinema', () => {
   });
 
   it('seasons', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.seasons(provider);
 
@@ -49,8 +45,6 @@ describe('prince-charles-cinema', () => {
   });
 
   it('season', async () => {
-    expect.assertions(3);
-
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/Seasons?e=1';
     const [provider] = await agent.providers();
@@ -72,8 +66,6 @@ describe('prince-charles-cinema', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.programme(provider);
 
@@ -87,8 +79,6 @@ describe('prince-charles-cinema', () => {
   });
 
   it('film', async () => {
-    expect.assertions(2);
-
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=3527';
     const [provider] = await agent.providers();
@@ -106,8 +96,6 @@ describe('prince-charles-cinema', () => {
   });
 
   it('sessions', async () => {
-    expect.assertions(2);
-
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=3527';
     const [provider] = await agent.providers();

@@ -21,8 +21,6 @@ describe('bbc-iplayer', () => {
   });
 
   it('featured', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.featured(provider);
 
@@ -36,8 +34,6 @@ describe('bbc-iplayer', () => {
   });
 
   it('programme', async () => {
-    expect.assertions(2);
-
     const [provider] = await agent.providers();
     const result = await agent.programme(provider);
 
@@ -51,7 +47,6 @@ describe('bbc-iplayer', () => {
   });
 
   it('film', async () => {
-    expect.assertions(1);
     const url =
       'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women';
     const [provider] = await agent.providers();
