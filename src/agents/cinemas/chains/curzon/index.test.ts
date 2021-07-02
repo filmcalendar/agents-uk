@@ -80,7 +80,7 @@ describe('curzon', () => {
     const result = await agent.page(url, provider);
 
     const expected = {
-      attributes: ['subtitled'],
+      tags: ['subtitled'],
       dateTime: '2021-06-15T20:10:00.000Z',
       link: 'https://www.curzon.com/ticketing/seats/ALD1-27902/',
     };

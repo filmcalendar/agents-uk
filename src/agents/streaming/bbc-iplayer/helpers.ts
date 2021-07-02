@@ -96,6 +96,6 @@ export const getAvailability: GetAvailabilityFn = ($page) => {
   return {
     start,
     end,
-    attributes: ['audio-described', 'sign-language'],
+    tags: ['audio-described', 'sign-language'],
   };
 };

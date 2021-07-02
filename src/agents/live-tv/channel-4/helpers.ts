@@ -76,7 +76,7 @@ export const getYear: GetYearFn = (program) => {
 type GetSessionsFn = (program: C4.Program) => FC.Session[];
 export const getSessions: GetSessionsFn = (program) => {
   const { startDate, isAudioDescribed, isSubtitled, url } = program;
-  const attributes = [
+  const tags = [
     isAudioDescribed && 'audio-described',
     isSubtitled && 'subtitled',
   ].filter(Boolean) as string[];
@@ -85,7 +85,7 @@ export const getSessions: GetSessionsFn = (program) => {
     {
       dateTime: startDate,
       link: `https://www.channel4.com${url}`,
-      attributes,
+      tags,
     },
   ];
 };

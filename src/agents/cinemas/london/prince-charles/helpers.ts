@@ -51,9 +51,9 @@ export const getCast: GetCastFn = (film) => splitNamesList(film.Cast);
 type GetYearFn = (film: PCC.Film) => number;
 export const getYear: GetYearFn = (film) => Number(film.Year);
 
-type GetSessionAttributesFn = (event: PCC.Performance) => string[];
-export const getSessionAttributes: GetSessionAttributesFn = (event) => {
-  const attributes = [];
+type GetSessionTagsFn = (event: PCC.Performance) => string[];
+export const getSessionTags: GetSessionTagsFn = (event) => {
+  const tags = [];
   const {
     IsSubtitled,
     IsSilverScreen,
@@ -62,28 +62,28 @@ export const getSessionAttributes: GetSessionAttributesFn = (event) => {
     PerformanceNotes,
     StartTimeAndNotes,
   } = event;
-  if (IsSubtitled === 'Y') attributes.push('subtitled');
-  if (IsSilverScreen === 'Y') attributes.push('seniors');
-  if (IsParentAndBaby === 'Y') attributes.push('parent-and-baby');
-  if (IsSupportive === 'Y') attributes.push('parent-and-baby');
+  if (IsSubtitled === 'Y') tags.push('subtitled');
+  if (IsSilverScreen === 'Y') tags.push('seniors');
+  if (IsParentAndBaby === 'Y') tags.push('parent-and-baby');
+  if (IsSupportive === 'Y') tags.push('parent-and-baby');
   const [, notes] = /\(([^)]+)\)/.exec(StartTimeAndNotes) || ['', ''];
   const moreTags = notes ? [slugify(notes)] : [];
-  attributes.push(
+  tags.push(
     ...moreTags,
     ...PerformanceNotes.split('/')
       .map((tag) => tag.trim())
       .map((tag) => slugify(tag))
   );
 
-  return attributes;
+  return tags;
 };
 
 type GetSessionFn = (
   event: PCC.Performance,
   url: string,
-  eventAttributes: string[]
+  eventTags: string[]
 ) => FC.Session | null;
-export const getSession: GetSessionFn = (event, url, eventAttributes) => {
+export const getSession: GetSessionFn = (event, url, eventTags) => {
   const { StartDate, StartTimeAndNotes, IsSoldOut, URL: Url } = event;
   if (IsSoldOut === 'Y') return null;
 
@@ -100,29 +100,27 @@ export const getSession: GetSessionFn = (event, url, eventAttributes) => {
   return {
     dateTime,
     link,
-    attributes: [...eventAttributes, ...getSessionAttributes(event)].filter(
-      Boolean
-    ),
+    tags: [...eventTags, ...getSessionTags(event)].filter(Boolean),
   };
 };
 
-type GetEventAttributesFn = (film: PCC.Film) => string[];
-export const getEventAttributes: GetEventAttributesFn = (film) => {
-  const attributes = [];
+type GetEventTagsFn = (film: PCC.Film) => string[];
+export const getEventTags: GetEventTagsFn = (film) => {
+  const tags = [];
   const { Title, Tags } = film;
-  if (/Sing-A-Long-A/i.test(Title)) attributes.push('sing-along');
-  attributes.push(
+  if (/Sing-A-Long-A/i.test(Title)) tags.push('sing-along');
+  tags.push(
     ...Tags.map((tag) => tag.Format)
       .map((tag) => tag.toLowerCase())
       .filter(Boolean)
       .map((tag) => slugify(tag))
   );
 
-  return attributes;
+  return tags;
 };
 
 type GetSessionsFn = (film: PCC.Film, url: string) => FC.Session[];
 export const getSessions: GetSessionsFn = (film, url) =>
   film.Performances.map((event) =>
-    getSession(event, url, getEventAttributes(film))
+    getSession(event, url, getEventTags(film))
   ).filter(Boolean) as FC.Session[];

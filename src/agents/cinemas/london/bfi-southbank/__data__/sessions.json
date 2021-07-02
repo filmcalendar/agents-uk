@@ -9,6 +9,6 @@
         "createBO::WSmap": "1"
       }
     },
-    "attributes": ["hoh-subtitles"]
+    "tags": ["hoh-subtitles"]
   }
 ]

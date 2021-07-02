@@ -80,7 +80,7 @@ export const getSessions: GetSessionsFn = (episodeId, schedule) => {
       return {
         link: `https://bbc.co.uk/${href}`,
         dateTime: scheduledStart,
-        attributes: ['audio-described', 'sign-language'],
+        tags: ['audio-described', 'sign-language'],
       };
     });
 };

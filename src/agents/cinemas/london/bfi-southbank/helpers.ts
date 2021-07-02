@@ -140,8 +140,8 @@ export const getEvents: GetEventsFn = ($page) => {
     .filter((r) => !/Mark Kermode Live/i.test(r.short_description));
 };
 
-type GetSessionAttributesFn = (event: BFI.Event) => string[];
-const getSessionAttributes: GetSessionAttributesFn = (event) =>
+type GetSessionTagsFn = (event: BFI.Event) => string[];
+const getSessionTags: GetSessionTagsFn = (event) =>
   (event.keywords || '')
     .split(',')
     .map((tag) => tag.trim())
@@ -170,7 +170,7 @@ export const getSession: GetSessionFn = (event) => {
   return {
     dateTime,
     link,
-    attributes: [...getSessionAttributes(event)],
+    tags: [...getSessionTags(event)],
   };
 };
 

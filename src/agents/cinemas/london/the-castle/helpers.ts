@@ -42,16 +42,16 @@ type GetYearFn = ($page: cheerio.Cheerio) => number;
 export const getYear: GetYearFn = ($page) =>
   Number($page.find('.film-year').text());
 
-type GetEventAttributesFn = ($page: cheerio.Cheerio) => string[];
-export const getEventAttributes: GetEventAttributesFn = ($page) => {
+type GetEventTagsFn = ($page: cheerio.Cheerio) => string[];
+export const getEventTags: GetEventTagsFn = ($page) => {
   const title = $page.find('.hero-title h3').text();
-  const attributes = [];
+  const tags = [];
 
-  if (/Q&A/i.test(title)) attributes.push('q-and-a');
-  if (/Cine-Real/i.test(title)) attributes.push('16mm');
-  if (/Parent & Baby/i.test(title)) attributes.push('parent-and-baby');
+  if (/Q&A/i.test(title)) tags.push('q-and-a');
+  if (/Cine-Real/i.test(title)) tags.push('16mm');
+  if (/Parent & Baby/i.test(title)) tags.push('parent-and-baby');
 
-  return attributes;
+  return tags;
 };
 
 type GetBookingIdFromUrlFn = (bookingLink: string) => string;
@@ -60,14 +60,11 @@ export const getBookingIdFromUrl: GetBookingIdFromUrlFn = (bookingLink) => {
   return bookingId;
 };
 
-type GetSessionsAttributesFn = (
+type GetSessionsTagsFn = (
   $page: cheerio.Cheerio,
   bookingsLink: string
 ) => string[];
-export const getSessionAttributes: GetSessionsAttributesFn = (
-  $page,
-  bookingLink
-) => {
+export const getSessionTags: GetSessionsTagsFn = ($page, bookingLink) => {
   const bookingId = getBookingIdFromUrl(bookingLink);
   const performance = `TcsPerformance_${bookingId}`;
   const screeningType = $page
@@ -89,15 +86,12 @@ export const getSessions: GetSessionsFn = ($page) =>
       if (jsonld['@type'] !== 'ScreeningEvent') return null;
       const { url, startDate } = JSON.parse(code);
 
-      const attributes = [
-        ...getSessionAttributes($page, url),
-        ...getEventAttributes($page),
-      ];
+      const tags = [...getSessionTags($page, url), ...getEventTags($page)];
 
       return {
         dateTime: new Date(startDate).toISOString(),
         link: url,
-        attributes: [...new Set(attributes)],
+        tags: [...new Set(tags)],
       };
     })
     .filter(Boolean) as FC.Session[];

@@ -1,11 +1,7 @@
 import nock from 'nock';
 import fletch from '@tuplo/fletch';
 
-import {
-  getBookingIdFromUrl,
-  getSessionAttributes,
-  getSessions,
-} from './helpers';
+import { getBookingIdFromUrl, getSessionTags, getSessions } from './helpers';
 
 describe('the castle - helpers', () => {
   const dataDir = `${__dirname}/__data__`;
@@ -34,7 +30,7 @@ describe('the castle - helpers', () => {
     const url =
       'https://thecastlecinema.com/programme/4375/it-s-a-wonderful-life/';
     const $page = await fletch.html(url);
-    const result = getSessionAttributes($page, bookingLink);
+    const result = getSessionTags($page, bookingLink);
 
     expect(result).toStrictEqual(expected);
   });
@@ -48,7 +44,7 @@ describe('the castle - helpers', () => {
     const expected = {
       dateTime: '2020-12-14T21:00:00.000Z',
       link: 'https://thecastlecinema.com/bookings/3141391/',
-      attributes: ['5-mondays'],
+      tags: ['5-mondays'],
     };
     expect(result).toHaveLength(6);
     expect(result[0]).toStrictEqual(expected);

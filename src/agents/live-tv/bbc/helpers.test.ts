@@ -64,7 +64,7 @@ describe('bbc - helpers', () => {
     const result = getSessions(episodeId, mockSchedule);
 
     const expected = {
-      attributes: ['audio-described', 'sign-language'],
+      tags: ['audio-described', 'sign-language'],
       dateTime: '2020-12-14T02:00:00.000Z',
       link: 'https://bbc.co.uk//programmes/b01nx8kb',
     };

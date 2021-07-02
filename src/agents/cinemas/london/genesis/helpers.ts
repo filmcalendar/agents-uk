@@ -110,20 +110,20 @@ export const getYear: GetYearFn = ($page) =>
       return Number(y);
     }, -1);
 
-type GetSessionAttributesFn = ($el: cheerio.Cheerio) => string[];
-const getSessionAttributes: GetSessionAttributesFn = ($el) => {
+type GetSessionTagsFn = ($el: cheerio.Cheerio) => string[];
+const getSessionTags: GetSessionTagsFn = ($el) => {
   const time = $el.text();
-  const [, attributes] = /:\d{2}\s?\(([^)]+)\)/.exec(time) || ['', ''];
-  return attributes ? [slugify(attributes)] : [];
+  const [, tags] = /:\d{2}\s?\(([^)]+)\)/.exec(time) || ['', ''];
+  return tags ? [slugify(tags)] : [];
 };
 
 type GetSessionFn = (
   el: cheerio.Element,
   day: string,
   url: string,
-  eventAttributes: string[]
+  eventTags: string[]
 ) => FC.Session;
-const getSession: GetSessionFn = (el, day, url, eventAttributes) => {
+const getSession: GetSessionFn = (el, day, url, eventTags) => {
   const nowYear = new Date(Date.now()).getFullYear();
   const $el = $(el);
   const time = $el.text().replace(/(\d{2}:\d{2})(.+)/, '$1');
@@ -137,21 +137,21 @@ const getSession: GetSessionFn = (el, day, url, eventAttributes) => {
   return {
     dateTime,
     link,
-    attributes: [...getSessionAttributes($el), ...eventAttributes],
+    tags: [...getSessionTags($el), ...eventTags],
   };
 };
 
-type GetEventAttributesFn = ($page: cheerio.Cheerio) => string[];
-const getEventAttributes: GetEventAttributesFn = ($page) => {
-  const attributes = [];
+type GetEventTagsFn = ($page: cheerio.Cheerio) => string[];
+const getEventTags: GetEventTagsFn = ($page) => {
+  const tags = [];
   const title = $page.find('#content > h2.subtitle.first').text();
-  if (/35mm/i.test(title)) attributes.push('35mm');
-  if (/Double Bill/i.test(title)) attributes.push('double-bill');
-  if (/Relaxed Screening/i.test(title)) attributes.push('relaxed');
-  if (/Preview/i.test(title)) attributes.push('preview');
-  if (/\+\s?Panel/.test(title)) attributes.push('panel');
+  if (/35mm/i.test(title)) tags.push('35mm');
+  if (/Double Bill/i.test(title)) tags.push('double-bill');
+  if (/Relaxed Screening/i.test(title)) tags.push('relaxed');
+  if (/Preview/i.test(title)) tags.push('preview');
+  if (/\+\s?Panel/.test(title)) tags.push('panel');
 
-  return attributes;
+  return tags;
 };
 
 type GetSessionsFn = ($page: cheerio.Cheerio, url: string) => FC.Session[];
@@ -165,5 +165,5 @@ export const getSessions: GetSessionsFn = ($page, url) =>
       return $dayGroup
         .find('.button')
         .toArray()
-        .map((el) => getSession(el, day, url, getEventAttributes($page)));
+        .map((el) => getSession(el, day, url, getEventTags($page)));
     });

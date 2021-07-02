@@ -103,7 +103,7 @@ describe('genesis', () => {
     const expected = {
       dateTime: '2021-06-16T15:25:00.000Z',
       link: 'https://genesiscinema.co.uk/GenesisCinema.dll/Booking?Booking=TSelectItems.waSelectItemsPrompt.TcsWebMenuItem_0.TcsWebTab_0.TcsPerformance_23432225.TcsSection_22011588',
-      attributes: [],
+      tags: [],
     };
     expect(result?.sessions).toHaveLength(4);
     const [firstSession] = result?.sessions || [];

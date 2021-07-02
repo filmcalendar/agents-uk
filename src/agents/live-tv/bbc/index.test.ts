@@ -139,7 +139,7 @@ describe('bbc', () => {
     const result = await agent.page(url, provider, _data);
 
     const expected = {
-      attributes: ['audio-described', 'sign-language'],
+      tags: ['audio-described', 'sign-language'],
       dateTime: '2021-06-17T19:00:00.000Z',
       link: 'https://bbc.co.uk//programmes/b084zbf0',
     };

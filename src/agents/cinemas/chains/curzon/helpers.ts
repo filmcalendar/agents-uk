@@ -93,7 +93,7 @@ export async function getSessionsForDate(
 
     return {
       dateTime: new Date(startsAt).toISOString(),
-      attributes: attributeIds.map((attrId) => attributes[attrId]),
+      tags: attributeIds.map((attrId) => attributes[attrId]),
       link: `https://www.curzon.com/ticketing/seats/${id}/`,
     };
   });

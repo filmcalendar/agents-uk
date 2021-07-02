@@ -84,7 +84,7 @@ describe('channel-4', () => {
     const result = await agent.page(url, provider, _data);
 
     const expected = {
-      attributes: [],
+      tags: [],
       link: url,
       dateTime: '2021-06-16T10:00:00.000Z',
     };

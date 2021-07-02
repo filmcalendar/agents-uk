@@ -155,7 +155,7 @@ describe('channel4 - helpers', () => {
     const result = getSessions(mockProgram);
 
     const expected = {
-      attributes: ['audio-described'],
+      tags: ['audio-described'],
       link: 'https://www.channel4.com/tv-guide/2020/12/08/F4/30401994',
       dateTime: '2020-12-08T23:25:00.000Z',
     };
