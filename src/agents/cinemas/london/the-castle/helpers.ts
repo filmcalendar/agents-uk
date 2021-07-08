@@ -1,7 +1,7 @@
 import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
-import slugify from '@sindresorhus/slugify';
 
+import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 
 type GetTitleFn = ($page: cheerio.Cheerio) => string;

@@ -1,9 +1,9 @@
 import vm from 'vm';
 import $ from 'cheerio';
-import slugify from '@sindresorhus/slugify';
 import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
 
+import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as BFI from './index.d';
 

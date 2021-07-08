@@ -23,7 +23,7 @@ describe('the castle - helpers', () => {
   });
 
   it.each([
-    ['https://thecastlecinema.com/bookings/3141391/', ['5-mondays']],
+    ['https://thecastlecinema.com/bookings/3141391/', ['pound5-mondays']],
     ['https://thecastlecinema.com/bookings/3141399/', ['parent-and-baby']],
     ['https://thecastlecinema.com/bookings/3141397/', []],
   ])('get sessions attributes', async (bookingLink, expected) => {
@@ -44,7 +44,7 @@ describe('the castle - helpers', () => {
     const expected = {
       dateTime: '2020-12-14T21:00:00.000Z',
       link: 'https://thecastlecinema.com/bookings/3141391/',
-      tags: ['5-mondays'],
+      tags: ['pound5-mondays'],
     };
     expect(result).toHaveLength(6);
     expect(result[0]).toStrictEqual(expected);

@@ -109,7 +109,7 @@ describe('the-castle', () => {
     const expected = {
       dateTime: '2020-12-14T21:00:00.000Z',
       link: 'https://thecastlecinema.com/bookings/3141391/',
-      tags: ['5-mondays'],
+      tags: ['pound5-mondays'],
     };
     expect(result?.sessions).toHaveLength(6);
     const [firstSession] = result?.sessions || [];

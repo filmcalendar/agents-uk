@@ -1,10 +1,10 @@
 import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
-import slugify from '@sindresorhus/slugify';
 import dtParse from 'date-fns/parse';
 import { URL } from 'url';
 import fletch from '@tuplo/fletch';
 
+import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as PCC from './index.d';
 

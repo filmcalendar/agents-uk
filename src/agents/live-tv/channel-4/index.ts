@@ -1,9 +1,10 @@
-import slugify from '@sindresorhus/slugify';
 import type * as FC from '@filmcalendar/types';
 import fletch from '@tuplo/fletch';
 import dtFormat from 'date-fns/format';
 import seriesWith from '@tuplo/series-with';
 import { URL } from 'url';
+
+import slugify from 'src/lib/slugify';
 
 import type * as C4 from './index.d';
 import type { GetDailyProgrammeParams } from './helpers';

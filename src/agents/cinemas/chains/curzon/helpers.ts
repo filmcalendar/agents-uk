@@ -1,7 +1,7 @@
 import fletch from '@tuplo/fletch';
 import seriesWith from '@tuplo/series-with';
-import slugify from '@sindresorhus/slugify';
 
+import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as CZ from './index.d';
 
