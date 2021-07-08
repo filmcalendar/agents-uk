@@ -37,13 +37,8 @@ export async function getReduxState<T>(url: string): Promise<T> {
 
   const { window } = await fletch.script<PageWithReduxState>(url, {
     scriptSandbox: { window: {} },
-    scriptFindFn: ($page) =>
-      $page
-        .find('script')
-        .toArray()
-        .find((script) =>
-          /__IPLAYER_REDUX_STATE__/.test($(script).html() || '')
-        ),
+    scriptFindFn: (script) =>
+      /__IPLAYER_REDUX_STATE__/.test($(script).html() || ''),
   });
 
   const { __IPLAYER_REDUX_STATE__: state } = window;

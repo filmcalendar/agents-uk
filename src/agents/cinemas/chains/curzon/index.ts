@@ -27,11 +27,7 @@ export const providers: FC.Agent.ProvidersFn = async () => {
 
   const { initData } = await fletch.script<CZ.InitData>(url, {
     scriptSandbox: { window: { initialiseWidgets: () => null } },
-    scriptFindFn: ($page) =>
-      $page
-        .find('script')
-        .toArray()
-        .find((script) => /initData/.test($(script).html() || '')),
+    scriptFindFn: (script) => /initData/.test($(script).html() || ''),
   });
   if (!initData) return [];
 

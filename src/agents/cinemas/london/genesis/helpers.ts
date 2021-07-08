@@ -11,11 +11,7 @@ import type * as GEN from './index.d';
 type GetEventsInlineFn = (url: string) => Promise<GEN.Event[]>;
 export const getEventsInline: GetEventsInlineFn = async (url) => {
   const { eventsInline } = await fletch.script<GEN.ProgrammeData>(url, {
-    scriptFindFn: ($page) =>
-      $page
-        .find('script')
-        .toArray()
-        .find((script) => /var eventsInline/.test($(script).html() || '')),
+    scriptFindFn: (script) => /var eventsInline/.test($(script).html() || ''),
     scriptSandbox: {
       $: () => ({
         eventCalendar: (): null => null,

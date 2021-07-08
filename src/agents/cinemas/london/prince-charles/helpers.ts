@@ -11,11 +11,7 @@ import type * as PCC from './index.d';
 export type GetWhatsOnDataFn = (url: string) => Promise<PCC.Film[]>;
 export const getWhatsOnData: GetWhatsOnDataFn = async (url) => {
   const { Events } = await fletch.script<PCC.EventsData>(url, {
-    scriptFindFn: ($page) =>
-      $page
-        .find('script')
-        .toArray()
-        .find((script) => /var Events/.test($(script).html() || '')),
+    scriptFindFn: (script) => /var Events/.test($(script).html() || ''),
   });
 
   return Events.Events;
