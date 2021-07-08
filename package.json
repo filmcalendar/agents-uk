@@ -13,7 +13,7 @@
   "dependencies": {
     "@filmcalendar/agents-core": "1.16.0",
     "@filmcalendar/types": "1.10.0",
-    "@tuplo/fletch": "1.13.0",
+    "@tuplo/fletch": "1.14.0",
     "@tuplo/series-with": "1.6.1",
     "@tuplo/split-names-list": "1.11.1",
     "cheerio": "1.0.0-rc.10",
@@ -58,8 +58,7 @@
     "lint": "eslint --ext .ts src/",
     "start": "NODE_ENV=development env-cmd -f .env.secrets fc-agent",
     "test": "TZ=utc jest --watch",
-    "ts-check": "tsc --noEmit",
-    "validate": "yarn lint; yarn ts-check; yarn ci:test"
+    "ts-check": "tsc --noEmit"
   },
   "eslintConfig": {
     "extends": [
@@ -119,5 +118,13 @@
       ],
       "@semantic-release/github"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "src/(.*)": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "^.+\\.[jt]s$": "ts-jest"
+    }
   }
 }

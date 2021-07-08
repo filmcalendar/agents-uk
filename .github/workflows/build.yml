@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/setup-node@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          node-version: 16
+          cache: yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn validate
+      - run: yarn lint
+      - run: yarn ts-check
+      - run: yarn ci:test
 
   test-coverage:
     needs: test
@@ -23,13 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          cache: yarn
       - run: yarn install --frozen-lockfile
       - uses: paambaati/codeclimate-action@v2.7.2
         env:

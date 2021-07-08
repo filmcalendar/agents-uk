@@ -661,10 +661,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@tuplo/fletch@1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@tuplo/fletch/-/fletch-1.13.0.tgz#b5fd47769e06a94ab3e88ce767f8d3a38819b854"
-  integrity sha512-607cpSaFJaoBKSPM57JY1b6QTlJ1cIRWy1/JSjpqT3JEYJ+M6bvNn3OM7ASnU6joWI1eC/++jUaSlu7fXD1LaA==
+"@tuplo/fletch@1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@tuplo/fletch/-/fletch-1.14.0.tgz#1dc680b4d48d3cd7e262be3ca024febde8609fdb"
+  integrity sha512-Jlpo9obcjSdel7xpTtZN4aXc7cZjju9OhPcDtrmevb2V5zFo4tBBrqsDrbUHHc+RJP3bkpbotvCHtidfgQLs9w==
   dependencies:
     cheerio "1.0.0-rc.10"
     node-fetch "2.6.1"
