@@ -4,9 +4,8 @@ import splitNamesList from '@tuplo/split-names-list';
 import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 
-type GetTitleFn = ($page: cheerio.Cheerio) => string;
-export const getTitle: GetTitleFn = ($page) =>
-  $page
+export function getTitle($page: cheerio.Cheerio): string {
+  return $page
     .find('.hero-title h3')
     .text()
     .trim()
@@ -29,21 +28,21 @@ export const getTitle: GetTitleFn = ($page) =>
     .replace(/Zodiac Film Club presents:/i, '')
     .replace(/\s\s*/, ' ')
     .trim();
+}
 
-type GetDirectorFn = ($page: cheerio.Cheerio) => string[];
-export const getDirector: GetDirectorFn = ($page) =>
-  splitNamesList($page.find('.film-director').text());
+export function getDirector($page: cheerio.Cheerio): string[] {
+  return splitNamesList($page.find('.film-director').text());
+}
 
-type GetCastFn = ($page: cheerio.Cheerio) => string[];
-export const getCast: GetCastFn = ($page) =>
-  splitNamesList($page.find('.film-cast').text());
+export function getCast($page: cheerio.Cheerio): string[] {
+  return splitNamesList($page.find('.film-cast').text());
+}
 
-type GetYearFn = ($page: cheerio.Cheerio) => number;
-export const getYear: GetYearFn = ($page) =>
-  Number($page.find('.film-year').text());
+export function getYear($page: cheerio.Cheerio): number {
+  return Number($page.find('.film-year').text());
+}
 
-type GetEventTagsFn = ($page: cheerio.Cheerio) => string[];
-export const getEventTags: GetEventTagsFn = ($page) => {
+export function getEventTags($page: cheerio.Cheerio): string[] {
   const title = $page.find('.hero-title h3').text();
   const tags = [];
 
@@ -52,19 +51,17 @@ export const getEventTags: GetEventTagsFn = ($page) => {
   if (/Parent & Baby/i.test(title)) tags.push('parent-and-baby');
 
   return tags;
-};
+}
 
-type GetBookingIdFromUrlFn = (bookingLink: string) => string;
-export const getBookingIdFromUrl: GetBookingIdFromUrlFn = (bookingLink) => {
+export function getBookingIdFromUrl(bookingLink: string): string {
   const [, bookingId] = /(\d+)\/$/.exec(bookingLink) || ['', ''];
   return bookingId;
-};
+}
 
-type GetSessionsTagsFn = (
+export function getSessionTags(
   $page: cheerio.Cheerio,
-  bookingsLink: string
-) => string[];
-export const getSessionTags: GetSessionsTagsFn = ($page, bookingLink) => {
+  bookingLink: string
+): string[] {
   const bookingId = getBookingIdFromUrl(bookingLink);
   const performance = `TcsPerformance_${bookingId}`;
   const screeningType = $page
@@ -72,11 +69,10 @@ export const getSessionTags: GetSessionsTagsFn = ($page, bookingLink) => {
     .text();
 
   return [slugify(screeningType)].filter(Boolean);
-};
+}
 
-type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Session[];
-export const getSessions: GetSessionsFn = ($page) =>
-  $page
+export function getSessions($page: cheerio.Cheerio): FC.Session[] {
+  return $page
     .find('script[type="application/ld+json"]')
     .toArray()
     .map((script) => {
@@ -95,3 +91,4 @@ export const getSessions: GetSessionsFn = ($page) =>
       };
     })
     .filter(Boolean) as FC.Session[];
+}

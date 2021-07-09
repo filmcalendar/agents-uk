@@ -2,16 +2,15 @@ import $ from 'cheerio';
 import { URL } from 'url';
 import dtIsAfter from 'date-fns/isAfter';
 import dtIsSameDay from 'date-fns/isSameDay';
-import fletch from '@tuplo/fletch';
+import type { FletchInstance } from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 import type * as BBC from './index.d';
 
-type GetAvailableDatesUrlsFn = (
+export function getAvailableDatesUrls(
   url: string,
   $page: cheerio.Cheerio
-) => string[];
-export const getAvailableDatesUrls: GetAvailableDatesUrlsFn = (url, $page) => {
+): string[] {
   const today = new Date(Date.now());
 
   return $page
@@ -26,16 +25,19 @@ export const getAvailableDatesUrls: GetAvailableDatesUrlsFn = (url, $page) => {
       return dtIsSameDay(dtDate, today) || dtIsAfter(dtDate, today);
     })
     .map((href) => new URL(href || '', url).href);
-};
+}
 
-export async function getReduxState<T>(url: string): Promise<T> {
+export async function getReduxState<T>(
+  request: FletchInstance,
+  url: string
+): Promise<T> {
   type PageWithReduxState = {
     window: {
       __IPLAYER_REDUX_STATE__: T;
     };
   };
 
-  const { window } = await fletch.script<PageWithReduxState>(url, {
+  const { window } = await request.script<PageWithReduxState>(url, {
     scriptSandbox: { window: {} },
     scriptFindFn: (script) =>
       /__IPLAYER_REDUX_STATE__/.test($(script).html() || ''),
@@ -45,20 +47,23 @@ export async function getReduxState<T>(url: string): Promise<T> {
   return state as T;
 }
 
-type GetDailyScheduleFn = (url: string) => Promise<BBC.ScheduleItem[]>;
-export const getDailySchedule: GetDailyScheduleFn = async (url) => {
-  const { schedule } = await getReduxState<{ schedule: BBC.Schedule }>(url);
+export function getDailySchedule(request: FletchInstance) {
+  return async (url: string): Promise<BBC.ScheduleItem[]> => {
+    const { schedule } = await getReduxState<{ schedule: BBC.Schedule }>(
+      request,
+      url
+    );
 
-  return schedule.items.filter(
-    (item) => item.props.label && item.props.label === 'Film'
-  );
-};
+    return schedule.items.filter(
+      (item) => item.props.label && item.props.label === 'Film'
+    );
+  };
+}
 
-type GetSessionsFn = (
+export function getSessions(
   episodeId: string,
   schedule: BBC.ScheduleItem[]
-) => FC.Session[];
-export const getSessions: GetSessionsFn = (episodeId, schedule) => {
+): FC.Session[] {
   const rgEpisodeId = new RegExp(`${episodeId}$`);
   return schedule
     .filter((item) => {
@@ -78,4 +83,4 @@ export const getSessions: GetSessionsFn = (episodeId, schedule) => {
         tags: ['audio-described', 'sign-language'],
       };
     });
-};
+}

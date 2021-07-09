@@ -1,9 +1,11 @@
 import nock from 'nock';
 import type * as FC from '@filmcalendar/types';
 
-import * as agent from '.';
+import { Agent } from './index';
 
 describe('channel-4', () => {
+  const agent = new Agent();
+
   const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1623845912000);
 
   const dataDir = `${__dirname}/__data__`;

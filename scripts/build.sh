@@ -6,4 +6,5 @@ esbuild src/index.ts \
   --platform=node \
   --banner:js='#!/usr/bin/env node' \
   --outfile=.bin/fc-agent.cjs
+
 chmod 755 .bin/fc-agent.cjs

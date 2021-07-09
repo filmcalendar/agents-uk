@@ -1,4 +1,5 @@
 import nock from 'nock';
+import fletch from '@tuplo/fletch';
 
 import type * as C4 from './index.d';
 
@@ -104,7 +105,7 @@ describe('channel4 - helpers', () => {
       channelId: 'F4',
       date: '2020-12-07',
     };
-    const result = await getDailyProgramme(params);
+    const result = await getDailyProgramme(fletch.create())(params);
 
     const expected = {
       ageRating: 0,

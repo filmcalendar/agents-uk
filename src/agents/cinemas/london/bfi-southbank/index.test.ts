@@ -1,9 +1,11 @@
 import nock from 'nock';
 import type * as FC from '@filmcalendar/types';
 
-import * as agent from '.';
+import { Agent } from './index';
 
 describe('bfi-southbank', () => {
+  const agent = new Agent();
+
   const dataDir = `${__dirname}/__data__`;
   nock('https://whatson.bfi.org.uk')
     .persist()

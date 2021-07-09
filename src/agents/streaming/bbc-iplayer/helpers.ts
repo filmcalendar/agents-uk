@@ -3,32 +3,31 @@ import { URL } from 'url';
 import dtParse from 'date-fns/parse';
 import dtAdd from 'date-fns/add';
 import dtFormat from 'date-fns/format';
-import fletch from '@tuplo/fletch';
+import type { FletchInstance } from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 
-type GetPageProgrammeFn = (url: string) => Promise<string[]>;
-export const getPageProgramme: GetPageProgrammeFn = async (url) => {
-  const $page = await fletch.html(url);
-  return $page
-    .find('.list .content-item__link')
-    .toArray()
-    .map((a) => $(a).attr('href'))
-    .map((href) => new URL(href || '', url).href);
-};
+export function getPageProgramme(request: FletchInstance) {
+  return async (url: string): Promise<string[]> => {
+    const $page = await request.html(url);
+    return $page
+      .find('.list .content-item__link')
+      .toArray()
+      .map((a) => $(a).attr('href'))
+      .map((href) => new URL(href || '', url).href);
+  };
+}
 
-type GetEpisodeIdFromUrlFn = (url: string) => string;
-export const getEpisodeIdFromUrl: GetEpisodeIdFromUrlFn = (url) => {
+export function getEpisodeIdFromUrl(url: string): string {
   const [, episodeId] = /iplayer\/episode\/([^/]+)/.exec(url) || ['', ''];
   return episodeId;
-};
+}
 
-type GetTitleFn = ($page: cheerio.Cheerio) => string;
-export const getTitle: GetTitleFn = ($page) =>
-  $page.find('.programmes-page .island h1').text().trim();
+export function getTitle($page: cheerio.Cheerio): string {
+  return $page.find('.programmes-page .island h1').text().trim();
+}
 
-type GetCreditsFn = ($page: cheerio.Cheerio) => Map<string, string[]>;
-export const getCredits: GetCreditsFn = ($page) => {
+export function getCredits($page: cheerio.Cheerio): Map<string, string[]> {
   const creditsRaw = $page
     .find('#credits tr')
     .toArray()
@@ -65,10 +64,9 @@ export const getCredits: GetCreditsFn = ($page) => {
 
       return acc;
     }, new Map() as Map<string, string[]>);
-};
+}
 
-type GetAvailabilityFn = ($page: cheerio.Cheerio) => FC.Availability;
-export const getAvailability: GetAvailabilityFn = ($page) => {
+export function getAvailability($page: cheerio.Cheerio): FC.Availability {
   const today = new Date(Date.now());
   const start = new Date(dtFormat(today, 'y-MM-dd')).toISOString();
   const endStr = $page
@@ -98,4 +96,4 @@ export const getAvailability: GetAvailabilityFn = ($page) => {
     end,
     tags: ['audio-described', 'sign-language'],
   };
-};
+}

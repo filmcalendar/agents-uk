@@ -44,7 +44,7 @@ describe('bbc - helpers', () => {
 
   it('gets a schedule for a day/channel', async () => {
     const url = 'https://www.bbc.co.uk/iplayer/guide/bbcfour/20210615';
-    const result = await getDailySchedule(url);
+    const result = await getDailySchedule(fletch.create())(url);
 
     const expected: BBC.ScheduleItem = {
       meta: {

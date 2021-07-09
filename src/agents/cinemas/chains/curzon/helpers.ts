@@ -1,11 +1,12 @@
-import fletch from '@tuplo/fletch';
 import seriesWith from '@tuplo/series-with';
+import type { FletchInstance } from '@tuplo/fletch';
 
 import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as CZ from './index.d';
 
 export function requestCurzonApi<T>(
+  request: FletchInstance,
   path: string,
   options: Record<string, unknown>,
   provider: FC.Provider
@@ -14,13 +15,14 @@ export function requestCurzonApi<T>(
   const { apiUrl, authToken } = _data as CZ.ProviderData;
   const url = [apiUrl, path].join('');
 
-  return fletch.json<T>(url, {
+  return request.json<T>(url, {
     headers: { authorization: `Bearer ${authToken}` },
     ...options,
   });
 }
 
 export async function getFilmScreeningDates(
+  request: FletchInstance,
   provider: FC.Provider
 ): Promise<CZ.FilmScreeningDates[]> {
   const { _data } = provider;
@@ -28,6 +30,7 @@ export async function getFilmScreeningDates(
 
   const { filmScreeningDates = [] } =
     await requestCurzonApi<CZ.FilmScreeningDatesResponse>(
+      request,
       '/ocapi/v1/browsing/master-data/film-screening-dates',
       { urlSearchParams: { siteIds: cinemaId } },
       provider
@@ -73,6 +76,7 @@ export function getAttributes(relatedData: CZ.RelatedData): CZ.AttributesMap {
 }
 
 export async function getSessionsForDate(
+  request: FletchInstance,
   date: string,
   filmId: string,
   cinemaId: string,
@@ -81,6 +85,7 @@ export async function getSessionsForDate(
   const path = `/ocapi/v1/browsing/master-data/showtimes/business-date/${date}`;
   const { showtimes = [], relatedData } =
     await requestCurzonApi<CZ.BusinessDateResponse>(
+      request,
       path,
       { urlSearchParams: { siteIds: cinemaId, filmIds: filmId } },
       provider
@@ -100,6 +105,7 @@ export async function getSessionsForDate(
 }
 
 export async function getSessions(
+  request: FletchInstance,
   filmId: string,
   provider: FC.Provider
 ): Promise<FC.Session[]> {
@@ -108,6 +114,7 @@ export async function getSessions(
 
   const { filmScreeningDates = [] } =
     await requestCurzonApi<CZ.FilmScreeningDatesResponse>(
+      request,
       '/ocapi/v1/browsing/master-data/film-screening-dates',
       { urlSearchParams: { siteIds: cinemaId, filmIds: filmId } },
       provider
@@ -116,6 +123,6 @@ export async function getSessions(
   const businessDates = filmScreeningDates.map((fsc) => fsc.businessDate);
 
   return seriesWith(businessDates, (date) =>
-    getSessionsForDate(date, filmId, cinemaId, provider)
+    getSessionsForDate(request, date, filmId, cinemaId, provider)
   ).then((data) => data.flat());
 }

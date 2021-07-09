@@ -1,4 +1,5 @@
 import nock from 'nock';
+import fletch from '@tuplo/fletch';
 
 import type * as FC from '@filmcalendar/types';
 import type * as CZ from './index.d';
@@ -34,7 +35,7 @@ describe('curzon - helpers', () => {
   });
 
   it('gets film screening dates response', async () => {
-    const result = await getFilmScreeningDates(provider);
+    const result = await getFilmScreeningDates(fletch.create(), provider);
 
     const expected = {
       businessDate: '2021-06-15',
@@ -89,7 +90,7 @@ describe('curzon - helpers', () => {
   });
 
   it('gets film sessions at provider', async () => {
-    const result = await getSessions('HO00003137', provider);
+    const result = await getSessions(fletch.create(), 'HO00003137', provider);
 
     const expected = {
       tags: ['subtitled'],

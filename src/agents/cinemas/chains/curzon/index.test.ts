@@ -1,9 +1,11 @@
 import nock from 'nock';
 import type * as FC from '@filmcalendar/types';
 
-import * as agent from '.';
+import { Agent } from './index';
 
 describe('curzon', () => {
+  const agent = new Agent();
+
   const mocksDir = `${__dirname}/__data__`;
   nock('https://www.curzon.com')
     .persist()

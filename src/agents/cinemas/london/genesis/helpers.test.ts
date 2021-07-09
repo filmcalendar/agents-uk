@@ -1,4 +1,5 @@
 import nock from 'nock';
+import fletch from '@tuplo/fletch';
 
 import { getEventsInline } from './helpers';
 import mockEventsInline from './__data__/events-inline.json';
@@ -16,7 +17,7 @@ describe('genesis cinema - helpers', () => {
 
   it('extracts events inline', async () => {
     const url = 'https://genesiscinema.co.uk/GenesisCinema.dll/WhatsOn';
-    const result = await getEventsInline(url);
+    const result = await getEventsInline(fletch.create(), url);
     expect(result).toMatchObject(mockEventsInline);
   });
 });

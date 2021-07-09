@@ -1,9 +1,11 @@
 import nock from 'nock';
-
 import type * as FC from '@filmcalendar/types';
-import * as agent from '.';
+
+import { Agent } from './index';
 
 describe('bbc', () => {
+  const agent = new Agent();
+
   // 2020-12-13T10:07:48.000Z
   const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1607854068000);
 

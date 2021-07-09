@@ -1,11 +1,10 @@
 import dtFormat from 'date-fns/format';
-import fletch from '@tuplo/fletch';
 import type * as FC from '@filmcalendar/types';
+import { FletchInstance } from '@tuplo/fletch';
 
 import type * as C4 from './index.d';
 
-type GetAvailableDatesFn = (data: C4.DailyProgramme) => string[];
-export const getAvailableDates: GetAvailableDatesFn = (data) => {
+export function getAvailableDates(data: C4.DailyProgramme): string[] {
   const { dates = [] } = data;
   const today = new Date(Date.now());
 
@@ -16,10 +15,9 @@ export const getAvailableDates: GetAvailableDatesFn = (data) => {
     })
     .filter((date) => date >= today)
     .map((date) => dtFormat(date, 'y-MM-dd'));
-};
+}
 
-export type TrimProgramFn = (program: C4.Program) => C4.Program;
-export const trimProgram: TrimProgramFn = (program) => {
+export function trimProgram(program: C4.Program): C4.Program {
   const {
     isMovie,
     slotId,
@@ -30,6 +28,7 @@ export const trimProgram: TrimProgramFn = (program) => {
     isAudioDescribed,
     isSubtitled,
   } = program;
+
   return {
     isMovie,
     slotId,
@@ -40,41 +39,38 @@ export const trimProgram: TrimProgramFn = (program) => {
     isAudioDescribed,
     isSubtitled,
   };
-};
+}
 
 export type GetDailyProgrammeParams = { channelId: C4.ChannelId; date: string };
-type GetDailyProgrammeFn = (
-  params: GetDailyProgrammeParams
-) => Promise<C4.Program[]>;
-export const getDailyProgramme: GetDailyProgrammeFn = async (params) => {
-  const { channelId, date } = params;
-  const strDate = dtFormat(new Date(date), 'y/MM/dd');
-  const url = `https://www.channel4.com/tv-guide/api/${strDate}`;
 
-  const { channels } = await fletch.json<C4.DailyProgramme>(url);
-  const { programmes = [] } = channels[channelId] as C4.Channel;
+export function getDailyProgramme(request: FletchInstance) {
+  return async (params: GetDailyProgrammeParams): Promise<C4.Program[]> => {
+    const { channelId, date } = params;
+    const strDate = dtFormat(new Date(date), 'y/MM/dd');
+    const url = `https://www.channel4.com/tv-guide/api/${strDate}`;
 
-  return programmes.filter(
-    (program) => program.isMovie !== 'false' || !program.isMovie
-  );
-};
+    const { channels } = await request.json<C4.DailyProgramme>(url);
+    const { programmes = [] } = channels[channelId] as C4.Channel;
 
-type GetSlotIdFromUrlFn = (url: string) => string;
-export const getSlotIdFromUrl: GetSlotIdFromUrlFn = (url) => {
+    return programmes.filter(
+      (program) => program.isMovie !== 'false' || !program.isMovie
+    );
+  };
+}
+
+export function getSlotIdFromUrl(url: string): string {
   const [, slotId] = /(\d+)$/.exec(url) || ['', ''];
   return slotId;
-};
+}
 
-type GetYearFn = (program: C4.Program) => number;
-export const getYear: GetYearFn = (program) => {
+export function getYear(program: C4.Program): number {
   const { summary } = program;
   const [, year] = /^\((\d{4})\)/.exec(summary) || ['', ''];
 
   return Number(year);
-};
+}
 
-type GetSessionsFn = (program: C4.Program) => FC.Session[];
-export const getSessions: GetSessionsFn = (program) => {
+export function getSessions(program: C4.Program): FC.Session[] {
   const { startDate, isAudioDescribed, isSubtitled, url } = program;
   const tags = [
     isAudioDescribed && 'audio-described',
@@ -88,4 +84,4 @@ export const getSessions: GetSessionsFn = (program) => {
       tags,
     },
   ];
-};
+}

@@ -2,15 +2,17 @@ import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
 import { URL } from 'url';
-import fletch from '@tuplo/fletch';
+import { FletchInstance } from '@tuplo/fletch';
 
 import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as GEN from './index.d';
 
-type GetEventsInlineFn = (url: string) => Promise<GEN.Event[]>;
-export const getEventsInline: GetEventsInlineFn = async (url) => {
-  const { eventsInline } = await fletch.script<GEN.ProgrammeData>(url, {
+export async function getEventsInline(
+  request: FletchInstance,
+  url: string
+): Promise<GEN.Event[]> {
+  const { eventsInline } = await request.script<GEN.ProgrammeData>(url, {
     scriptFindFn: (script) => /var eventsInline/.test($(script).html() || ''),
     scriptSandbox: {
       $: () => ({
@@ -20,11 +22,10 @@ export const getEventsInline: GetEventsInlineFn = async (url) => {
   });
 
   return eventsInline;
-};
+}
 
-type GetTitleFn = ($page: cheerio.Cheerio) => string;
-export const getTitle: GetTitleFn = ($page) =>
-  $page
+export function getTitle($page: cheerio.Cheerio): string {
+  return $page
     .find('#content > h2.subtitle.first')
     .text()
     .trim()
@@ -72,10 +73,10 @@ export const getTitle: GetTitleFn = ($page) =>
     .replace(/Write-Along-Movies:/i, '')
     .replace(/\s\s*/, ' ')
     .trim();
+}
 
-type GetDirectorFn = ($page: cheerio.Cheerio) => string[];
-export const getDirector: GetDirectorFn = ($page) =>
-  $page
+export function getDirector($page: cheerio.Cheerio): string[] {
+  return $page
     .find('.main-content .info li')
     .toArray()
     .filter((li) => $(li).find('.icon-video-camera').length)
@@ -83,10 +84,10 @@ export const getDirector: GetDirectorFn = ($page) =>
       const [, d] = /director\s?:\s?(.+)/i.exec($(li).text()) || [];
       return [...acc, ...splitNamesList(d)];
     }, [] as string[]);
+}
 
-type GetCastFn = ($page: cheerio.Cheerio) => string[];
-export const getCast: GetCastFn = ($page) =>
-  $page
+export function getCast($page: cheerio.Cheerio): string[] {
+  return $page
     .find('.main-content .info li')
     .toArray()
     .filter((li) => $(li).find('.icon-users').length)
@@ -94,10 +95,10 @@ export const getCast: GetCastFn = ($page) =>
       const [, c] = /cast\s?:\s?(.+)/i.exec($(li).text()) || [];
       return [...acc, ...splitNamesList(c)];
     }, [] as string[]);
+}
 
-type GetYearFn = ($page: cheerio.Cheerio) => number;
-export const getYear: GetYearFn = ($page) =>
-  $page
+export function getYear($page: cheerio.Cheerio): number {
+  return $page
     .find('.main-content .info li')
     .toArray()
     .filter((li) => $(li).find('.icon-home').length)
@@ -105,21 +106,20 @@ export const getYear: GetYearFn = ($page) =>
       const [, y] = /(\d{4})/i.exec($(li).text()) || [];
       return Number(y);
     }, -1);
+}
 
-type GetSessionTagsFn = ($el: cheerio.Cheerio) => string[];
-const getSessionTags: GetSessionTagsFn = ($el) => {
+export function getSessionTags($el: cheerio.Cheerio): string[] {
   const time = $el.text();
   const [, tags] = /:\d{2}\s?\(([^)]+)\)/.exec(time) || ['', ''];
   return tags ? [slugify(tags)] : [];
-};
+}
 
-type GetSessionFn = (
+function getSession(
   el: cheerio.Element,
   day: string,
   url: string,
   eventTags: string[]
-) => FC.Session;
-const getSession: GetSessionFn = (el, day, url, eventTags) => {
+): FC.Session {
   const nowYear = new Date(Date.now()).getFullYear();
   const $el = $(el);
   const time = $el.text().replace(/(\d{2}:\d{2})(.+)/, '$1');
@@ -135,10 +135,9 @@ const getSession: GetSessionFn = (el, day, url, eventTags) => {
     link,
     tags: [...getSessionTags($el), ...eventTags],
   };
-};
+}
 
-type GetEventTagsFn = ($page: cheerio.Cheerio) => string[];
-const getEventTags: GetEventTagsFn = ($page) => {
+function getEventTags($page: cheerio.Cheerio): string[] {
   const tags = [];
   const title = $page.find('#content > h2.subtitle.first').text();
   if (/35mm/i.test(title)) tags.push('35mm');
@@ -148,11 +147,10 @@ const getEventTags: GetEventTagsFn = ($page) => {
   if (/\+\s?Panel/.test(title)) tags.push('panel');
 
   return tags;
-};
+}
 
-type GetSessionsFn = ($page: cheerio.Cheerio, url: string) => FC.Session[];
-export const getSessions: GetSessionsFn = ($page, url) =>
-  $page
+export function getSessions($page: cheerio.Cheerio, url: string): FC.Session[] {
+  return $page
     .find('.film-times li')
     .toArray()
     .flatMap((dayGroup) => {
@@ -163,3 +161,4 @@ export const getSessions: GetSessionsFn = ($page, url) =>
         .toArray()
         .map((el) => getSession(el, day, url, getEventTags($page)));
     });
+}

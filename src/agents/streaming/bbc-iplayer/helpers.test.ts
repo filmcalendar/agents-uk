@@ -28,7 +28,7 @@ describe('bbc-iplayer - helpers', () => {
 
   it('get page programme', async () => {
     const url = 'https://www.bbc.co.uk/iplayer/categories/films/a-z';
-    const result = await getPageProgramme(url);
+    const result = await getPageProgramme(fletch.create())(url);
 
     const expected = [
       'https://www.bbc.co.uk/iplayer/episode/m0007zh7/20th-century-women',

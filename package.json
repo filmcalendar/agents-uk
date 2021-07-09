@@ -11,9 +11,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@filmcalendar/agents-core": "1.17.0",
+    "@filmcalendar/agents-core": "1.19.0",
     "@filmcalendar/types": "1.11.0",
-    "@tuplo/fletch": "1.14.0",
+    "@tuplo/fletch": "1.18.0",
     "@tuplo/series-with": "1.6.1",
     "@tuplo/split-names-list": "1.11.1",
     "cheerio": "1.0.0-rc.10",
@@ -56,7 +56,7 @@
     "docker:run:prod": "env-cmd -f .env.secrets fc-agents-docker-run-prod",
     "docker:run:local": "env-cmd -f .env.secrets fc-agents-docker-run-local",
     "lint": "eslint --ext .ts src/",
-    "start": "NODE_ENV=development env-cmd -f .env.secrets fc-agent",
+    "start": "bash scripts/start.sh",
     "test": "TZ=utc jest --watch",
     "ts-check": "tsc --noEmit"
   },
@@ -84,7 +84,8 @@
     "rules": {
       "jest/no-hooks": "off",
       "no-underscore-dangle": "off",
-      "jest/prefer-expect-assertions": "off"
+      "jest/prefer-expect-assertions": "off",
+      "import/prefer-default-export": "off"
     },
     "overrides": [
       {

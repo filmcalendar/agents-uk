@@ -7,8 +7,7 @@ import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as BFI from './index.d';
 
-type GetArticleContextFn = ($page: cheerio.Cheerio) => BFI.ArticleContext;
-export const getArticleContext: GetArticleContextFn = ($page) => {
+export function getArticleContext($page: cheerio.Cheerio): BFI.ArticleContext {
   if (!$page) return {} as BFI.ArticleContext;
 
   const script = $page
@@ -27,15 +26,14 @@ export const getArticleContext: GetArticleContextFn = ($page) => {
   code.runInContext(sandbox, { displayErrors: true });
 
   return sandbox.articleContext as BFI.ArticleContext;
-};
+}
 
-type GetExpandedUrlFn = (articleId: string) => string;
-export const getExpandedUrl: GetExpandedUrlFn = (articleId) =>
-  `https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=${articleId}`;
+export function getExpandedUrl(articleId: string): string {
+  return `https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=${articleId}`;
+}
 
-type GetTitleFn = ($page: cheerio.Cheerio) => string;
-export const getTitle: GetTitleFn = ($page) =>
-  $page
+export function getTitle($page: cheerio.Cheerio): string {
+  return $page
     .find('h1')
     .text()
     .replace(/12 Stars:/i, '')
@@ -79,9 +77,9 @@ export const getTitle: GetTitleFn = ($page) =>
     .replace(/\d{2}th Anniversary:/i, '')
     .replace(/\s\s*/, ' ')
     .trim();
+}
 
-type GetCreditsFn = ($page: cheerio.Cheerio) => string[];
-export const getCredits: GetCreditsFn = ($page) => {
+export function getCredits($page: cheerio.Cheerio): string[] {
   const $credits = $page.find('.credits');
   if ($credits === null) return [];
   if ($credits.length === 0) return [];
@@ -94,33 +92,29 @@ export const getCredits: GetCreditsFn = ($page) => {
     .map((line) => line.replace(/<br clear="none">/i, '').trim())
     .map((line) => $(`<div>${line}</div>`).text())
     .filter((line) => line.length);
-};
+}
 
-type GetDirectorFn = (credits: string[]) => string[];
-export const getDirector: GetDirectorFn = (credits) => {
+export function getDirector(credits: string[]): string[] {
   const d = credits.filter((line) => /Dirs?\.?/i.test(line)).find(Boolean);
   const [, dd] = /Dirs?\.?(.+)/.exec(d || '') || [];
   return splitNamesList(dd) || [];
-};
+}
 
-type GetCastFn = (credits: string[]) => string[];
-export const getCast: GetCastFn = (credits) => {
+export function getCast(credits: string[]): string[] {
   const d = credits.filter((line) => /With?\.?/i.test(line)).find(Boolean);
   const [, dd] = /With(.+)/.exec(d || '') || [];
   return splitNamesList((dd || '').replace(/the voices of/i, '')) || [];
-};
+}
 
-type GetYearFn = (credits: string[]) => number;
-export const getYear: GetYearFn = (credits) => {
+export function getYear(credits: string[]): number {
   const y = credits
     .filter((line) => /20\d{2}|19\d{2}/i.test(line))
     .find(Boolean);
   const [, yy] = /(20\d{2}|19\d{2})/.exec(y || '') || [];
   return Number(yy);
-};
+}
 
-type GetEventsFn = ($page: cheerio.Cheerio) => BFI.Event[];
-export const getEvents: GetEventsFn = ($page) => {
+export function getEvents($page: cheerio.Cheerio): BFI.Event[] {
   const articleContext = getArticleContext($page);
   const { searchResults = [], searchNames } = articleContext;
 
@@ -138,18 +132,17 @@ export const getEvents: GetEventsFn = ($page) => {
     .filter((r) => /Southbank Public Programme/i.test(r.venue_group))
     .filter((r) => !/Courses|Podstock/.test(r.keywords))
     .filter((r) => !/Mark Kermode Live/i.test(r.short_description));
-};
+}
 
-type GetSessionTagsFn = (event: BFI.Event) => string[];
-const getSessionTags: GetSessionTagsFn = (event) =>
-  (event.keywords || '')
+export function getSessionTags(event: BFI.Event): string[] {
+  return (event.keywords || '')
     .split(',')
     .map((tag) => tag.trim())
     .filter((tag) => !/^releases$/.test(tag))
     .map((tag) => slugify(tag.toLowerCase()));
+}
 
-type GetSessionFn = (event: BFI.Event) => FC.Session | null;
-export const getSession: GetSessionFn = (event) => {
+export function getSession(event: BFI.Event): FC.Session | null {
   if (event.availability_status === 'S') return null;
   const { start_date } = event;
 
@@ -172,14 +165,13 @@ export const getSession: GetSessionFn = (event) => {
     link,
     tags: [...getSessionTags(event)],
   };
-};
+}
 
-type GetSessionsFn = ($page: cheerio.Cheerio) => FC.Session[];
-export const getSessions: GetSessionsFn = ($page) =>
-  getEvents($page).map(getSession).filter(Boolean) as FC.Session[];
+export function getSessions($page: cheerio.Cheerio): FC.Session[] {
+  return getEvents($page).map(getSession).filter(Boolean) as FC.Session[];
+}
 
-type GetExpandedUrlFromPageFn = ($page: cheerio.Cheerio) => string;
-export const getExpandedUrlFromPage: GetExpandedUrlFromPageFn = ($page) => {
+export function getExpandedUrlFromPage($page: cheerio.Cheerio): string {
   const { articleId } = getArticleContext($page);
   return getExpandedUrl(articleId);
-};
+}

@@ -2,23 +2,24 @@ import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
 import { URL } from 'url';
-import fletch from '@tuplo/fletch';
+import type { FletchInstance } from '@tuplo/fletch';
 
 import slugify from 'src/lib/slugify';
 import type * as FC from '@filmcalendar/types';
 import type * as PCC from './index.d';
 
-export type GetWhatsOnDataFn = (url: string) => Promise<PCC.Film[]>;
-export const getWhatsOnData: GetWhatsOnDataFn = async (url) => {
-  const { Events } = await fletch.script<PCC.EventsData>(url, {
+export async function getWhatsOnData(
+  request: FletchInstance,
+  url: string
+): Promise<PCC.Film[]> {
+  const { Events } = await request.script<PCC.EventsData>(url, {
     scriptFindFn: (script) => /var Events/.test($(script).html() || ''),
   });
 
   return Events.Events;
-};
+}
 
-type GetTitleFn = (film: PCC.Film) => string;
-export const getTitle: GetTitleFn = (film) => {
+export function getTitle(film: PCC.Film): string {
   const t = film.Title.replace(/\+ Q&A.*/i, '')
     .replace(/: ACA-ALONG/i, '')
     .replace(/sing-a-long-a/i, '')
@@ -35,20 +36,21 @@ export const getTitle: GetTitleFn = (film) => {
     .trim();
 
   return $(`<div>${t}</div>`).text();
-};
+}
 
-type GetDirectorFn = (film: PCC.Film) => string[];
-export const getDirector: GetDirectorFn = (film) =>
-  splitNamesList(film.Director);
+export function getDirector(film: PCC.Film): string[] {
+  return splitNamesList(film.Director);
+}
 
-type GetCastFn = (film: PCC.Film) => string[];
-export const getCast: GetCastFn = (film) => splitNamesList(film.Cast);
+export function getCast(film: PCC.Film): string[] {
+  return splitNamesList(film.Cast);
+}
 
-type GetYearFn = (film: PCC.Film) => number;
-export const getYear: GetYearFn = (film) => Number(film.Year);
+export function getYear(film: PCC.Film): number {
+  return Number(film.Year);
+}
 
-type GetSessionTagsFn = (event: PCC.Performance) => string[];
-export const getSessionTags: GetSessionTagsFn = (event) => {
+export function getSessionTags(event: PCC.Performance): string[] {
   const tags = [];
   const {
     IsSubtitled,
@@ -72,14 +74,13 @@ export const getSessionTags: GetSessionTagsFn = (event) => {
   );
 
   return tags;
-};
+}
 
-type GetSessionFn = (
+export function getSession(
   event: PCC.Performance,
   url: string,
   eventTags: string[]
-) => FC.Session | null;
-export const getSession: GetSessionFn = (event, url, eventTags) => {
+): FC.Session | null {
   const { StartDate, StartTimeAndNotes, IsSoldOut, URL: Url } = event;
   if (IsSoldOut === 'Y') return null;
 
@@ -98,10 +99,9 @@ export const getSession: GetSessionFn = (event, url, eventTags) => {
     link,
     tags: [...eventTags, ...getSessionTags(event)].filter(Boolean),
   };
-};
+}
 
-type GetEventTagsFn = (film: PCC.Film) => string[];
-export const getEventTags: GetEventTagsFn = (film) => {
+export function getEventTags(film: PCC.Film): string[] {
   const tags = [];
   const { Title, Tags } = film;
   if (/Sing-A-Long-A/i.test(Title)) tags.push('sing-along');
@@ -113,10 +113,10 @@ export const getEventTags: GetEventTagsFn = (film) => {
   );
 
   return tags;
-};
+}
 
-type GetSessionsFn = (film: PCC.Film, url: string) => FC.Session[];
-export const getSessions: GetSessionsFn = (film, url) =>
-  film.Performances.map((event) =>
+export function getSessions(film: PCC.Film, url: string): FC.Session[] {
+  return film.Performances.map((event) =>
     getSession(event, url, getEventTags(film))
   ).filter(Boolean) as FC.Session[];
+}

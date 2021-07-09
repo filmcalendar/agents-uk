@@ -1,8 +1,10 @@
 import nock from 'nock';
 
-import * as agent from '.';
+import { Agent } from './index';
 
 describe('the-castle', () => {
+  const agent = new Agent();
+
   const dataDir = `${__dirname}/__data__`;
   nock('https://thecastlecinema.com')
     .persist()

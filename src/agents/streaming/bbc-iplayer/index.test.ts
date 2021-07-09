@@ -1,7 +1,10 @@
 import nock from 'nock';
-import * as agent from '.';
+
+import { Agent } from './index';
 
 describe('bbc-iplayer', () => {
+  const agent = new Agent();
+
   // 2021-06-16
   const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(1623848047000);
 
