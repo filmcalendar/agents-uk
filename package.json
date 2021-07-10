@@ -11,9 +11,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@filmcalendar/agents-core": "1.20.0",
+    "@filmcalendar/agents-core": "1.21.0",
     "@filmcalendar/types": "1.11.0",
-    "@tuplo/fletch": "1.18.0",
+    "@tuplo/fletch": "1.19.0",
     "@tuplo/series-with": "1.6.1",
     "@tuplo/split-names-list": "1.11.1",
     "cheerio": "1.0.0-rc.10",
