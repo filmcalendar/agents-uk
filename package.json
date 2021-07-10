@@ -56,9 +56,9 @@
     "docker:run:prod": "env-cmd -f .env.secrets fc-agents-docker-run-prod",
     "docker:run:local": "env-cmd -f .env.secrets fc-agents-docker-run-local",
     "lint": "eslint --ext .ts src/",
+    "lint:ts": "tsc --noEmit",
     "start": "bash scripts/start.sh",
-    "test": "TZ=utc jest --watch",
-    "ts-check": "tsc --noEmit"
+    "test": "TZ=utc jest --watch"
   },
   "eslintConfig": {
     "extends": [

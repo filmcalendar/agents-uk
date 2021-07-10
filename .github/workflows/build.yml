@@ -16,7 +16,7 @@ jobs:
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn lint
-      - run: yarn ts-check
+      - run: yarn lint:ts
       - run: yarn ci:test
 
   test-coverage:
