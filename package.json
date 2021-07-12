@@ -11,8 +11,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@filmcalendar/agents-core": "1.22.0",
-    "@filmcalendar/types": "1.12.0",
+    "@filmcalendar/agents-core": "1.23.0",
+    "@filmcalendar/types": "1.13.0",
     "@tuplo/fletch": "1.19.0",
     "@tuplo/series-with": "1.6.1",
     "@tuplo/split-names-list": "1.11.1",
