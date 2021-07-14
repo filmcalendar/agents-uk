@@ -32,15 +32,19 @@ export async function getFilmScreeningDates(
     await requestCurzonApi<CZ.FilmScreeningDatesResponse>(
       request,
       '/ocapi/v1/browsing/master-data/film-screening-dates',
-      { urlSearchParams: { siteIds: cinemaId } },
+      {},
       provider
     );
 
-  return filmScreeningDates;
+  return filmScreeningDates.filter((fsd) =>
+    fsd.filmScreenings.filter((fs) =>
+      fs.sites.find((s) => s.siteId === cinemaId)
+    )
+  );
 }
 
 export function getFilmPeople(castAndCrew: CZ.Person[]): CZ.FilmPeople {
-  return castAndCrew.reduce((acc, person) => {
+  return (castAndCrew || []).reduce((acc, person) => {
     const { id, name } = person;
     const { givenName, middleName, familyName } = name;
     acc[id] = [givenName, middleName, familyName]
@@ -54,8 +58,10 @@ export function getFilmPeople(castAndCrew: CZ.Person[]): CZ.FilmPeople {
 export function getFilmInfo(data: CZ.Film, filmPeople: CZ.FilmPeople): FC.Film {
   const { castAndCrew = [], title } = data;
 
+  const { text: titleText = '' } = title;
+
   return {
-    title: title?.text || '',
+    title: titleText.replace(/dochouse:/i, '').trim(),
     director: castAndCrew
       .filter((cc) => cc.roles.includes('Director'))
       .map((cc) => filmPeople[cc.castAndCrewMemberId]),
@@ -87,21 +93,23 @@ export async function getSessionsForDate(
     await requestCurzonApi<CZ.BusinessDateResponse>(
       request,
       path,
-      { urlSearchParams: { siteIds: cinemaId, filmIds: filmId } },
+      { urlSearchParams: { filmIds: filmId } },
       provider
     );
   const attributes = getAttributes(relatedData);
 
-  return showtimes.map((showtime) => {
-    const { id, schedule, attributeIds = [] } = showtime;
-    const { startsAt } = schedule;
+  return showtimes
+    .filter((showtime) => showtime.siteId === cinemaId)
+    .map((showtime) => {
+      const { id, schedule, attributeIds = [] } = showtime;
+      const { startsAt } = schedule;
 
-    return {
-      dateTime: new Date(startsAt).toISOString(),
-      tags: attributeIds.map((attrId) => attributes[attrId]),
-      link: `https://www.curzon.com/ticketing/seats/${id}/`,
-    };
-  });
+      return {
+        dateTime: new Date(startsAt).toISOString(),
+        tags: attributeIds.map((attrId) => attributes[attrId]),
+        link: `https://www.curzon.com/ticketing/seats/${id}/`,
+      };
+    });
 }
 
 export async function getSessions(
@@ -116,11 +124,17 @@ export async function getSessions(
     await requestCurzonApi<CZ.FilmScreeningDatesResponse>(
       request,
       '/ocapi/v1/browsing/master-data/film-screening-dates',
-      { urlSearchParams: { siteIds: cinemaId, filmIds: filmId } },
+      { urlSearchParams: { filmIds: filmId } },
       provider
     );
 
-  const businessDates = filmScreeningDates.map((fsc) => fsc.businessDate);
+  const businessDates = filmScreeningDates
+    .filter((fsd) =>
+      fsd.filmScreenings.find((fs) =>
+        fs.sites.find((s) => s.siteId === cinemaId)
+      )
+    )
+    .map((fsd) => fsd.businessDate);
 
   return seriesWith(businessDates, (date) =>
     getSessionsForDate(request, date, filmId, cinemaId, provider)

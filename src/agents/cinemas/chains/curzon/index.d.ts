@@ -37,8 +37,14 @@ export type ProviderData = {
   apiUrl: string;
 };
 
+export type Site = {
+  siteId: string;
+  showtimeAttributeIds: string[];
+};
+
 export type FilmScreenings = {
   filmId: string;
+  sites: Site[];
 };
 
 export type FilmScreeningDates = {
@@ -53,6 +59,7 @@ export type FilmScreeningDatesResponse = {
 type Showtime = {
   id: string;
   attributeIds: string[];
+  siteId: string;
   schedule: {
     startsAt: string;
   };

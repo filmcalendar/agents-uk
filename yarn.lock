@@ -661,6 +661,20 @@
     https-proxy-agent "5.0.0"
     node-fetch "2.6.1"
 
+"@tuplo/fletch@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@tuplo/fletch/-/fletch-1.20.0.tgz#430d2cedee895474c9bc238b24d4d5c15b5c3c70"
+  integrity sha512-AT19UAPohgcK1pctO46fz8PUm5SsclUX74iMYwVjHey+PmmJ0PB41EIh/UdCAMV58z2QoUqITlWetb+g6dk5mA==
+  dependencies:
+    "@types/async-retry" "1.4.3"
+    "@types/cheerio" "0.22.30"
+    "@types/node-fetch" "2.5.11"
+    async-retry "1.3.1"
+    cheerio "1.0.0-rc.10"
+    deepmerge "4.2.2"
+    https-proxy-agent "5.0.0"
+    node-fetch "2.6.1"
+
 "@tuplo/series-with@1.6.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@tuplo/series-with/-/series-with-1.6.1.tgz#89498aed16facd190b8f490f24c66cfbbb64c252"
@@ -795,10 +809,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.3.tgz#ee09fcaac513576474c327da5818d421b98db88a"
   integrity sha512-/WbxFeBU+0F79z9RdEOXH4CsDga+ibi5M8uEYr91u3CkT/pdWcV8MCook+4wDPnZBexRdwWS+PiVZ2xJviAzcQ==
 
-"@types/node@16.3.1":
-  version "16.3.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.1.tgz#24691fa2b0c3ec8c0d34bfcfd495edac5593ebb4"
-  integrity sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==
+"@types/node@16.3.2":
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.2.tgz#655432817f83b51ac869c2d51dd8305fb8342e16"
+  integrity sha512-jJs9ErFLP403I+hMLGnqDRWT0RYKSvArxuBVh2veudHV7ifEC1WAmjJADacZ7mRbA2nWgHtn8xyECMAot0SkAw==
 
 "@types/prettier@^2.1.5":
   version "2.2.3"

@@ -74,25 +74,22 @@ export class Agent extends BaseAgent {
   };
 
   page: FC.Agent.PageFn = async (url, provider) => {
-    const { _data } = provider;
-    const { cinemaId } = _data as CZ.ProviderData;
-
     const parts = url.split('/');
     const filmId = parts[parts.length - 1];
 
     const { relatedData } = await requestCurzonApi<CZ.BusinessDateResponse>(
       this.request,
       '/ocapi/v1/browsing/master-data/showtimes/business-date/first',
-      { urlSearchParams: { filmIds: filmId, siteIds: cinemaId } },
+      { urlSearchParams: { filmIds: filmId } },
       provider
     );
-    const { films = [], castAndCrew } = relatedData;
+    const { films = [], castAndCrew = [] } = relatedData;
     const filmPeople = getFilmPeople(castAndCrew);
 
     return {
       url,
       provider,
-      films: films.map((film) => getFilmInfo(film, filmPeople)),
+      films: (films || []).map((film) => getFilmInfo(film, filmPeople)),
       sessions: await getSessions(this.request, filmId, provider),
     };
   };
