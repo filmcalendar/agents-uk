@@ -351,14 +351,14 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@filmcalendar/agents-core@1.24.0":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.24.0.tgz#e4c0d443d6f4a3d5de4814439fb8bebd8d675294"
-  integrity sha512-RimX+aXX6rtzDLDKfyG3rtpt97u8hdGOI2cB8XrBWAkmXpNupN7iHPX5p9ruD/4knlQZKdy0gkOQhs4VU8R5UQ==
+"@filmcalendar/agents-core@1.25.0":
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.25.0.tgz#a1a64465d53299a2573d9508923669b50cdd484d"
+  integrity sha512-fuFqCo6H22YBtFOXOhs9wVuz77/BWR32xnQxuO/Yzg7c++yHRjtiq59QAAxYAtaLoCI3KolaNdAfpXgYL0jwuw==
   dependencies:
-    "@filmcalendar/schemas" "1.17.0"
+    "@filmcalendar/schemas" "1.18.0"
     "@filmcalendar/types" "1.13.0"
-    "@tuplo/fletch" "1.19.0"
+    "@tuplo/fletch" "1.20.0"
     "@tuplo/series-with" "1.6.1"
     "@tuplo/unhandler" "1.17.0"
     ajv "8.6.1"
@@ -371,13 +371,12 @@
     slugify "1.5.3"
     yargs-parser "20.2.9"
 
-"@filmcalendar/schemas@1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.17.0.tgz#8a4bd6a35ed4eb00a5d845627b8a305989f944e4"
-  integrity sha512-p7zLWYOdlIKSXZzgr9K/Aycuyt4GMgRKLReSHMS6Cr1flAsqZltOnlEgAO8gDuWMarluZfCfF9OMpB5gustlPQ==
+"@filmcalendar/schemas@1.18.0":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.18.0.tgz#3011387f6893ca9af51eff2e9d636f3291493c0b"
+  integrity sha512-xoUkQIed20bpN/0qB/G1niNEbP3Sf0aLJJdnyzz8FIKbnyYvBH6NfliYv+YxmXKr6pabm2/L72AkevKcEYt1Vw==
   dependencies:
     "@filmcalendar/types" "1.13.0"
-    md5 "2.3.0"
     normalizr "3.6.1"
     slugify "1.5.3"
 
@@ -646,20 +645,6 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
-
-"@tuplo/fletch@1.19.0":
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/@tuplo/fletch/-/fletch-1.19.0.tgz#0d81e107666b17d01ebeac169656a2080b1f6e8b"
-  integrity sha512-hxzw/AyL2TiLYJCgvoHuNCgHkspmfu4Sa2mD5gHCss4leTkfWIkUaodyj1rq3ilqUu60/jrXpy2gY/XHvF3uXw==
-  dependencies:
-    "@types/async-retry" "1.4.3"
-    "@types/cheerio" "0.22.30"
-    "@types/node-fetch" "2.5.11"
-    async-retry "1.3.1"
-    cheerio "1.0.0-rc.10"
-    deepmerge "4.2.2"
-    https-proxy-agent "5.0.0"
-    node-fetch "2.6.1"
 
 "@tuplo/fletch@1.20.0":
   version "1.20.0"
