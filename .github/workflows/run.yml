@@ -18,4 +18,5 @@ jobs:
           country: uk
           digitalOceanAuthToken: ${{ secrets.DO_AUTH_TOKEN }}
           gitPassword: ${{ secrets.GH_TOKEN }}
+          papertrailPort: ${{ secrets.PPTL_PORT }}
           proxyApiKey: ${{ secrets.PROXY_API_KEY }}
