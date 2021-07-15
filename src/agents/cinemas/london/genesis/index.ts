@@ -78,10 +78,10 @@ export class Agent extends BaseAgent {
     const events = await getEventsInline(this.request, url);
 
     const prg = events
+      .filter((event) => !/APOCALAUGHS NOW/i.test(event.title))
       .filter((event) => !/Live Music, Ballet & Theatre/i.test(event.type))
-      .filter((event) => !/Online Screenings/i.test(event.type))
       .filter((event) => !/Hot Desking/i.test(event.title))
-      .filter((event) => !/The Yard - Book a Table/i.test(event.title))
+      .filter((event) => !/The Yard/i.test(event.type))
       .filter((event) => !/Euro \d{4}/.test(event.title))
       .map((event) => event.url)
       .map((href) => new URL(href || '', url).href);
