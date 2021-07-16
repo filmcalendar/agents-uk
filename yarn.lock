@@ -665,10 +665,10 @@
   resolved "https://registry.yarnpkg.com/@tuplo/series-with/-/series-with-1.6.1.tgz#89498aed16facd190b8f490f24c66cfbbb64c252"
   integrity sha512-OFOrlvFygqP3w4TIWQ9VZmY2S68u3cDpD5+WM6G74n+aMM8sXfh8voyGwzMp9JDa7hpAsJgC2fh1NQJvV3Hrsw==
 
-"@tuplo/split-names-list@1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@tuplo/split-names-list/-/split-names-list-1.12.0.tgz#cdfbdfcbd0d02768bd9569f8a5acd8474dbeb19d"
-  integrity sha512-ApZ7fpTts3CdmNM0hTSNaXYrd+deC+BSvZUKco4ULHKNXnPIzdoNGMm28VGvf0mqpgwBfh5fXAUYEDahLXVp9A==
+"@tuplo/split-names-list@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@tuplo/split-names-list/-/split-names-list-1.13.0.tgz#885a2d2ecf8dfc4911a5c00607449681ee043d82"
+  integrity sha512-15NvVrjSqUv4K2JKizNd3UOo5kA6gffOXfEf7SKGBnuof1y2xFttD0Ts5vKmAhZLMDUKhaaafyUiDTh2tQYF9A==
 
 "@tuplo/unhandler@1.18.0":
   version "1.18.0"
