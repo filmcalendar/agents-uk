@@ -14,6 +14,7 @@ import {
   getYear,
   getExpandedUrlFromPage,
   getExpandedUrl,
+  getSeasonsFromTitle,
 } from './helpers';
 
 export class Agent extends BaseAgent {
@@ -141,6 +142,7 @@ export class Agent extends BaseAgent {
         },
       ],
       sessions: getSessions($page),
+      seasons: getSeasonsFromTitle($page),
     };
   };
 }

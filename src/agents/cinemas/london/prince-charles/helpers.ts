@@ -25,8 +25,7 @@ export async function getWhatsOnData(
 }
 
 export function getTitle(film: PCC.Film): string {
-  const filmTitle = evt.getFilmTitle(film.Title);
-  const title = filmTitle.replace(/\[([^\]]+)/, '');
+  const title = evt.getFilmTitle(film.Title);
   return $(`<div>${title}</div>`).text();
 }
 
@@ -40,6 +39,10 @@ export function getCast(film: PCC.Film): string[] {
 
 export function getYear(film: PCC.Film): number {
   return Number(film.Year);
+}
+
+export function getSeasonsFromTitle(film: PCC.Film): string[] {
+  return evt.getSeasons(film.Title);
 }
 
 export function getSessionTags(event: PCC.Performance): string[] {

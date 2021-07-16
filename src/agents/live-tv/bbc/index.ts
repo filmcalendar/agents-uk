@@ -8,6 +8,7 @@ import {
   getEpisodeIdFromUrl,
   getCredits,
   getTitle,
+  getSeasonsFromTitle,
 } from 'src/agents/streaming/bbc-iplayer/helpers';
 
 import type * as BBC from './index.d';
@@ -133,7 +134,6 @@ export class Agent extends BaseAgent {
 
     const episodeId = getEpisodeIdFromUrl(url);
     const { schedule } = _data as { schedule: BBC.ScheduleItem[] };
-    const sessions = getSessions(episodeId, schedule);
 
     return {
       url,
@@ -145,7 +145,8 @@ export class Agent extends BaseAgent {
           cast: credits.get('cast'),
         },
       ],
-      sessions,
+      sessions: getSessions(episodeId, schedule),
+      seasons: getSeasonsFromTitle($page),
     };
   };
 }

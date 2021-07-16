@@ -16,7 +16,7 @@ describe('prince-charles-cinema: helpers', () => {
 
   it.each([
     [3527, 'FARGO'],
-    [1578567, 'Salinui chueok'],
+    [1578567, 'MEMORIES OF MURDER [Salinui chueok]'],
   ])('get title', async (filmId, expected) => {
     const url =
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=3527';

@@ -46,9 +46,18 @@ export function getExpandedUrl(articleId: string): string {
   return `https://whatson.bfi.org.uk/Online/default.asp?BOparam::WScontent::loadArticle::article_id=${articleId}`;
 }
 
+export function getPageHeading($page: cheerio.Cheerio): string {
+  return $page.find('h1').text();
+}
+
 export function getTitle($page: cheerio.Cheerio): string {
-  const eventTitle = $page.find('h1').text();
+  const eventTitle = getPageHeading($page);
   return evt.getFilmTitle(eventTitle);
+}
+
+export function getSeasonsFromTitle($page: cheerio.Cheerio): string[] {
+  const eventTitle = getPageHeading($page);
+  return evt.getSeasons(eventTitle);
 }
 
 export function getCredits($page: cheerio.Cheerio): string[] {
@@ -143,7 +152,7 @@ export function getSession(
 }
 
 export function getSessions($page: cheerio.Cheerio): FC.Session[] {
-  const eventTitle = $page.find('h1').text();
+  const eventTitle = getPageHeading($page);
   const eventTags = evt.getTags(eventTitle);
 
   return getEvents($page)

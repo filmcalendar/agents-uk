@@ -35,6 +35,11 @@ export function getYear($page: cheerio.Cheerio): number {
   return Number($page.find('.film-year').text());
 }
 
+export function getSeasonsFromTitle($page: cheerio.Cheerio): string[] {
+  const eventTitle = getPageHeading($page);
+  return evt.getSeasons(eventTitle);
+}
+
 export function getEventTags($page: cheerio.Cheerio): string[] {
   const eventTitle = getPageHeading($page);
   return evt.getTags(eventTitle);

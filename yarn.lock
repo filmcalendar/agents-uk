@@ -351,39 +351,39 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@filmcalendar/agents-core@1.26.0":
-  version "1.26.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.26.0.tgz#4f4b9adf591dbb80a2040456e79b769ccdb289b4"
-  integrity sha512-Ydyvp423SAnp4s8snbLeduP7xp285yXSAngjKA64a3knkZ6fFED95F3C7WU8uk+ihbSVUsiXBO/fEgNbOhT4Hg==
+"@filmcalendar/agents-core@1.27.0":
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/agents-core/-/agents-core-1.27.0.tgz#85c416edf78625897d96a05757066a6c787f901c"
+  integrity sha512-7/PVQ4IlmsvdMRc+6Nyvp5KgmTxWshASaRZn6TDiUsvNncwL4/rdifNhptZMbnIgGd3dAvKf1ecueJY+hsFlOg==
   dependencies:
-    "@filmcalendar/schemas" "1.18.0"
-    "@filmcalendar/types" "1.13.0"
+    "@filmcalendar/schemas" "1.19.0"
+    "@filmcalendar/types" "1.14.0"
     "@tuplo/fletch" "1.20.0"
     "@tuplo/series-with" "1.6.1"
     "@tuplo/unhandler" "1.18.0"
-    ajv "8.6.1"
+    ajv "8.6.2"
     ajv-formats "2.1.0"
     clean-deep "3.4.0"
     date-fns "2.22.1"
     get-port "5.1.1"
     md5 "2.3.0"
     normalizr "3.6.1"
-    slugify "1.5.3"
+    slugify "1.6.0"
     yargs-parser "20.2.9"
 
-"@filmcalendar/schemas@1.18.0":
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.18.0.tgz#3011387f6893ca9af51eff2e9d636f3291493c0b"
-  integrity sha512-xoUkQIed20bpN/0qB/G1niNEbP3Sf0aLJJdnyzz8FIKbnyYvBH6NfliYv+YxmXKr6pabm2/L72AkevKcEYt1Vw==
+"@filmcalendar/schemas@1.19.0":
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/schemas/-/schemas-1.19.0.tgz#93b1b3323859593d88fad9ca8ad673b58cefd4b6"
+  integrity sha512-Co2qVa0w5qgfmoCoYLfvrNqiRktA2U0lxpmbsgVLbHEB9oTV+uL5cBdR//zdp79StpUqjWhz2dFwYnqOcWYuXw==
   dependencies:
-    "@filmcalendar/types" "1.13.0"
+    "@filmcalendar/types" "1.14.0"
     normalizr "3.6.1"
-    slugify "1.5.3"
+    slugify "1.6.0"
 
-"@filmcalendar/types@1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.13.0.tgz#38e8c5771b28ec7939455029eea2a6127b21cce9"
-  integrity sha512-Z6sM45PSmv/EE6ACWn5YcGKhFlLhzBwXmbe2V0Jr+6SSnhYwE7X/ZGWqK7JLfumz82P0Jh1ETQQSW1Q6iqWRTA==
+"@filmcalendar/types@1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@filmcalendar/types/-/types-1.14.0.tgz#ced68502b38e483b8d36d8424f613d5e5cd51691"
+  integrity sha512-B8ZhthlY9RTUwMxv1QAIrAAOj02FERnLqvKyxC8GseBwgtsNpdrdpDlehp6P9EiuHSCFEiJ9+4PpEqKYzCoE/Q==
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
@@ -1013,10 +1013,10 @@ ajv-formats@2.1.0:
   dependencies:
     ajv "^8.0.0"
 
-ajv@8.6.1:
-  version "8.6.1"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.1.tgz#ae65764bf1edde8cd861281cda5057852364a295"
-  integrity sha512-42VLtQUOLefAvKFAQIxIZDaThq6om/PrfP0CYk3/vn+y4BMNkKnbli8ON2QCiHov4KkzOSJ/xSoBJdayiiYvVQ==
+ajv@8.6.2:
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.2.tgz#2fb45e0e5fcbc0813326c1c3da535d1881bb0571"
+  integrity sha512-9807RlWAgT564wT+DjeyU5OFMPjmzxVobvDFmNAhY+5zD6A2ly3jDp6sgnfyDtlIQ+7H97oc/DGCzzfu9rjw9w==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -3942,11 +3942,6 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
-
-slugify@1.5.3:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.5.3.tgz#36e009864f5476bfd5db681222643d92339c890d"
-  integrity sha512-/HkjRdwPY3yHJReXu38NiusZw2+LLE2SrhkWJtmlPDB1fqFSvioYj62NkPcrKiNCgRLeGcGK7QBvr1iQwybeXw==
 
 slugify@1.6.0:
   version "1.6.0"

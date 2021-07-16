@@ -106,6 +106,7 @@ export class Agent extends BaseAgent {
           year: getYear($page),
         },
       ],
+      seasons: getSeasonsFromTitle($page),
       sessions: getSessions($page, url),
     };
   };

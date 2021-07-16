@@ -15,6 +15,7 @@ import {
   getYear,
   getSessions,
   getTitle,
+  getSeasonsFromTitle,
 } from './helpers';
 
 export class Agent extends BaseAgent {
@@ -88,6 +89,7 @@ export class Agent extends BaseAgent {
         },
       ],
       sessions: getSessions(program),
+      seasons: getSeasonsFromTitle(program),
     };
   };
 }

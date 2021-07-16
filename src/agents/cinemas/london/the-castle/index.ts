@@ -10,6 +10,7 @@ import {
   getYear,
   getSessions,
   isNotFilm,
+  getSeasonsFromTitle,
 } from './helpers';
 
 type SeasonData = Map<string, FC.Season>;
@@ -132,6 +133,7 @@ export class Agent extends BaseAgent {
         },
       ],
       sessions: getSessions($page),
+      seasons: getSeasonsFromTitle($page),
     };
   };
 }

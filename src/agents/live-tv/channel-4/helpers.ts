@@ -71,6 +71,10 @@ export function getTitle(program: C4.Program): string {
   return evt.getFilmTitle(program.title);
 }
 
+export function getSeasonsFromTitle(program: C4.Program): string[] {
+  return evt.getSeasons(program.title);
+}
+
 export function getYear(program: C4.Program): number {
   const { summary } = program;
   const [, year] = /^\((\d{4})\)/.exec(summary) || ['', ''];

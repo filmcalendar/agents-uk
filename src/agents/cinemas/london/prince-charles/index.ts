@@ -13,6 +13,7 @@ import {
   getTitle,
   getWhatsOnData,
   getYear,
+  getSeasonsFromTitle,
 } from './helpers';
 
 type SeasonData = Map<string, string>;
@@ -122,6 +123,7 @@ export class Agent extends BaseAgent {
         },
       ],
       sessions: getSessions(film, url),
+      seasons: getSeasonsFromTitle(film),
     };
   };
 }

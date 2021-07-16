@@ -35,6 +35,11 @@ export function getTitle($page: cheerio.Cheerio): string {
   return evt.getFilmTitle(eventTitle);
 }
 
+export function getSeasonsFromTitle($page: cheerio.Cheerio): string[] {
+  const eventTitle = getPageHeading($page);
+  return evt.getSeasons(eventTitle);
+}
+
 export function getCredits($page: cheerio.Cheerio): Map<string, string[]> {
   const creditsRaw = $page
     .find('#credits tr')
