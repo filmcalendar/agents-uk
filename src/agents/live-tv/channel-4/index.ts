@@ -14,6 +14,7 @@ import {
   getSlotIdFromUrl,
   getYear,
   getSessions,
+  getTitle,
 } from './helpers';
 
 export class Agent extends BaseAgent {
@@ -82,7 +83,7 @@ export class Agent extends BaseAgent {
       provider,
       films: [
         {
-          title: program.title,
+          title: getTitle(program),
           year: getYear(program),
         },
       ],

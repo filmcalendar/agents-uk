@@ -11,6 +11,7 @@ import {
   getTitle,
   getYear,
   getSessions,
+  getSeasonsFromTitle,
 } from './helpers';
 
 export class Agent extends BaseAgent {

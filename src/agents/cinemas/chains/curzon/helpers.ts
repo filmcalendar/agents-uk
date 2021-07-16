@@ -2,8 +2,17 @@ import seriesWith from '@tuplo/series-with';
 import type { FletchInstance } from '@tuplo/fletch';
 
 import slugify from 'src/lib/slugify';
+import EventTitle from 'src/lib/event-title';
 import type * as FC from '@filmcalendar/types';
 import type * as CZ from './index.d';
+
+const evt = new EventTitle({
+  tags: ['dochouse'],
+});
+
+export function isNotFilm(input: string): boolean {
+  return evt.isNotFilm(input);
+}
 
 export function requestCurzonApi<T>(
   request: FletchInstance,
@@ -61,7 +70,7 @@ export function getFilmInfo(data: CZ.Film, filmPeople: CZ.FilmPeople): FC.Film {
   const { text: titleText = '' } = title;
 
   return {
-    title: titleText.replace(/dochouse:/i, '').trim(),
+    title: evt.getFilmTitle(titleText),
     director: castAndCrew
       .filter((cc) => cc.roles.includes('Director'))
       .map((cc) => filmPeople[cc.castAndCrewMemberId]),

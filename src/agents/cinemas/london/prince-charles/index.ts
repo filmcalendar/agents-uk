@@ -93,7 +93,7 @@ export class Agent extends BaseAgent {
     const programmeData = data.reduce((acc, event) => {
       acc.set(event.ID, event);
       return acc;
-    }, new Map() as Map<string, PCC.Film>);
+    }, new Map() as Map<number, PCC.Film>);
     const prg = data.map((event) => new URL(event.URL, url).href);
 
     return {

@@ -2,7 +2,11 @@ import dtFormat from 'date-fns/format';
 import type * as FC from '@filmcalendar/types';
 import { FletchInstance } from '@tuplo/fletch';
 
+import EventTitle from 'src/lib/event-title';
+
 import type * as C4 from './index.d';
+
+const evt = new EventTitle();
 
 export function getAvailableDates(data: C4.DailyProgramme): string[] {
   const { dates = [] } = data;
@@ -63,6 +67,10 @@ export function getSlotIdFromUrl(url: string): string {
   return slotId;
 }
 
+export function getTitle(program: C4.Program): string {
+  return evt.getFilmTitle(program.title);
+}
+
 export function getYear(program: C4.Program): number {
   const { summary } = program;
   const [, year] = /^\((\d{4})\)/.exec(summary) || ['', ''];
@@ -76,12 +84,13 @@ export function getSessions(program: C4.Program): FC.Session[] {
     isAudioDescribed && 'audio-described',
     isSubtitled && 'subtitled',
   ].filter(Boolean) as string[];
+  const eventTags = evt.getTags(program.title);
 
   return [
     {
       dateTime: startDate,
       link: `https://www.channel4.com${url}`,
-      tags,
+      tags: [...tags, ...eventTags],
     },
   ];
 }

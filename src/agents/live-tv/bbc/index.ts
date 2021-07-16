@@ -8,7 +8,8 @@ import {
   getEpisodeIdFromUrl,
   getCredits,
   getTitle,
-} from '../../streaming/bbc-iplayer/helpers';
+} from 'src/agents/streaming/bbc-iplayer/helpers';
+
 import type * as BBC from './index.d';
 import {
   getAvailableDatesUrls,

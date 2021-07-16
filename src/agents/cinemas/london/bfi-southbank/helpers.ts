@@ -4,8 +4,22 @@ import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
 
 import slugify from 'src/lib/slugify';
+import EventTitle from 'src/lib/event-title';
 import type * as FC from '@filmcalendar/types';
 import type * as BFI from './index.d';
+
+const evt = new EventTitle({
+  events: ['Member Picks', 'DVD Launch', 'BFI', 'unconfirmed'],
+  seasons: ['Woman With a Movie Camera', 'BFI Screen Epiphany'],
+  tags: [
+    'Double-bill',
+    'Opening Night',
+    'Seniors’ free archive matinee',
+    'Seniors’ matinee',
+    'Seniors’ Paid Matinee',
+    "'Seniors’ matinee'",
+  ],
+});
 
 export function getArticleContext($page: cheerio.Cheerio): BFI.ArticleContext {
   if (!$page) return {} as BFI.ArticleContext;
@@ -33,53 +47,8 @@ export function getExpandedUrl(articleId: string): string {
 }
 
 export function getTitle($page: cheerio.Cheerio): string {
-  return $page
-    .find('h1')
-    .text()
-    .replace(/12 Stars:/i, '')
-    .replace(/– A Tribute to.+/i, '')
-    .replace(/African Odysseys Presents?:/i, '')
-    .replace(/BFI Blu-ray Launch:/i, '')
-    .replace(/BFI Screen Epiphany:/i, '')
-    .replace(/BFI & Radio Times Television Festival presents:/i, '')
-    .replace(/Black Lens Festival/i, '')
-    .replace(/by actor.+/i, '')
-    .replace(/Closing Night Film:/i, '')
-    .replace(/Comedians Cinema Club presents/i, '')
-    .replace(/\+ discussion/i, '')
-    .replace(/.+?Double-bill:/i, '')
-    .replace(/Experimenta Salon:/i, '')
-    .replace(/Free Seniors’? Talk:/i, '')
-    .replace(/Funday Preview:/i, '')
-    .replace(/Funday:/i, '')
-    .replace(/Halloween Special:/i, '')
-    .replace(/ICO Archive Screening Day:/i, '')
-    .replace(/London Restoration Premiere:/i, '')
-    .replace(/Relaxed Screening:/i, '')
-    .replace(/Opening Night:/i, '')
-    .replace(/Opening Night Gala \(UK Premiere\):/i, '')
-    .replace(/Seniors’ Free Archive Matinee:/i, '')
-    .replace(/Seniors’? free matinee:/i, '')
-    .replace(/Seniors’ Matinee:/i, '')
-    .replace(/Seniors’? Paid Matinee:/i, '')
-    .replace(/Woman With a Movie Camera presents:/i, '')
-    .replace(/\+ intro/i, '')
-    .replace(/.+? introduces/, '')
-    .replace(/Critics’ Salon:|Member Picks:/i, '')
-    .replace(/DVD Launch:/i, '')
-    .replace(/in\s?\d{2}mm|\(\)|’/i, '')
-    .replace(/Member Exclusive:/i, '')
-    .replace(/Silent Cinema presents:/i, '')
-    .replace(/Seniors’ Free Screening:|Seniors’ free talk:/i, '')
-    .replace(/\+ Q&A/i, '')
-    .replace(/World Premiere:|UK Premiere:/i, '')
-    .replace(/TV Preview:|Champions’ Preview:|Preview:/i, '')
-    .replace(/Preview:/i, '')
-    .replace(/\d{2}th Anniversary Screening/i, '')
-    .replace(/\d{2}th Anniversary Restoration Preview:/i, '')
-    .replace(/\d{2}th Anniversary:/i, '')
-    .replace(/\s\s*/, ' ')
-    .trim();
+  const eventTitle = $page.find('h1').text();
+  return evt.getFilmTitle(eventTitle);
 }
 
 export function getCredits($page: cheerio.Cheerio): string[] {
@@ -145,7 +114,10 @@ export function getSessionTags(event: BFI.Event): string[] {
     .map((tag) => slugify(tag.toLowerCase()));
 }
 
-export function getSession(event: BFI.Event): FC.Session | null {
+export function getSession(
+  event: BFI.Event,
+  eventTags: string[]
+): FC.Session | null {
   if (event.availability_status === 'S') return null;
   const { start_date } = event;
 
@@ -166,12 +138,17 @@ export function getSession(event: BFI.Event): FC.Session | null {
   return {
     dateTime,
     link,
-    tags: [...getSessionTags(event)],
+    tags: [...getSessionTags(event), ...eventTags],
   };
 }
 
 export function getSessions($page: cheerio.Cheerio): FC.Session[] {
-  return getEvents($page).map(getSession).filter(Boolean) as FC.Session[];
+  const eventTitle = $page.find('h1').text();
+  const eventTags = evt.getTags(eventTitle);
+
+  return getEvents($page)
+    .map((event) => getSession(event, eventTags))
+    .filter(Boolean) as FC.Session[];
 }
 
 export function getExpandedUrlFromPage($page: cheerio.Cheerio): string {

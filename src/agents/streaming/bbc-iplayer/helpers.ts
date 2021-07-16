@@ -4,8 +4,11 @@ import dtParse from 'date-fns/parse';
 import dtAdd from 'date-fns/add';
 import dtFormat from 'date-fns/format';
 import type { FletchInstance } from '@tuplo/fletch';
-
 import type * as FC from '@filmcalendar/types';
+
+import EventTitle from 'src/lib/event-title';
+
+const evt = new EventTitle();
 
 export function getPageProgramme(request: FletchInstance) {
   return async (url: string): Promise<string[]> => {
@@ -23,8 +26,13 @@ export function getEpisodeIdFromUrl(url: string): string {
   return episodeId;
 }
 
+export function getPageHeading($page: cheerio.Cheerio): string {
+  return $page.find('.programmes-page .island h1').text();
+}
+
 export function getTitle($page: cheerio.Cheerio): string {
-  return $page.find('.programmes-page .island h1').text().trim();
+  const eventTitle = getPageHeading($page);
+  return evt.getFilmTitle(eventTitle);
 }
 
 export function getCredits($page: cheerio.Cheerio): Map<string, string[]> {
@@ -91,9 +99,11 @@ export function getAvailability($page: cheerio.Cheerio): FC.Availability {
     ).toISOString();
   }
 
+  const eventTitle = getPageHeading($page);
+
   return {
     start,
     end,
-    tags: ['audio-described', 'sign-language'],
+    tags: ['audio-described', 'sign-language', ...evt.getTags(eventTitle)],
   };
 }

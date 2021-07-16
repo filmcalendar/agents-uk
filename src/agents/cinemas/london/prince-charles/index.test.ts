@@ -90,6 +90,7 @@ describe('prince-charles-cinema', () => {
 
     const expected = {
       title: 'FARGO',
+      titleTranslated: undefined,
       director: ['Ethan Coen', 'Joel Coen'],
       cast: ['Frances McDormand', 'Steve Buscemi', 'William H. Macy'],
       year: 1996,

@@ -15,7 +15,7 @@ export type Tag = {
 };
 
 export type Film = {
-  ID: string;
+  ID: number;
   URL: string;
   Title: string;
   Director: string;

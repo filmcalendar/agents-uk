@@ -3,13 +3,13 @@ import { URL } from 'url';
 import type * as FC from '@filmcalendar/types';
 import { BaseAgent } from '@filmcalendar/agents-core';
 
-import isNotFilm from 'src/lib/is-not-film';
 import {
   getTitle,
   getDirector,
   getCast,
   getYear,
   getSessions,
+  isNotFilm,
 } from './helpers';
 
 type SeasonData = Map<string, FC.Season>;
@@ -37,7 +37,6 @@ export class Agent extends BaseAgent {
   featured: FC.Agent.FeaturedFn = async (provider) => {
     const { url } = provider;
     const $page = await this.request.html(url);
-    // const $page = await fletch.html(url);
 
     const feats = $page
       .find('.hero-home a[href^="/programme"]')
@@ -111,7 +110,6 @@ export class Agent extends BaseAgent {
       .find('.main .tile .tile-details > a')
       .toArray()
       .filter((a) => !isNotFilm($(a).text()))
-      .filter((a) => !/Pitchblack Playback/i.test($(a).text()))
       .map((a) => $(a).attr('href'))
       .map((href) => (href ? new URL(href, url).href : ''))
       .filter(Boolean);

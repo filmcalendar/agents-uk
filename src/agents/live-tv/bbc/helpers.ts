@@ -3,8 +3,8 @@ import { URL } from 'url';
 import dtIsAfter from 'date-fns/isAfter';
 import dtIsSameDay from 'date-fns/isSameDay';
 import type { FletchInstance } from '@tuplo/fletch';
-
 import type * as FC from '@filmcalendar/types';
+
 import type * as BBC from './index.d';
 
 export function getAvailableDatesUrls(

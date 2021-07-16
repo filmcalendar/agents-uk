@@ -5,8 +5,25 @@ import { URL } from 'url';
 import { FletchInstance } from '@tuplo/fletch';
 
 import slugify from 'src/lib/slugify';
+import EventTitle from 'src/lib/event-title';
 import type * as FC from '@filmcalendar/types';
+
 import type * as GEN from './index.d';
+
+const evt = new EventTitle({
+  seasons: [
+    'Black Ink Cinema',
+    'CinemaItaliaUK',
+    'Cult Classic Collective',
+    'DirectedByWomen',
+    'Dogwoof Docs',
+    'Genesisters',
+    'LIFF',
+    'SFFL Tour',
+    'SSFL Tour',
+    'Write-Along-Movies',
+  ],
+});
 
 export async function getEventsInline(
   request: FletchInstance,
@@ -24,59 +41,23 @@ export async function getEventsInline(
   return eventsInline;
 }
 
+export function getPageHeading($page: cheerio.Cheerio): string {
+  return $page.find('#content > h2.subtitle.first').text();
+}
+
 export function getTitle($page: cheerio.Cheerio): string {
-  return $page
-    .find('#content > h2.subtitle.first')
-    .text()
-    .trim()
-    .replace(/\s\s*/g, ' ')
-    .replace(/- #RECLAIMTHEFRAME.+/i, '')
-    .replace(/- a 35mm presentation.*/i, '')
-    .replace(/- Black Lens Film Festival/i, '')
-    .replace(/- BFI Comedy Genius/i, '')
-    .replace(/- Cine Mar Surf Film Night/i, '')
-    .replace(/- CHINESE VISUAL FESTIVAL X QUEER EAST/i, '')
-    .replace(/- Chinese Visual Festival/i, '')
-    .replace(/- FLAWA/i, '')
-    .replace(/- FRINGE!.+/i, '')
-    .replace(/- London Migration Film Festival/i, '')
-    .replace(/- London Migratition Film Festival/i, '')
-    .replace(/- Pesented by Truman's/i, '')
-    .replace(/- Relaxed Screening/i, '')
-    .replace(/- The World of David Lynch/i, '')
-    .replace(/- Young Women's Trust Fundraiser/i, '')
-    .replace(/-?\s?\d{2}th Anniversary\s?-?/i, '')
-    .replace(/-.*MOVIES ON WEEKENDS/i, '')
-    .replace(/-\s?A BFI Re-Release|-\s?A Relaxed Screening/i, '')
-    .replace(/-\s?celebrating.+|-\s?Presented by.+|-\s?Preview/i, '')
-    .replace(/-\s?Dogwoof Docs|-\s?MUBI x Genesis/i, '')
-    .replace(/-\s?Music & Movies|-\s?Rescored.+/i, '')
-    .replace(/-\s?Reel Love:.+|-?\s?Movies By Barlight\s?-?/i, '')
-    .replace(/-\s?SoundScreen.+|-\s?The People\\'s Film Club/i, '')
-    .replace(/:\s?\d{2}th Anniversary\sScreening/i, '')
-    .replace(/:\s?A 35mm Presentation|on 35mm|35mm/i, '')
-    .replace(/\[.+\]/, '')
-    .replace(/\+.+/i, '')
-    .replace(/\+\s?Panel.+|^.+presents?\s?:/i, '')
-    .replace(/& intro.+/i, '')
-    .replace(/& Party!/i, '')
-    .replace(/Black History Walks:|.+perform live soundtrack to/i, '')
-    .replace(/Black Ink Cinema:/i, '')
-    .replace(/CinemaItaliaUK:/i, '')
-    .replace(/DirectedByWomen Class Of \d{4}\s?-|/i, '')
-    .replace(/DirectedByWomen\d{4}\s?[:-]/i, '')
-    .replace(/Double Bill/i, '')
-    .replace(/Folk Horror Cinema Club:|-?\s?Cult Classic Collective:?/i, '')
-    .replace(/Genesisters Vol.\d{1,} - /i, '')
-    .replace(/Halloween at Genesis:/i, '')
-    .replace(/HALLOWEEN SCREENING/i, '')
-    .replace(/LIFF\s?[:-]/i, '')
-    .replace(/preview$/i, '')
-    .replace(/Reel Good Film Club:/i, '')
-    .replace(/Restoration$/i, '')
-    .replace(/Write-Along-Movies:/i, '')
-    .replace(/\s\s*/, ' ')
-    .trim();
+  const eventTitle = getPageHeading($page);
+  return evt.getFilmTitle(eventTitle);
+}
+
+export function getSeasonsFromTitle($page: cheerio.Cheerio): string[] {
+  const eventTitle = getPageHeading($page);
+  return evt.getSeasons(eventTitle);
+}
+
+function getEventTags($page: cheerio.Cheerio): string[] {
+  const eventTitle = getPageHeading($page);
+  return evt.getTags(eventTitle);
 }
 
 export function getDirector($page: cheerio.Cheerio): string[] {
@@ -139,18 +120,6 @@ function getSession(
     link,
     tags: [...getSessionTags($el), ...eventTags],
   };
-}
-
-function getEventTags($page: cheerio.Cheerio): string[] {
-  const tags = [];
-  const title = $page.find('#content > h2.subtitle.first').text();
-  if (/35mm/i.test(title)) tags.push('35mm');
-  if (/Double Bill/i.test(title)) tags.push('double-bill');
-  if (/Relaxed Screening/i.test(title)) tags.push('relaxed');
-  if (/Preview/i.test(title)) tags.push('preview');
-  if (/\+\s?Panel/.test(title)) tags.push('panel');
-
-  return tags;
 }
 
 export function getSessions($page: cheerio.Cheerio, url: string): FC.Session[] {

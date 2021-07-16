@@ -5,8 +5,13 @@ import { URL } from 'url';
 import type { FletchInstance } from '@tuplo/fletch';
 
 import slugify from 'src/lib/slugify';
+import EventTitle from 'src/lib/event-title';
 import type * as FC from '@filmcalendar/types';
 import type * as PCC from './index.d';
+
+const evt = new EventTitle({
+  tags: ['Sing-A-Long-A'],
+});
 
 export async function getWhatsOnData(
   request: FletchInstance,
@@ -20,22 +25,9 @@ export async function getWhatsOnData(
 }
 
 export function getTitle(film: PCC.Film): string {
-  const t = film.Title.replace(/\+ Q&A.*/i, '')
-    .replace(/: ACA-ALONG/i, '')
-    .replace(/sing-a-long-a/i, '')
-    .replace(/•?\s?\d{2}th Anniversary/i, '')
-    .replace(/•?\s?sing along/i, '')
-    .replace(/•?\s?extended version/i, '')
-    .replace(/-?\s?quote along/i, '')
-    .replace(/\.$/, '')
-    .replace(/\(Dubbed\)/i, '')
-    .replace(/in 70mm/i, '')
-    .replace(/\+ Director.+Q&A/i, '')
-    .replace(/(\[.+[^\]]\])/g, '') // remove [.+]
-    .replace(/\s\s*/, ' ')
-    .trim();
-
-  return $(`<div>${t}</div>`).text();
+  const filmTitle = evt.getFilmTitle(film.Title);
+  const title = filmTitle.replace(/\[([^\]]+)/, '');
+  return $(`<div>${title}</div>`).text();
 }
 
 export function getDirector(film: PCC.Film): string[] {
@@ -104,7 +96,10 @@ export function getSession(
 export function getEventTags(film: PCC.Film): string[] {
   const tags = [];
   const { Title, Tags } = film;
-  if (/Sing-A-Long-A/i.test(Title)) tags.push('sing-along');
+
+  const tagsFromTitle = evt.getTags(Title);
+  tags.push(...tagsFromTitle);
+
   tags.push(
     ...Tags.map((tag) => tag.Format)
       .map((tag) => tag.toLowerCase())
