@@ -71,7 +71,7 @@ describe('bfi-southbank', () => {
       'https://whatson.bfi.org.uk/Online/article/35shotsofrum2021',
       'https://whatson.bfi.org.uk/Online/article/35shotsofrum2021intro',
     ];
-    expect(result.programme).toHaveLength(237);
+    expect(result.programme).toHaveLength(236);
     expect(result.programme.slice(0, 3)).toStrictEqual(expected);
   });
 

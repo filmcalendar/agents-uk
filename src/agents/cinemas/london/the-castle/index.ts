@@ -3,6 +3,7 @@ import { URL } from 'url';
 import type * as FC from '@filmcalendar/types';
 import { BaseAgent } from '@filmcalendar/agents-core';
 
+import isNotFilm from 'src/lib/is-not-film';
 import {
   getTitle,
   getDirector,
@@ -109,6 +110,7 @@ export class Agent extends BaseAgent {
     const prg = $page
       .find('.main .tile .tile-details > a')
       .toArray()
+      .filter((a) => !isNotFilm($(a).text()))
       .filter((a) => !/Pitchblack Playback/i.test($(a).text()))
       .map((a) => $(a).attr('href'))
       .map((href) => (href ? new URL(href, url).href : ''))

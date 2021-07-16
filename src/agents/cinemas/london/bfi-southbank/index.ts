@@ -3,6 +3,7 @@ import { URL } from 'url';
 import type * as FC from '@filmcalendar/types';
 import { BaseAgent } from '@filmcalendar/agents-core';
 
+import isNotFilm from 'src/lib/is-not-film';
 import {
   getArticleContext,
   getCast,
@@ -95,6 +96,7 @@ export class Agent extends BaseAgent {
       .filter((a) => {
         const t = $(a).text();
         return (
+          !isNotFilm(t) &&
           !/^TV Preview/i.test(t) &&
           !/in Conversation/i.test(t) &&
           !/Griefcast/i.test(t) &&

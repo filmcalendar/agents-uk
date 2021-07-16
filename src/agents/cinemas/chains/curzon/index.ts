@@ -3,6 +3,7 @@ import $ from 'cheerio';
 import type * as FC from '@filmcalendar/types';
 import { BaseAgent } from '@filmcalendar/agents-core';
 
+import isNotFilm from 'src/lib/is-not-film';
 import type * as CZ from './index.d';
 import {
   requestCurzonApi,
@@ -85,6 +86,10 @@ export class Agent extends BaseAgent {
     );
     const { films = [], castAndCrew = [] } = relatedData;
     const filmPeople = getFilmPeople(castAndCrew);
+
+    if (films.every((film) => isNotFilm(film.title?.text))) {
+      return null;
+    }
 
     return {
       url,

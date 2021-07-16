@@ -3,6 +3,7 @@ import $ from 'cheerio';
 import type * as FC from '@filmcalendar/types';
 import { BaseAgent } from '@filmcalendar/agents-core';
 
+import isNotFilm from 'src/lib/is-not-film';
 import {
   getCast,
   getDirector,
@@ -78,6 +79,7 @@ export class Agent extends BaseAgent {
     const events = await getEventsInline(this.request, url);
 
     const prg = events
+      .filter((event) => !isNotFilm(event.title))
       .filter((event) => !/APOCALAUGHS NOW/i.test(event.title))
       .filter((event) => !/Live Music, Ballet & Theatre/i.test(event.type))
       .filter((event) => !/Hot Desking/i.test(event.title))

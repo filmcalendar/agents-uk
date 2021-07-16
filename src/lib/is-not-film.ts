@@ -1,6 +1,6 @@
 import escapeRg from 'lodash.escaperegexp';
 
-const specials = [
+const notFilm = [
   "All'Opera",
   'Australian Ballet',
   'Berliner Philharmoniker',
@@ -26,6 +26,7 @@ const specials = [
   'Met HD',
   'Met Live',
   'Met Opera',
+  'Met Summer Encore',
   'Metropolitan Opera',
   'National Theatre Live',
   'National Theatre',
@@ -62,13 +63,8 @@ const specials = [
   'Teatro dell',
 ];
 
-export const rgSpecialScreening = new RegExp(
-  specials.map(escapeRg).join('|'),
-  'i'
-);
+export const rgNotFilm = new RegExp(notFilm.map(escapeRg).join('|'), 'i');
 
-type IsSpecialScreeningFn = (title: string) => boolean;
-const isSpecialScreening: IsSpecialScreeningFn = (title) =>
-  rgSpecialScreening.test(title);
-
-export default isSpecialScreening;
+export default function isNotFilm(title: string): boolean {
+  return rgNotFilm.test(title);
+}
