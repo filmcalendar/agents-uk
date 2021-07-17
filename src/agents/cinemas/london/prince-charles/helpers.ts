@@ -25,8 +25,8 @@ export async function getWhatsOnData(
 }
 
 export function getTitle(film: PCC.Film): string {
-  const title = evt.getFilmTitle(film.Title);
-  return $(`<div>${title}</div>`).text();
+  const title = evt.getFilmTitle(film.Title).replace(/(\[[^\]]+\])/, '');
+  return $(`<div>${title}</div>`).text().trim();
 }
 
 export function getDirector(film: PCC.Film): string[] {
