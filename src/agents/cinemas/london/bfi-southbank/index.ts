@@ -68,8 +68,10 @@ export class Agent extends BaseAgent {
 
     const name = $page.find('.main-article-body > h1').text();
     const description = $page
-      .find('.main-article-body > h3:first-of-type')
-      .text();
+      .find('.main-article-body > .section-intro')
+      .text()
+      .replace(/\s+/g, ' ')
+      .trim();
     const [image] = $page
       .find('[href^="#synopsis"] > img')
       .toArray()
