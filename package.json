@@ -32,7 +32,7 @@
     "@typescript-eslint/parser": "4.28.3",
     "env-cmd": "10.1.0",
     "esbuild": "0.12.15",
-    "eslint": "7.30.0",
+    "eslint": "7.31.0",
     "eslint-config-airbnb-typescript": "12.3.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.23.4",
@@ -46,10 +46,10 @@
     "typescript": "4.3.5"
   },
   "scripts": {
-    "build": "bash scripts/build.sh",
+    "build": "bash sh/build.sh",
     "ci:test": "TZ=utc jest --ci",
-    "ci:test:coverage": "bash ./scripts/coverage.sh",
-    "dev": "bash scripts/watch.sh",
+    "ci:test:coverage": "bash sh/coverage.sh",
+    "dev": "bash sh/watch.sh",
     "docker:build:local": "env-cmd -f .env.secrets fc-agents-docker-build-local",
     "docker:rm-all": "docker rm $(docker ps -a -q)",
     "docker:rmi-all": "docker rmi -f $(docker images -q)",
@@ -57,7 +57,7 @@
     "docker:run:local": "env-cmd -f .env.secrets fc-agents-docker-run-local",
     "lint": "eslint --ext .ts src/",
     "lint:ts": "tsc --noEmit",
-    "start": "bash scripts/start.sh",
+    "start": "bash sh/start.sh",
     "test": "TZ=utc jest --watch"
   },
   "eslintConfig": {
