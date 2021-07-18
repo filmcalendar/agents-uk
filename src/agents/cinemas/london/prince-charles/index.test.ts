@@ -57,6 +57,8 @@ describe('prince-charles-cinema', () => {
     const expected = {
       url,
       name: '35mm PRESENTATIONS',
+      description:
+        'If you adore the flicker, the queue-dots & the magic that celluloid brings to the big-screen; this is the page for you.',
     };
     const expectedProgramme = [
       'https://princecharlescinema.com/PrinceCharlesCinema.dll/WhatsOn?f=16787112',

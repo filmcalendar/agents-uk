@@ -16,7 +16,8 @@ import {
   getSeasonsFromTitle,
 } from './helpers';
 
-type SeasonData = Map<string, string>;
+type SeasonData = { name: string; description?: string };
+type SeasonDataMap = Map<string, SeasonData>;
 
 export class Agent extends BaseAgent {
   ref = 'prince-charles';
@@ -64,26 +65,30 @@ export class Agent extends BaseAgent {
         const href = $a.attr('href');
         const collectionUrl = new URL(href || '', url).href;
         if (acc.has(collectionUrl)) return acc;
-        acc.set(collectionUrl, $a.text().trim());
+
+        const name = $a.text().trim();
+        const description = $a.next().text().trim();
+        acc.set(collectionUrl, { name, description });
 
         return acc;
-      }, new Map() as SeasonData);
+      }, new Map() as SeasonDataMap);
 
     return { seasonUrls: [..._data.keys()], _data };
   };
 
   season: FC.Agent.SeasonFn = async (url, options) => {
-    const data = (options?._data || new Map()) as SeasonData;
+    const data = (options?._data || new Map()) as SeasonDataMap;
     const $page = await fletch.html(url);
 
-    const name = data.get(url) || '';
+    const season = data.get(url);
+    const { name, description } = season || ({} as SeasonData);
     const urls = $page
       .find('.film a[href^="WhatsOn?f="]')
       .toArray()
       .map((a) => $(a).attr('href'))
       .map((href) => new URL(href || '', url).href);
 
-    return { url, name, programme: [...new Set(urls)] };
+    return { url, name, description, programme: [...new Set(urls)] };
   };
 
   programme: FC.Agent.ProgrammeFn = async () => {
