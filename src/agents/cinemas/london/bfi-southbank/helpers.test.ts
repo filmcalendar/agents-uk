@@ -8,6 +8,8 @@ import mockArticleContext from './__data__/article-context.json';
 import mockEvents from './__data__/events.json';
 import mockSessions from './__data__/sessions.json';
 import {
+  getRegularStrandsUrls,
+  getSeasonFromRegularStrandsPage,
   getCredits,
   getArticleContext,
   getEvents,
@@ -21,11 +23,45 @@ describe('bfi southbank - helpers', () => {
   const dataDir = `${__dirname}/__data__`;
   nock('https://whatson.bfi.org.uk')
     .persist()
+    .get(/regular-strands/)
+    .replyWithFile(200, `${dataDir}/regular-strands.html`)
     .get(/Online\/article\/.+/)
     .replyWithFile(200, `${dataDir}/film.html`);
 
   afterAll(() => {
     nock.cleanAll();
+  });
+
+  it('gets list of seasons from strands page', async () => {
+    const result = await getRegularStrandsUrls(fletch.create());
+
+    const expected = [
+      'https://whatson.bfi.org.uk/Online/article/regular-strands#african-odysseys',
+      'https://whatson.bfi.org.uk/Online/article/regular-strands#bfi-flare',
+      'https://whatson.bfi.org.uk/Online/article/regular-strands#experimenta',
+    ];
+    expect(result.slice(0, 3)).toStrictEqual(expected);
+  });
+
+  it("gets season's info from strands page", async () => {
+    const url =
+      'https://whatson.bfi.org.uk/Online/article/regular-strands#african-odysseys';
+    const $page = await fletch.html(url);
+    const result = getSeasonFromRegularStrandsPage($page, url);
+
+    const expected = {
+      url,
+      name: 'African Odysseys',
+      description:
+        'Inspirational films by and about the people of Africa, from archive classics to new cinema and docs. Programmed by David Somerset.',
+      programme: [
+        'https://whatson.bfi.org.uk/Online/article/milkmaid',
+        'https://whatson.bfi.org.uk/Online/article/howtostoparecurringdream',
+        'https://whatson.bfi.org.uk/Online/article/mandabi',
+        'https://whatson.bfi.org.uk/Online/article/warmdecemberintro',
+      ],
+    };
+    expect(result).toStrictEqual(expected);
   });
 
   it('extracts credits', () => {

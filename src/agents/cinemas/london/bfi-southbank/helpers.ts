@@ -2,6 +2,8 @@ import vm from 'vm';
 import $ from 'cheerio';
 import splitNamesList from '@tuplo/split-names-list';
 import dtParse from 'date-fns/parse';
+import type { FletchInstance } from '@tuplo/fletch';
+import { URL } from 'url';
 
 import slugify from 'src/lib/slugify';
 import EventTitle from 'src/lib/event-title';
@@ -20,6 +22,52 @@ const evt = new EventTitle({
     "'Seniors’ matinee'",
   ],
 });
+
+export async function getSeasonsUrls(
+  fletch: FletchInstance
+): Promise<string[]> {
+  const url = 'https://whatson.bfi.org.uk/Online/article/seasons';
+  const $page = await fletch.html(url);
+
+  return $page
+    .find('h4 a')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .map((href) => `https://whatson.bfi.org.uk/Online/${href}`);
+}
+
+export async function getRegularStrandsUrls(
+  fletch: FletchInstance
+): Promise<string[]> {
+  const url = 'https://whatson.bfi.org.uk/Online/article/regular-strands';
+  const $page = await fletch.html(url);
+
+  return $page
+    .find('.editorial-component > a[name]')
+    .toArray()
+    .map((a) => $(a).attr('name'))
+    .map((name) => `${url}#${name}`);
+}
+
+export function getSeasonFromRegularStrandsPage(
+  $page: cheerio.Cheerio,
+  url: string
+): FC.Season {
+  const [, seasonName] = /#(.+)/.exec(url) || [];
+  const $anchor = $page.find(`[name=${seasonName}]`);
+  const $section = $anchor.parent();
+  const name = $section.find('> h2').text().trim();
+  const description = $section.find('> .section-intro').text().trim();
+  const programme = $section
+    .find('li > a[href^=article]')
+    .toArray()
+    .map((a) => $(a).attr('href'))
+    .filter(Boolean)
+    .map((href) => `/Online/${href}`)
+    .map((href) => new URL(href || '', url).href) as string[];
+
+  return { url, name, description, programme: [...new Set(programme)] };
+}
 
 export function getArticleContext($page: cheerio.Cheerio): BFI.ArticleContext {
   if (!$page) return {} as BFI.ArticleContext;

@@ -15,6 +15,9 @@ import {
   getExpandedUrlFromPage,
   getExpandedUrl,
   getSeasonsFromTitle,
+  getSeasonsUrls,
+  getRegularStrandsUrls,
+  getSeasonFromRegularStrandsPage,
 } from './helpers';
 
 export class Agent extends BaseAgent {
@@ -51,20 +54,18 @@ export class Agent extends BaseAgent {
   };
 
   seasons: FC.Agent.SeasonsFn = async () => {
-    const url = 'https://whatson.bfi.org.uk/Online/article/seasons';
-    const $page = await this.request.html(url);
+    const urlsOnSeasons = await getSeasonsUrls(this.request);
+    const urlsOnStrands = await getRegularStrandsUrls(this.request);
 
-    const urls = $page
-      .find('h4 a')
-      .toArray()
-      .map((a) => $(a).attr('href'))
-      .map((href) => `https://whatson.bfi.org.uk/Online/${href}`);
-
-    return { seasonUrls: [...new Set(urls)] };
+    return { seasonUrls: [...new Set([...urlsOnSeasons, ...urlsOnStrands])] };
   };
 
   season: FC.Agent.SeasonFn = async (url) => {
     const $page = await this.request.html(url);
+
+    if (/regular-strands/.test(url)) {
+      return getSeasonFromRegularStrandsPage($page, url);
+    }
 
     const name = $page.find('.main-article-body > h1').text();
     const description = $page
